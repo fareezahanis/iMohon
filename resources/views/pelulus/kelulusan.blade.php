@@ -398,35 +398,35 @@
         </div>
 
         <ul class="nav-menu">
-            <li>
-                <a href="{{ route('pelulus.dashboard') }}" class="nav-link active">
-                    <i class="fa-solid fa-house"></i>
-                    <span>Laman utama</span>
-                </a>
-            </li>
-            <li>
-                <a href="{{ route('pelulus.kelulusan') }}" class="nav-link">
-                    <i class="fa-solid fa-circle-check"></i>
-                    <span>Kelulusan</span>
-                </a>
-            </li>
-            <li>
-                <a href="{{ route('pelulus.profile.edit') }}" class="nav-link">
-                    <i class="fa-solid fa-users"></i>
-                    <span>Profil</span>
-                </a>
-            </li>
-            
-            <li>
-                <form method="POST" action="{{ route('logout') }}">
-                    @csrf
-                    <button type="submit" class="nav-link logout-btn">
-                        <i class="fa-solid fa-right-from-bracket"></i>
-                        <span>Log keluar</span>
-                    </button>
-                </form>
-            </li>
-        </ul>
+        <li>
+            <a href="{{ route('pelulus.dashboard') }}" class="nav-link {{ request()->routeIs('pelulus.dashboard') ? 'active' : '' }}">
+                <i class="fa-solid fa-house"></i>
+                <span>Laman utama</span>
+            </a>
+        </li>
+        <li>
+            <a href="{{ route('pelulus.kelulusan') }}" class="nav-link {{ request()->routeIs('pelulus.kelulusan*') ? 'active' : '' }}">
+                <i class="fa-solid fa-circle-check"></i>
+                <span>Kelulusan</span>
+            </a>
+        </li>
+        <li>
+            <a href="{{ route('pelulus.profile.user') }}" class="nav-link {{ request()->routeIs('pelulus.profile*') ? 'active' : '' }}">
+                <i class="fa-solid fa-users"></i>
+                <span>Profil</span>
+            </a>
+        </li>
+        
+        <li>
+            <form method="POST" action="{{ route('logout') }}">
+                @csrf
+                <button type="submit" class="nav-link logout-btn">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                    <span>Log keluar</span>
+                </button>
+            </form>
+        </li>
+    </ul>
     </aside>
 
     <div class="main-wrapper">
