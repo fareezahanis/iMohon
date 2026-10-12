@@ -746,7 +746,7 @@
 
     </div>
 </div>
-<!-- ADD USER MODAL (SEMUA INPUT WAJIB) -->
+<!-- ADD USER  -->
 <div id="addModal" style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; width: 100vw; height: 100vh; background: rgba(0, 0, 0, 0.5); justify-content: center; align-items: center; z-index: 99999;">
     <div style="background: white; border-radius: 16px; width: 90%; max-width: 600px; padding: 25px 30px; position: relative; margin: auto; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1); max-height: 90vh; overflow-y: auto;">
         
@@ -761,7 +761,6 @@
         <form action="{{ route('admin.pengguna.store') }}" method="POST">
             @csrf
 
-            <!-- 1. Nama & IC -->
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px;">
                 <div>
                     <label style="display: block; font-size: 12px; font-weight: 600; color: #334155; margin-bottom: 5px;">Nama Penuh <span style="color: red;">*</span></label>
@@ -773,7 +772,6 @@
                 </div>
             </div>
 
-            <!-- 2. Emel & No Telefon -->
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px;">
                 <div>
                     <label style="display: block; font-size: 12px; font-weight: 600; color: #334155; margin-bottom: 5px;">Emel <span style="color: red;">*</span></label>
@@ -785,7 +783,7 @@
                 </div>
             </div>
 
-            <!-- 3. Jawatan, Bahagian & Unit -->
+  
             <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 12px;">
                 <div>
                     <label style="display: block; font-size: 12px; font-weight: 600; color: #334155; margin-bottom: 5px;">Jawatan <span style="color: red;">*</span></label>
@@ -801,13 +799,11 @@
                 </div>
             </div>
 
-            <!-- 4. Alamat Pejabat -->
             <div style="margin-bottom: 12px;">
                 <label style="display: block; font-size: 12px; font-weight: 600; color: #334155; margin-bottom: 5px;">Alamat Pejabat <span style="color: red;">*</span></label>
                 <textarea name="address" required rows="2" placeholder="Alamat Penuh Pejabat" style="width: 100%; padding: 8px 12px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 13px; box-sizing: border-box;"></textarea>
             </div>
 
-            <!-- 5. Peranan & Password -->
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px;">
                 <div>
                     <label style="display: block; font-size: 12px; font-weight: 600; color: #334155; margin-bottom: 5px;">Peranan <span style="color: red;">*</span></label>
@@ -823,7 +819,7 @@
                 </div>
             </div>
 
-            <!-- Button Submit / Cancel -->
+          
             <div style="display: flex; justify-content: flex-end; gap: 10px; border-top: 1px solid #f1f5f9; padding-top: 15px;">
                 <button type="button" onclick="document.getElementById('addModal').style.display='none'" style="padding: 9px 16px; background: #f1f5f9; color: #475569; border: none; border-radius: 8px; font-weight: 600; font-size: 13px; cursor: pointer;">Batal</button>
                 <button type="submit" style="padding: 9px 18px; background: #1e0b75; color: white; border: none; border-radius: 8px; font-weight: 600; font-size: 13px; cursor: pointer;">Simpan Pengguna</button>
@@ -836,7 +832,7 @@
 <script>
     document.addEventListener('DOMContentLoaded', function () {
 
-        // 1. Sidebar Toggle
+        //  Sidebar Toggle
         const sidebar = document.querySelector('.sidebar');
         const toggleBtn = document.getElementById('toggleSidebar');
 
@@ -847,7 +843,6 @@
             });
         }
 
-        // 2. Modal Tambah Pengguna
         const addModal = document.getElementById('addModal');
         const openAddBtn = document.getElementById('openAddModalBtn');
         const closeAddBtn = document.getElementById('closeAddModalBtn');
@@ -859,7 +854,6 @@
             closeAddBtn.addEventListener('click', () => addModal.style.display = 'none');
         }
 
-        // 3. Modal Lihat Profil Pengguna
         const viewUserModal = document.getElementById('viewUserModal');
         const closeViewModalBtn = document.getElementById('closeViewModalBtn');
 
@@ -884,7 +878,7 @@
             closeViewModalBtn.addEventListener('click', () => viewUserModal.style.display = 'none');
         }
 
-        // 4. Tutup Mana-mana Modal Apabila Klik Di Luar Popup
+  
         window.addEventListener('click', (e) => {
             if (e.target === addModal) {
                 addModal.style.display = 'none';
@@ -894,7 +888,6 @@
             }
         });
 
-        // 5. Live Search Bar
         const searchInput = document.querySelector('.search-box input');
         const tableRows = document.querySelectorAll('.custom-table tbody tr');
 

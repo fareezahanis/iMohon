@@ -207,14 +207,14 @@
             color: #1e293b;
         }
 
-        /* COLORS FOR STAT CARDS */
+        
         .bg-purple { background-color: #e0e7ff; color: #4338ca; }
         .bg-blue { background-color: #e0f2fe; color: #0369a1; }
         .bg-yellow { background-color: #fef3c7; color: #d97706; }
         .bg-green { background-color: #dcfce7; color: #15803d; }
         .bg-red { background-color: #fee2e2; color: #b91c1c; }
 
-        /* DASHBOARD TABLES GRID */
+        
         .tables-grid {
             display: grid;
             grid-template-columns: 1fr 1.6fr;
@@ -255,7 +255,6 @@
             border-bottom: 1px solid #f1f5f9;
         }
 
-        /* STATUS BADGES */
         .badge {
             padding: 4px 12px;
             border-radius: 12px;
@@ -330,7 +329,6 @@
         </ul>
     </aside>
 
-    <!-- MAIN WRAPPER RIGHT -->
     <div class="main-wrapper">
 
         <!-- TOP HEADER -->
@@ -391,10 +389,10 @@
                 </div>
             </div>
 
-            <!-- JADUAL INVENTORI & PERMOHONAN TERKINI -->
+          
             <div class="tables-grid">
 
-                <!-- JADUAL 1: INVENTORI -->
+                
                 <div class="card-box">
                     <h2 class="card-box-title">Inventori</h2>
                     <table class="custom-table">
@@ -414,7 +412,6 @@
                     </table>
                 </div>
 
-                <!-- JADUAL 2: PERMOHONAN TERKINI -->
                 <div class="card-box">
                     <h2 class="card-box-title">Permohonan terkini</h2>
                     <table class="custom-table">
