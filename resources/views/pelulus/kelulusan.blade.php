@@ -522,7 +522,7 @@
             <h2 class="modal-header-title">Butiran permohonan</h2>
 
             <div class="modal-info-grid">
-               >
+               
                 <div class="info-box-card">
                     <div class="info-box-title">Maklumat pemohon</div>
                     <table class="info-table">
