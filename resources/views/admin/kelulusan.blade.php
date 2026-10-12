@@ -560,6 +560,26 @@
             resize: none;
             color: #334155;
         }
+       
+        .badge-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 14px;
+            font-size: 13px;
+            font-weight: 600;
+            border-radius: 6px;
+        }
+
+        .badge-diterima {
+            background-color: #d1fae5;
+            color: #065f46;
+        }
+
+        .badge-ditolak {
+            background-color: #fee2e2;
+            color: #991b1b;
+        }
     </style>
 </head>
 <body>
@@ -674,58 +694,79 @@
                             <th class="center">Status</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        @forelse($permohonan ?? [] as $item)
-                            <tr>
-                                <td class="center" style="font-weight: 600;">{{ str_pad($item->id_permohonan ?? $item->id, 3, '0', STR_PAD_LEFT) }}</td>
-                                <td>{{ $item->user->name ?? $item->nama_pemohon ?? $item->name ?? '-' }}</td>
-                                <td>{{ $item->nama_item ?? $item->peralatan->nama_peralatan ?? '-' }}</td>
-                                <td>{{ \Carbon\Carbon::parse($item->created_at)->format('d/m/Y') }}</td>
-                                
-                                <!-- IKON FAiL DENGAN DYNAMIC DATA ATTRIBUTES -->
-                                <td class="action-icons center">
-                                    <i class="fa-solid fa-file-lines btn-open-report" 
-                                       title="Lihat Laporan"
-                                       data-id="{{ str_pad($item->id_permohonan ?? $item->id, 3, '0', STR_PAD_LEFT) }}"
-                                       data-nama="{{ $item->user?->name  }}"
-                                       data-ic="{{ $item->user?->ic }}"
-                                       data-phone="{{ $item->user?->phone  }}"
-                                       data-email="{{ $item->user?->email  }}"
-                                       data-tarikh="{{ \Carbon\Carbon::parse($item->created_at)->format('d/m/Y') }}"
-                                       data-jenis="{{ $item->jenis_permohonan  }}"
-                                       data-namapenerima="{{ $item->nama_penerima}}"
-                                       data-lokasi="{{ $item->lokasi  }}"
-                                       data-item="{{ $item->nama_item  }}"
-                                       data-justifikasi="{{ $item->tujuan  }}">
-                                    </i>
-                                </td>
+                   <tbody>
+    @forelse($permohonan ?? [] as $item)
+        <tr>
+            <td class="center" style="font-weight: 600;">{{ str_pad($item->id_permohonan ?? $item->id, 3, '0', STR_PAD_LEFT) }}</td>
+            <td>{{ $item->user->name ?? $item->nama_pemohon ?? $item->name }}</td>
+            <td>{{ $item->nama_item ?? $item->peralatan->nama_peralatan }}</td>
+            <td>{{ \Carbon\Carbon::parse($item->created_at)->format('d/m/Y') }}</td>
+            
+            <!-- Details / Lihat Laporan -->
+            <td class="action-icons center">
+                <i class="fa-solid fa-file-lines btn-open-report" 
+                   title="Lihat Laporan"
+                   data-id="{{ str_pad($item->id_permohonan ?? $item->id, 3, '0', STR_PAD_LEFT) }}"
+                   data-nama="{{ $item->user?->name }}"
+                   data-ic="{{ $item->user?->ic }}"
+                   data-phone="{{ $item->user?->phone }}"
+                   data-email="{{ $item->user?->email }}"
+                   data-tarikh="{{ \Carbon\Carbon::parse($item->created_at)->format('d/m/Y') }}"
+                   data-jenis="{{ $item->jenis_permohonan }}"
+                   data-namapenerima="{{ $item->nama_penerima}}"
+                   data-lokasi="{{ $item->lokasi }}"
+                   data-item="{{ $item->nama_item }}"
+                   data-justifikasi="{{ $item->tujuan }}">
+                </i>
+            </td>
 
-                                <td>
-                                    <div class="btn-action-group">
-                                        <button class="btn-lulus btn-open-lulus" data-id="{{ $item->id_permohonan ?? $item->id }}"><i class="fa-solid fa-check"></i> Diterima</button>
-                                        <button class="btn-tolak btn-open-tolak" data-id="{{ $item->id_permohonan ?? $item->id }}"><i class="fa-solid fa-xmark"></i> Ditolak</button>
-                                    </div>
-                                </td>
-                                <td class="center">
-                                    @if(strtolower($item->status ?? '') == 'lulus')
-                                        <span class="status-dot dot-hijau" title="Lulus"></span>
-                                    @elseif(strtolower($item->status ?? '') == 'ditolak')
-                                        <span class="status-dot dot-merah" title="Ditolak"></span>
-                                    @else
-                                        <span class="status-dot dot-kuning" title="Dalam Proses"></span>
-                                    @endif
-                                </td>
-                            </tr>
-                        @empty
-                    
-                    <tr>
-                        <td colspan="7" class="center" style="padding: 30px; color: #94a3b8; font-style: italic;">
-                            <i class="fa-solid fa-folder-open" style="font-size: 24px; margin-bottom: 8px; display: block;"></i>
-                            Tiada rekod dijumpai.
-                        </td>
-                    </tr>
-                @endforelse
-                    </tbody>
+            <!-- LAJUR TINDAKAN (AUTOMATIK TUKAR SAMA ADA BUTANG ATAU LENCANA) -->
+            <td class="center">
+                @if(in_array(strtolower($item->status ?? ''), ['terima', 'lulus', 'diterima']))
+                    {{-- Papar Lencana Diterima jika sudah diluluskan --}}
+                    <span class="badge-status badge-diterima">
+                        <i class="fa-solid fa-check"></i> Diterima
+                    </span>
+
+                @elseif(strtolower($item->status ?? '') == 'ditolak')
+                    {{-- Papar Lencana Ditolak jika sudah ditolak --}}
+                    <span class="badge-status badge-ditolak">
+                        <i class="fa-solid fa-xmark"></i> Ditolak
+                    </span>
+
+                @else
+                    {{-- Jika masih Dalam Proses, paparkan butang untuk buka Popup Modal --}}
+                    <div class="btn-action-group">
+                        <button type="button" class="btn-lulus btn-open-lulus" data-id="{{ $item->id_permohonan ?? $item->id }}">
+                            <i class="fa-solid fa-check"></i> Terima
+                        </button>
+                        <button type="button" class="btn-tolak btn-open-tolak" data-id="{{ $item->id_permohonan ?? $item->id }}">
+                            <i class="fa-solid fa-xmark"></i> Tolak
+                        </button>
+                    </div>
+                @endif
+            </td>
+
+            <!-- LAJUR STATUS DOT -->
+            <td class="center">
+                @if(in_array(strtolower($item->status ?? ''), ['terima', 'lulus', 'diterima']))
+                    <span class="status-dot dot-hijau" title="Diterima"></span>
+                @elseif(strtolower($item->status ?? '') == 'ditolak')
+                    <span class="status-dot dot-merah" title="Ditolak"></span>
+                @else
+                    <span class="status-dot dot-kuning" title="Dalam Proses"></span>
+                @endif
+            </td>
+        </tr>
+    @empty
+        <tr>
+            <td colspan="7" class="center" style="padding: 30px; color: #94a3b8; font-style: italic;">
+                <i class="fa-solid fa-folder-open" style="font-size: 24px; margin-bottom: 8px; display: block;"></i>
+                Tiada rekod dijumpai.
+            </td>
+        </tr>
+    @endforelse
+</tbody>
                 </table>
             </div>
 
@@ -911,7 +952,6 @@
                     if (listPenerima.length > 0) {
                         // Loop mengikut setiap penerima yang diisi
                         listPenerima.forEach((nama, index) => {
-                            // Ambil item & lokasi mengikut indeks
                             const item = listItem[index] || listItem[0] || '-';
                             const lokasi = listLokasi[index] || listLokasi[0] || '-';
 
@@ -945,41 +985,52 @@
             closeReportBtn.onclick = () => modalReport.style.display = 'none';
         }
 
-        // 3. Popup Lulus
-        const modalLulus = document.getElementById('modalLulus');
-        const btnsLulus = document.querySelectorAll('.btn-open-lulus');
-        const closeLulusBtn = document.querySelector('.close-lulus-btn');
-        const formConfirmLulus = document.getElementById('formConfirmLulus');
+        // 3. Popup Lulus (Diperbaiki URL Action)
+       const modalLulus = document.getElementById('modalLulus');
+const btnsLulus = document.querySelectorAll('.btn-open-lulus');
+const closeLulusBtn = document.querySelector('.close-lulus-btn');
+const formConfirmLulus = document.getElementById('formConfirmLulus');
 
-        btnsLulus.forEach(btn => {
-            btn.onclick = function () {
-                const id = this.getAttribute('data-id');
-                if (formConfirmLulus) formConfirmLulus.action = `/admin/kelulusan/${id}/update`;
-                if (modalLulus) modalLulus.style.display = 'flex';
-            };
-        });
-
-        if (closeLulusBtn) {
-            closeLulusBtn.onclick = () => modalLulus.style.display = 'none';
+btnsLulus.forEach(btn => {
+    btn.onclick = function () {
+        const id = this.getAttribute('data-id');
+        if (formConfirmLulus) {
+            // Gunakan Route Laravel secara tepat
+            let actionUrl = "{{ route('admin.kelulusan.update', ':id') }}";
+            formConfirmLulus.action = actionUrl.replace(':id', id);
         }
+        if (modalLulus) modalLulus.style.display = 'flex';
+    };
+});
 
-        // 4. Popup Tolak
+if (closeLulusBtn) {
+    closeLulusBtn.onclick = () => modalLulus.style.display = 'none';
+}
+
+        // 4. Popup Tolak (Diperbaiki URL Action & Reset Textarea)
         const modalTolak = document.getElementById('modalTolak');
-        const btnsTolak = document.querySelectorAll('.btn-open-tolak');
-        const closeTolakBtn = document.querySelector('.close-tolak-btn');
-        const formConfirmTolak = document.getElementById('formConfirmTolak');
+const btnsTolak = document.querySelectorAll('.btn-open-tolak');
+const closeTolakBtn = document.querySelector('.close-tolak-btn');
+const formConfirmTolak = document.getElementById('formConfirmTolak');
 
-        btnsTolak.forEach(btn => {
-            btn.onclick = function () {
-                const id = this.getAttribute('data-id');
-                if (formConfirmTolak) formConfirmTolak.action = `/admin/kelulusan/${id}/update`;
-                if (modalTolak) modalTolak.style.display = 'flex';
-            };
-        });
-
-        if (closeTolakBtn) {
-            closeTolakBtn.onclick = () => modalTolak.style.display = 'none';
+btnsTolak.forEach(btn => {
+    btn.onclick = function () {
+        const id = this.getAttribute('data-id');
+        if (formConfirmTolak) {
+            // Gunakan Route Laravel secara tepat
+            let actionUrl = "{{ route('admin.kelulusan.update', ':id') }}";
+            formConfirmTolak.action = actionUrl.replace(':id', id);
+            
+            const reasonBox = formConfirmTolak.querySelector('textarea[name="sebab_penolakan"]');
+            if (reasonBox) reasonBox.value = '';
         }
+        if (modalTolak) modalTolak.style.display = 'flex';
+    };
+});
+
+if (closeTolakBtn) {
+    closeTolakBtn.onclick = () => modalTolak.style.display = 'none';
+}
 
         // 5. Tutup modal bila klik kawasan luar
         window.onclick = (e) => {

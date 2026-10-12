@@ -212,11 +212,20 @@ public function kelulusan()
 
 public function updateStatus(Request $request, $id)
 {
-    $permohonan = Permohonan::findOrFail($id);
-    $permohonan->status = $request->status; // 'Lulus' atau 'Ditolak'
+    // Cari permohonan
+    $permohonan = Permohonan::findOrFail($id); // Tukar 'Permohonan' mengikut nama Model anda
+
+    // Kemaskini status
+    $permohonan->status = $request->status;
+
+    // Simpan sebab penolakan jika ada
+    if ($request->has('sebab_penolakan')) {
+        $permohonan->sebab_penolakan = $request->sebab_penolakan;
+    }
+
     $permohonan->save();
 
-    return redirect()->back()->with('success', 'Status permohonan berjaya dikemaskini!');
+    return redirect()->back()->with('success', 'Status berjaya dikemaskini!');
 }
 public function rekodPeminjaman(Request $request)
 {
