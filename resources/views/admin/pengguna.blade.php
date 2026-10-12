@@ -462,7 +462,7 @@
             text-align: right;
         }
 
-/* Footer Modal & Butang Tutup */
+
         .modal-footer-view {
             display: flex;
             justify-content: flex-end;
@@ -556,7 +556,7 @@
         <!-- TOP HEADER -->
         <header class="top-header">
             <div class="user-profile">
-                <span>{{ Auth::user()->name ?? 'Admin' }}</span>
+                <span>Admin</span>
                 <div class="user-avatar"><i class="fa-solid fa-user"></i></div>
             </div>
         </header>

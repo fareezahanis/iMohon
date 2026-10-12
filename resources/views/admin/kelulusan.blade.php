@@ -250,7 +250,7 @@
             border-bottom: 1px solid #f1f5f9;
         }
 
-        /* button lulus or tolak */
+        
         .btn-action-group {
             display: flex;
             align-items: center;
@@ -650,7 +650,7 @@
         <!-- TOP HEADER -->
         <header class="top-header">
             <div class="user-profile">
-                <span>{{ Auth::user()->name ?? 'Admin' }}</span>
+                <span>Admin</span>
                 <div class="user-avatar">
                     <i class="fa-solid fa-user"></i>
                 </div>

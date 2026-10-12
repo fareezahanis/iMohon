@@ -12,7 +12,7 @@
 
     <style>
 
-        * {
+        {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
@@ -25,9 +25,6 @@
             min-height: 100vh;
         }
 
-        /* =========================
-           SIDEBAR
-        ========================= */
 
         .sidebar {
             width: 260px;
@@ -123,9 +120,7 @@
             margin-bottom: 30px;
         }
 
-        /* =========================
-           MAIN
-        ========================= */
+        
 
         .main-wrapper {
             flex-grow: 1;
@@ -175,9 +170,6 @@
             margin-bottom: 25px;
         }
 
-        /* =========================
-           STAT CARDS
-        ========================= */
 
         .stats-grid {
             display: grid;
@@ -236,9 +228,7 @@
             color: #1e293b;
         }
 
-        /* =========================
-           SEARCH + BUTTON
-        ========================= */
+       
 
         .action-bar {
             display: flex;
@@ -286,10 +276,7 @@
             background-color: #2b12a3;
         }
 
-        /* =========================
-           TABLE
-        ========================= */
-
+    
         .table-card {
             background: white;
             border-radius: 16px;
@@ -334,9 +321,7 @@
             color: #1e0b75;
         }
 
-        /* =========================
-           MODAL
-        ========================= */
+       
 
         .modal {
             display: none;
@@ -417,9 +402,8 @@
             margin-top: 10px;
         }
 
-        /* =========================
-           DETAIL MODAL
-        ========================= */
+   
+       
 
         .modal-vendor-detail {
             max-width: 750px;
@@ -579,7 +563,7 @@
         <header class="top-header">
             <div class="user-profile">
                 <span>
-                    {{ Auth::user()->name ?? 'Admin' }}
+                    Admin
                 </span>
                 <div class="user-avatar">
                     <i class="fa-solid fa-user"></i>

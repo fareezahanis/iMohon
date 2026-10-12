@@ -34,6 +34,9 @@ class AuthenticatedSessionController extends Controller
         if ($request->user()->role === 'admin') {
             return redirect()->intended(route('admin.dashboard', absolute: false));
         }
+        if ($request->user()->role === 'pelulus') {
+            return redirect()->intended(route('pelulus.dashboard', absolute: false));
+        }
 
         // kalau user (customer)
         return redirect()->intended(route('dashboard', absolute: false));

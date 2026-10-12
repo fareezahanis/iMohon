@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PermohonanController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\PelulusController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -42,6 +43,11 @@ Route::middleware('auth')->group(function () {
     Route::post('/rekod-peminjaman/{id}/sahkan-pemulangan', [AdminController::class, 'sahkanPemulangan'])->name('peminjaman.sahkan');
 });
 
+Route::middleware(['auth'])->prefix('pelulus')->name('pelulus.')->group(function () {
+    Route::get('/dashboard', [PelulusController::class, 'dashboard'])->name('dashboard');
+    Route::get('/kelulusan', [PelulusController::class, 'kelulusan'])->name('kelulusan');
+    Route::post('/kelulusan/{id}/update', [PelulusController::class, 'updateStatus'])->name('kelulusan.update');
+});
 
     
 require __DIR__.'/auth.php';

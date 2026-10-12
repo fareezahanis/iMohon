@@ -340,7 +340,7 @@
         <!-- TOP HEADER -->
         <header class="top-header">
             <div class="user-profile">
-                <span>{{ Auth::user()->name ?? 'Admin' }}</span>
+                <span>Admin</span>
                 <div class="user-avatar"><i class="fa-solid fa-user"></i></div>
             </div>
         </header>

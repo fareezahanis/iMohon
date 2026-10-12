@@ -462,7 +462,7 @@
         <!-- TOP HEADER -->
         <header class="top-header">
             <div class="user-profile">
-                <span>{{ Auth::user()->name ?? 'Admin' }}</span>
+                <span>Admin</span>
                 <div class="user-avatar">
                     <i class="fa-solid fa-user"></i>
                 </div>
@@ -480,22 +480,22 @@
             
             
 
-         <!-- SEARCH BAR & BUTTON ADD (GAYA SERVER-SIDE SEARCH) -->
+         <!-- SEARCH BAR & BUTTON ADD  -->
 <div class="action-bar" style="display: flex; justify-content: flex-start; align-items: center; gap: 12px; margin-top: 20px; margin-bottom: 25px;">
     
-    <!-- Form Search -->
+    
     <form action="{{ route('admin.inventori') }}" method="GET" style="width: 350px; display: flex; align-items: center; margin: 0;">
         <div class="search-box" style="width: 100%;">
             <i class="fa-solid fa-magnifying-glass" style="color: #94a3b8;"></i>
-            <!-- Nilai carian dikekalkan menggunakan value="{{ request('search') }}" -->
+           
             <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari peralatan.." style="width: 100%; border: none; outline: none;">
         </div>
 
-        <!-- Butang tersembunyi supaya tekan Enter boleh hantar form -->
+        
         <button type="submit" style="display: none;"></button>
     </form>
 
-    <!-- Butang Tambah Peralatan -->
+   
     <button type="button" class="btn-add" id="openModalBtn">
         <i class="fa-solid fa-plus"></i> Tambah Peralatan
     </button>
