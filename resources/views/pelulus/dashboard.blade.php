@@ -300,7 +300,7 @@
                 </a>
             </li>
             <li>
-                <a href="{{ route('profile.edit') }}" class="nav-link">
+                <a href="{{ route('pelulus.profile.user') }}" class="nav-link">
                     <i class="fa-solid fa-users"></i>
                     <span>Profil</span>
                 </a>

@@ -43,11 +43,12 @@ Route::middleware('auth')->group(function () {
     Route::post('/rekod-peminjaman/{id}/sahkan-pemulangan', [AdminController::class, 'sahkanPemulangan'])->name('peminjaman.sahkan');
 });
 
-Route::middleware(['auth'])->prefix('pelulus')->name('pelulus.')->group(function () {
+    Route::middleware(['auth'])->prefix('pelulus')->name('pelulus.')->group(function () {
     Route::get('/dashboard', [PelulusController::class, 'dashboard'])->name('dashboard');
     Route::get('/kelulusan', [PelulusController::class, 'kelulusan'])->name('kelulusan');
     Route::post('/kelulusan/{id}/update', [PelulusController::class, 'updateStatus'])->name('kelulusan.update');
+    Route::get('/profile-saya', function () { return view('pelulus.profile'); })->name('profile.user');
+    Route::get('/profile/edit', function () { return view('pelulus.profile-edit');})->name('profile.edit');
 });
 
-    
 require __DIR__.'/auth.php';

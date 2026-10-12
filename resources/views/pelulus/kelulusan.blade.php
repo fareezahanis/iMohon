@@ -387,7 +387,7 @@
 </head>
 <body>
 
-    <!-- SIDEBAR LEFT -->
+   <!-- SIDEBAR LEFT -->
     <aside class="sidebar">
         <div class="sidebar-header">
             <div class="brand-logo">
@@ -399,19 +399,19 @@
 
         <ul class="nav-menu">
             <li>
-                <a href="{{ route('pelulus.dashboard') }}" class="nav-link {{ request()->routeIs('pelulus.dashboard') ? 'active' : '' }}">
+                <a href="{{ route('pelulus.dashboard') }}" class="nav-link active">
                     <i class="fa-solid fa-house"></i>
                     <span>Laman utama</span>
                 </a>
             </li>
             <li>
-                <a href="{{ route('pelulus.kelulusan') }}" class="nav-link {{ request()->routeIs('pelulus.kelulusan') ? 'active' : '' }}">
+                <a href="{{ route('pelulus.kelulusan') }}" class="nav-link">
                     <i class="fa-solid fa-circle-check"></i>
                     <span>Kelulusan</span>
                 </a>
             </li>
             <li>
-                <a href="{{ route('profile.edit') }}" class="nav-link {{ request()->routeIs('profile.*') ? 'active' : '' }}">
+                <a href="{{ route('pelulus.profile.edit') }}" class="nav-link">
                     <i class="fa-solid fa-users"></i>
                     <span>Profil</span>
                 </a>
@@ -475,13 +475,13 @@
                                 <td>{{ $item->nama_item ?? '-' }}</td>
                                 <td>{{ $item->jenis_permohonan ?? 'Baru' }}</td>
                                 <td>
-                                    @if(in_array(strtolower($item->status ?? ''), ['lulus', 'terima', 'diterima']))
-                                        <span class="badge badge-lulus">Lulus</span>
-                                    @elseif(strtolower($item->status ?? '') == 'ditolak')
-                                        <span class="badge badge-tolak">Ditolak</span>
-                                    @else
-                                        <span class="badge badge-proses">Menunggu</span>
-                                    @endif
+                                @if(strtolower($item->status) == 'diterima')
+                                <span class="badge badge-lulus">Diterima</span>
+                                @elseif(strtolower($item->status) == 'ditolak')
+                                <span class="badge badge-tolak">Ditolak</span>
+                                @else
+                                <span class="badge badge-proses">Menunggu</span>
+                                @endif
                                 </td>
                                 <td>
                                     <button class="btn-action-edit btn-view-permohonan"
@@ -555,7 +555,7 @@
            
             <div class="modal-actions">
                 <button type="button" class="btn-modal btn-lulus" id="btnProsesLulus">
-                    <i class="fa-solid fa-check"></i> LULUS
+                    <i class="fa-solid fa-check"></i> TERIMA
                 </button>
                 <button type="button" class="btn-modal btn-tolak" id="btnProsesTolak">
                     <i class="fa-solid fa-xmark"></i> TOLAK
@@ -644,7 +644,7 @@
                     if (selectedRowTarget) {
                         const statusTd = selectedRowTarget.children[6];
                         if (status === 'Lulus') {
-                            statusTd.innerHTML = '<span class="badge badge-lulus">Lulus</span>';
+                            statusTd.innerHTML = '<span class="badge badge-lulus">Diterima</span>';
                         } else {
                             statusTd.innerHTML = '<span class="badge badge-tolak">Ditolak</span>';
                         }

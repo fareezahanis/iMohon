@@ -10,13 +10,13 @@ class PelulusController extends Controller
     public function dashboard()
     {
         
-        $menungguCount = Permohonan::whereIn('status', ['Menunggu', 'Pending', 'Dalam Proses'])->count();
-        $lulusCount    = Permohonan::whereIn('status', ['Lulus', 'Diterima', 'Terima'])->count();
+        $menungguCount = Permohonan::where('status', 'Menunggu')->count();
+        $diterimaCount    = Permohonan::where('status', 'Diterima')->count();
         $ditolakCount  = Permohonan::where('status', 'Ditolak')->count();
 
         $permohonanTerkini = Permohonan::latest()->take(5)->get();
 
-        return view('pelulus.dashboard', compact('menungguCount', 'lulusCount', 'ditolakCount', 'permohonanTerkini'));
+        return view('pelulus.dashboard', compact('menungguCount', 'diterimaCount', 'ditolakCount', 'permohonanTerkini'));
     }
 
     public function kelulusan()
