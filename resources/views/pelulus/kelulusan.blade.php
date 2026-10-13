@@ -622,38 +622,50 @@
             });
 
             // update guna ajax tak reload page
-            function updateStatusPermohonan(status) {
-                if (!selectedPermohonanId) return;
+function updateStatusPermohonan(status) {
+    if (!selectedPermohonanId) return;
 
-                const token = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
+    const token = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
 
-                fetch(`/pelulus/kelulusan/${selectedPermohonanId}/update`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': token,
-                        'Accept': 'application/json'
-                    },
-                    body: JSON.stringify({ status: status })
-                })
-                .then(res => res.json())
-                .then(data => {
-                    modalButiran.style.display = 'none';
+    fetch(`/pelulus/kelulusan/${selectedPermohonanId}/update`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': token,
+            'Accept': 'application/json'
+        },
+        body: JSON.stringify({ status: status })
+    })
+    .then(res => {
+        if (!res.ok) {
+            throw new Error('Gagal mengemaskini pangkalan data');
+        }
+        return res.json();
+    })
+    .then(data => {
+        if (data.success) {
+            modalButiran.style.display = 'none';
 
-                    // Kemaskini Badge pada jadual secara automatik tanpa reload page
-                    if (selectedRowTarget) {
-                        const statusTd = selectedRowTarget.children[6];
-                        if (status === 'Lulus') {
-                            statusTd.innerHTML = '<span class="badge badge-lulus">Diterima</span>';
-                        } else {
-                            statusTd.innerHTML = '<span class="badge badge-tolak">Ditolak</span>';
-                        }
-                    }
-                })
-                .catch(err => console.error(err));
+            // Kemaskini Badge pada jadual secara automatik
+            if (selectedRowTarget) {
+                const statusTd = selectedRowTarget.children[6];
+                if (data.status === 'Diterima') {
+                    statusTd.innerHTML = '<span class="badge badge-lulus">Diterima</span>';
+                } else if (data.status === 'Ditolak') {
+                    statusTd.innerHTML = '<span class="badge badge-tolak">Ditolak</span>';
+                } else {
+                    statusTd.innerHTML = '<span class="badge badge-proses">Menunggu</span>';
+                }
             }
+        }
+    })
+    .catch(err => {
+        console.error('Ralat:', err);
+        alert('Gagal menyimpan status ke dalam pangkalan data.');
+    });
+}
 
-            document.getElementById('btnProsesLulus').addEventListener('click', () => updateStatusPermohonan('Lulus'));
+            document.getElementById('btnProsesLulus').addEventListener('click', () => updateStatusPermohonan('Diterima'));
             document.getElementById('btnProsesTolak').addEventListener('click', () => updateStatusPermohonan('Ditolak'));
         });
     </script>

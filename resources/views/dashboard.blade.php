@@ -408,7 +408,7 @@
             <i class="fa-solid fa-check"></i>
         </div>
         <div class="stat-info">
-            <div class="stat-label">Diluluskan</div>
+            <div class="stat-label">Diterima</div>
             <div class="stat-value">{{ $jumlahLulus }}</div>
         </div>
     </div>
@@ -450,8 +450,8 @@
                     <td>
                         @if($item->status == 'Dalam proses')
                             <span class="badge badge-pending">Dalam proses</span>
-                        @elseif($item->status == 'Lulus')
-                            <span class="badge badge-approved">Lulus</span>
+                        @elseif($item->status == 'Diterima')
+                            <span class="badge badge-approved">Diterima</span>
                         @elseif($item->status == 'Ditolak')
                             <span class="badge badge-rejected">Ditolak</span>
                         @else

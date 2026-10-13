@@ -350,8 +350,8 @@
                 <i class="fa-solid fa-check"></i>
         </div>
         <div class="stat-info">
-            <span class="title">Lulus</span>
-            <span class="value">{{ $lulusCount ?? 0 }}</span>
+            <span class="title">Diterima</span>
+            <span class="value">{{ $diterimaCount ?? 0 }}</span>
             </div>
         </div>
 
@@ -397,8 +397,8 @@
                                 <td>{{ $item->nama_item ?? '-' }}</td>
                                 <td>{{ $item->jenis_permohonan ?? 'Baru' }}</td>
                                 <td>
-                                    @if(in_array(strtolower($item->status ?? ''), ['lulus', 'terima', 'diterima']))
-                                        <span class="badge badge-lulus">Lulus</span>
+                                    @if(in_array(strtolower($item->status ?? ''), [ 'diterima', 'terima']))
+                                        <span class="badge badge-lulus">Diterima</span>
                                     @elseif(strtolower($item->status ?? '') == 'ditolak')
                                         <span class="badge badge-tolak">Ditolak</span>
                                     @else
