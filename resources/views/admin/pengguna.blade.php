@@ -600,7 +600,7 @@
         </div>
         <div class="stat-info">
             <span class="title">Pelulus</span>
-            <span class="value">{{ $users->where('role', 'Pelulus')->count()  }}</span>
+            <span class="value">{{ $users->where('role', 'pelulus')->count()  }}</span>
         </div>
     </div>
 </div>
