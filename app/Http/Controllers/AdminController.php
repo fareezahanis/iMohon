@@ -13,24 +13,33 @@ use Illuminate\Support\Facades\Hash;
 class AdminController extends Controller
 {
     public function dashboard()
-    {
-    
-        $permohonanBaru = Permohonan::whereIn('status', ['Baharu', 'Baru', 'Dalam Proses'])->count();
-        $dalamProses    = Permohonan::where('status', 'Dalam Proses')->count();
-        $lulus          = Permohonan::where('status', 'Lulus')->count();
-        $ditolak        = Permohonan::where('status', 'Ditolak')->count();
+{
+    $permohonanBaru = Permohonan::whereIn('status', ['Baharu', 'Baru', 'Dalam Proses'])->count();
+    $dalamProses    = Permohonan::where('status', 'Dalam Proses')->count();
+    $diterima       = Permohonan::where('status', 'Diterima')->count();
+    $ditolak        = Permohonan::where('status', 'Ditolak')->count();
 
-        
-       $permohonanTerkini = Permohonan::latest()->take(5)->get();
+    $permohonanTerkini = Permohonan::latest()->take(5)->get();
 
-        return view('admin.dashboard', compact(
-            'permohonanBaru', 
-            'dalamProses', 
-            'lulus', 
-            'ditolak', 
-            'permohonanTerkini'
-        ));
-    }
+    // TAMBAHKAN ARAHAN KIRAAN INI:
+    // Mengira jumlah kuantiti (SUM) bagi setiap nama peralatan dari MySQL
+    $inventoriKuantiti = Peralatan::select('kategori', \Illuminate\Support\Facades\DB::raw('SUM(jumlah) as total_kuantiti'))
+        ->groupBy('kategori')
+        ->pluck('total_kuantiti', 'kategori');
+
+    $jumlahInventori = Peralatan::sum('jumlah');
+
+    // Hantar $inventoriKuantiti ke view admin.dashboard
+    return view('admin.dashboard', compact(
+        'permohonanBaru', 
+        'dalamProses', 
+        'diterima', 
+        'ditolak', 
+        'permohonanTerkini',
+        'jumlahInventori',
+        'inventoriKuantiti' // <--- Tambah di sini
+    ));
+}
 
      public function inventori()
 {

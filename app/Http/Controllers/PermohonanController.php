@@ -69,7 +69,7 @@ class PermohonanController extends Controller
     
     $jumlahSemua = Permohonan::where('user_id', $userId)->count();
     $jumlahProses = Permohonan::where('user_id', $userId)->where('status', 'Dalam proses')->count();
-    $jumlahLulus = Permohonan::where('user_id', $userId)->where('status', 'Lulus')->count();
+    $jumlahTerima = Permohonan::where('user_id', $userId)->where('status', 'Diterima')->count();
     $jumlahTolak = Permohonan::where('user_id', $userId)->where('status', 'Ditolak')->count();
 
     
@@ -81,7 +81,7 @@ class PermohonanController extends Controller
     return view('dashboard', compact(
         'jumlahSemua', 
         'jumlahProses', 
-        'jumlahLulus', 
+        'jumlahTerima', 
         'jumlahTolak', 
         'permohonanTerkini'
     ));

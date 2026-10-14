@@ -409,7 +409,7 @@
         </div>
         <div class="stat-info">
             <div class="stat-label">Diterima</div>
-            <div class="stat-value">{{ $jumlahLulus }}</div>
+            <div class="stat-value">{{ $jumlahTerima }}</div>
         </div>
     </div>
 

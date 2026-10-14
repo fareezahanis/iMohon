@@ -352,7 +352,7 @@
                     <span class="stat-title">Jumlah inventori</span>
                     <div class="stat-bottom">
                         <div class="stat-icon bg-purple"><i class="fa-solid fa-boxes-stacked"></i></div>
-                        <span class="stat-value">289</span>
+                        <span class="stat-value">{{ number_format($jumlahInventori ?? 0) }}</span>
                     </div>
                 </div>
 
@@ -373,10 +373,10 @@
                 </div>
 
                 <div class="stat-card">
-                    <span class="stat-title">Lulus</span>
+                    <span class="stat-title">Diterima</span>
                     <div class="stat-bottom">
                         <div class="stat-icon bg-green"><i class="fa-solid fa-check"></i></div>
-                        <span class="stat-value">{{ $lulus  }}</span>
+                        <span class="stat-value">{{ $diterima  }}</span>
                     </div>
                 </div>
 
@@ -403,12 +403,17 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr><td>Komputer riba</td><td style="text-align: right; font-weight: bold;">260</td></tr>
-                            <tr><td>Komputer</td><td style="text-align: right; font-weight: bold;">251</td></tr>
-                            <tr><td>Skrin layar</td><td style="text-align: right; font-weight: bold;">30</td></tr>
-                            <tr><td>Printer</td><td style="text-align: right; font-weight: bold;">27</td></tr>
-                            <tr><td>Projektor</td><td style="text-align: right; font-weight: bold;">14</td></tr>
-                        </tbody>
+    @forelse($inventoriKuantiti as $kategori => $total)
+        <tr>
+            <td>{{ $kategori }}</td>
+            <td style="text-align: right; font-weight: bold;">{{ $total }}</td>
+        </tr>
+    @empty
+        <tr>
+            <td colspan="2" style="text-align: center; color: #888;">Tiada rekod peralatan dijumpai.</td>
+        </tr>
+    @endforelse
+</tbody>
                     </table>
                 </div>
 
@@ -427,22 +432,21 @@
                         <tbody>
                             @forelse($permohonanTerkini as $item)
                                 <tr>
-                                    <!-- ID Permohonan Dynamic Dari Database -->
+                                    
                                     <td>{{ str_pad($item->id_permohonan, 3, '0', STR_PAD_LEFT) }}</td>
 
-                                    <!-- Nama Pemohon -->
+                                   
                                     <td>{{ $item->nama_penerima }}</td>
 
-                                    <!-- Peralatan/Item yang Dimohon -->
                                     <td>{{ $item->nama_item }}</td>
 
-                                    <!-- Tarikh Mohon -->
+                                   
                                     <td>{{ \Carbon\Carbon::parse($item->created_at)->format('d M Y') }}</td>
 
                                     <!-- Status -->
                                     <td>
-                                        @if(strtolower($item->status ?? '') == 'lulus')
-                                            <span class="badge badge-lulus">Lulus</span>
+                                        @if(strtolower($item->status ?? '') == 'diterima')
+                                            <span class="badge badge-lulus">Diterima</span>
                                         @elseif(strtolower($item->status ?? '') == 'ditolak')
                                             <span class="badge badge-tolak">Ditolak</span>
                                         @else

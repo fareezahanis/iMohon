@@ -525,7 +525,7 @@
                     <td style="padding: 14px; text-align: center; font-weight: bold; color: #262d29;">{{ $item->tersedia }}</td>
                     <td style="padding: 14px; text-align: center; font-weight: bold; color: #322f2b;">{{ $item->diagih }}</td>
                     <td style="padding: 14px; text-align: center;" class="action-icons">
-                        <!-- Icon Mata / View -->
+                        
                         <i class="fa-solid fa-eye btn-view-kontrak" 
    style="cursor: pointer; font-size: 16px; color: #0f172a; margin-right: 10px;" 
    title="Lihat Kontrak & Vendor"
