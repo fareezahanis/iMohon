@@ -209,8 +209,8 @@
 
         
         .bg-purple { background-color: #e0e7ff; color: #4338ca; }
-        .bg-blue { background-color: #e0f2fe; color: #0369a1; }
-        .bg-yellow { background-color: #fef3c7; color: #d97706; }
+        .bg-blue { background-color: #dab0db; color: #8d0299; }
+        .bg-yellow { background-color: #f9f1af; color: #f6da07; }
         .bg-green { background-color: #dcfce7; color: #15803d; }
         .bg-red { background-color: #fee2e2; color: #b91c1c; }
 
@@ -357,7 +357,7 @@
                 </div>
 
                 <div class="stat-card">
-                    <span class="stat-title">Jumlah permohonan</span>
+                    <span class="stat-title">Diterima pelulus</span>
                     <div class="stat-bottom">
                         <div class="stat-icon bg-blue"><i class="fa-solid fa-file-invoice"></i></div>
                         <span class="stat-value">{{ $permohonanBaru  }}</span>
