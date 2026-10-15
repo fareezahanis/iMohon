@@ -34,6 +34,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/inventori', [AdminController::class, 'storeInventori'])->name('inventori.store');
     Route::get('/vendor', [AdminController::class, 'vendor'])->name('vendor');
     Route::post('/vendor', [AdminController::class, 'storeVendor'])->name('vendor.store');
+    Route::delete('/vendor/{id}', [AdminController::class, 'destroyVendor'])->name('vendor.destroy');
     Route::get('/kelulusan', [AdminController::class, 'kelulusan'])->name('kelulusan');
     Route::post('/kelulusan/{id}/update', [AdminController::class, 'updateStatus'])->name('kelulusan.update');
     Route::get('/pengguna', [AdminController::class, 'pengguna'])->name('pengguna');

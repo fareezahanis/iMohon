@@ -166,6 +166,13 @@ public function storeVendor(Request $request)
 
     return redirect()->route('admin.vendor')->with('success', 'Vendor & Kontrak berjaya disimpan!');
 }
+public function destroyVendor($id)
+{
+    $vendor = Vendor::findOrFail($id);
+    $vendor->delete();
+
+    return redirect()->back()->with('success', 'Vendor berjaya dipadam!');
+}
 public function pengguna(Request $request)
 {
     $query = User::query();

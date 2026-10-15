@@ -685,7 +685,14 @@
 
                                 <td class="action-icons center">
             <i class="fa-solid fa-file-lines open-detail-btn" title="Lihat Rekod" data-vendor="{{ json_encode($vendor) }}" ></i>
-                                </td>
+                                 <form action="{{ route('admin.vendor.destroy', $vendor->id) }}" method="POST" style="display: inline;" onsubmit="return confirm('Adakah anda pasti ingin memadam peralatan ini?');">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" style="background: none; border: none; padding: 0; cursor: pointer;">
+                                <i class="fa-solid fa-trash-can" style="font-size: 16px; color: #131111;" title="Padam"></i>
+                            </button>
+                        </form>
+        </td>
                             </tr>
                         @empty
                             <tr>
