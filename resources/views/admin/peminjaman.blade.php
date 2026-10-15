@@ -380,7 +380,7 @@
         </a>
     </form>
 
-            <!-- JADUAL REKOD PENEMPATAN / PEMINJAMAN (RINGKAS) -->
+            <!-- table record penempatan -->
 <div class="table-card" style="background: white; border-radius: 16px; padding: 25px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);">
     <table class="custom-table" style="width: 100%; border-collapse: collapse; font-size: 13px;">
         <thead>
@@ -421,7 +421,7 @@
                     </td>
                 </tr>
             @empty
-                <!-- DUMMY DATA UNTUK UJIAN DISPLAY -->
+                <!-- dummy data -->
                 <tr style="border-bottom: 1px solid #f1f5f9;">
                     <td style="padding: 14px; text-align: center;">1</td>
                     <td style="padding: 14px; font-weight: 600; color: #0f172a;">Ali bin Rahman</td>

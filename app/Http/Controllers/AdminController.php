@@ -218,6 +218,18 @@ public function storePengguna(Request $request)
 
     return redirect()->back()->with('success', 'Pengguna baharu berjaya disimpan!');
 }
+public function updateRolePengguna(Request $request, $id)
+{
+    $request->validate([
+        'role' => 'required|string|in:pengguna,pelulus,admin',
+    ]);
+
+    $user = User::findOrFail($id);
+    $user->role = $request->role;
+    $user->save();
+
+    return redirect()->back()->with('success', 'Peranan pengguna berjaya dikemaskini!');
+}
 public function kelulusan()
 {
     // Ambil permohonan dari database

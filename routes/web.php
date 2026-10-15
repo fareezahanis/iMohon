@@ -39,6 +39,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/kelulusan/{id}/update', [AdminController::class, 'updateStatus'])->name('kelulusan.update');
     Route::get('/pengguna', [AdminController::class, 'pengguna'])->name('pengguna');
     Route::post('/pengguna/store', [AdminController::class, 'storePengguna'])->name('pengguna.store');
+    Route::put('/pengguna/{id}/update-role', [AdminController::class, 'updateRolePengguna'])->name('pengguna.updateRole');
     Route::delete('/inventori/{id}', [AdminController::class, 'destroyInventori'])->name('inventori.destroy');
     Route::get('/rekod-peminjaman', [AdminController::class, 'rekodPeminjaman'])->name('peminjaman');
     Route::post('/rekod-peminjaman/{id}/sahkan-pemulangan', [AdminController::class, 'sahkanPemulangan'])->name('peminjaman.sahkan');

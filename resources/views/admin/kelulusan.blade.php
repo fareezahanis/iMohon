@@ -565,10 +565,10 @@
             display: inline-flex;
             align-items: center;
             gap: 6px;
-            padding: 6px 14px;
-            font-size: 13px;
+            padding: 6px 12px;
+            font-size: 10px;
             font-weight: 600;
-            border-radius: 6px;
+            border-radius: 18px;
         }
 
         .badge-diterima {

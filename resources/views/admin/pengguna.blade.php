@@ -662,7 +662,14 @@
                                     data-bahagian="{{ $u->bahagian  }}"
                                     data-alamat="{{ $u->address }}">
                                     </i>
-                                <i class="fa-solid fa-pen-to-square" title="Kemaskini" style="cursor: pointer;"></i>
+                                <i class="fa-solid fa-pen-to-square btn-edit-role" 
+                                    title="Kemaskini Peranan" 
+                                    style="cursor: pointer; margin-left: 10px;"
+                                    data-id="{{ $u->id }}"
+                                    data-name="{{ $u->name }}"
+                                    data-email="{{ $u->email }}"
+                                    data-role="{{ strtolower($u->role ?? 'pengguna') }}">
+                                </i>
                                 </td>
                                 </tr>
                             @empty
@@ -680,7 +687,7 @@
             </main>
             </div>
 
-        <!-- MODAL DETAILS PENGGUNA (GAYA MAKLUMAT PERIBADI & PEKERJAAN) -->
+        <!-- popup details -->
         <div id="viewUserModal" style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; width: 100vw; height: 100vh; 
         background: rgba(0, 0, 0, 0.5); justify-content: center; align-items: center; z-index: 99999;">
             <div style="background: white; border-radius: 16px; width: 90%; max-width: 600px; padding: 25px 30px; position: relative; margin: auto; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1); max-height: 90vh; overflow-y: auto;">
@@ -688,7 +695,7 @@
         <!-- Butang Tutup (X) -->
         <span id="closeViewModalBtn" style="position: absolute; right: 20px; top: 20px; cursor: pointer; font-size: 16px; color: #94a3b8;"><i class="fa-solid fa-xmark"></i></span>
 
-        <!-- 1. KAD MAKLUMAT PERIBADI -->
+        <!-- information peribadi -->
         <div style="background: #f8fafc; border-radius: 12px; padding: 20px; margin-bottom: 20px;">
             <h3 style="font-size: 16px; font-weight: bold; color: #0f172a; margin-top: 0; margin-bottom: 15px;">Maklumat peribadi</h3>
             
@@ -716,7 +723,7 @@
             </div>
         </div>
 
-        <!-- 2. KAD MAKLUMAT PEKERJAAN -->
+        <!-- information pekerjaan -->
         <div style="background: #f8fafc; border-radius: 12px; padding: 20px;">
             <h3 style="font-size: 16px; font-weight: bold; color: #0f172a; margin-top: 0; margin-bottom: 15px;">Maklumat pekerjaan</h3>
             
@@ -746,7 +753,45 @@
 
     </div>
 </div>
-<!-- ADD USER  -->
+
+<!-- Modal Kemaskini Peranan Pengguna -->
+<div class="modal" id="editRoleModal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); align-items: center; justify-content: center; z-index: 99999;">
+    <div class="modal-content" style="background: white; border-radius: 16px; padding: 30px; width: 90%; max-width: 450px; position: relative;">
+        
+        <span class="close-btn" id="closeEditRoleModalBtn" style="position: absolute; right: 20px; top: 15px; font-size: 24px; cursor: pointer;">&times;</span>
+
+        <h3 style="color: #0a0a0a; margin-bottom: 20px; font-size: 18px; font-weight: bold;">
+            <i class="fa-solid fa-user-gear"></i> Kemaskini Peranan Pengguna
+        </h3>
+
+        <form id="editRoleForm" action="" method="POST">
+            @csrf
+            @method('PUT')
+
+            <!-- Maklumat Pengguna (Read-only) -->
+            <div style="background: #f8fafc; padding: 12px 15px; border-radius: 8px; margin-bottom: 20px; font-size: 13px;">
+                <p style="margin-bottom: 5px;"><strong>Nama:</strong> <span id="role_user_name">-</span></p>
+                <p style="margin: 0;"><strong>Emel:</strong> <span id="role_user_email">-</span></p>
+            </div>
+
+            <!-- Pilih Role / Peranan Baharu -->
+            <div class="form-group" style="margin-bottom: 20px;">
+                <label style="display: block; font-size: 13px; font-weight: 600; color: #475569; margin-bottom: 8px;">Pilih Peranan Baharu</label>
+                <select name="role" id="role_select" style="width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 14px; outline: none;" required>
+                    <option value="pengguna">Pemohon (Customer)</option>
+                    <option value="pelulus">Pelulus</option>
+                    <option value="admin">Admin</option>
+                </select>
+            </div>
+
+            <button type="submit" class="form-submit" style="width: 100%; background: #1e0b75; color: white; border: none; padding: 12px; border-radius: 8px; font-weight: 600; cursor: pointer;">
+                Simpan Peranan
+            </button>
+        </form>
+    </div>
+</div>
+
+<!-- tambah user  -->
 <div id="addModal" style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; width: 100vw; height: 100vh; background: rgba(0, 0, 0, 0.5); justify-content: center; align-items: center; z-index: 99999;">
     <div style="background: white; border-radius: 16px; width: 90%; max-width: 600px; padding: 25px 30px; position: relative; margin: auto; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1); max-height: 90vh; overflow-y: auto;">
         
@@ -832,7 +877,7 @@
 <script>
     document.addEventListener('DOMContentLoaded', function () {
 
-        //  Sidebar Toggle
+        // 1. Sidebar Toggle
         const sidebar = document.querySelector('.sidebar');
         const toggleBtn = document.getElementById('toggleSidebar');
 
@@ -843,6 +888,7 @@
             });
         }
 
+        // 2. Modal Tambah Pengguna
         const addModal = document.getElementById('addModal');
         const openAddBtn = document.getElementById('openAddModalBtn');
         const closeAddBtn = document.getElementById('closeAddModalBtn');
@@ -854,12 +900,12 @@
             closeAddBtn.addEventListener('click', () => addModal.style.display = 'none');
         }
 
+        // 3. Modal Lihat Profil Pengguna
         const viewUserModal = document.getElementById('viewUserModal');
         const closeViewModalBtn = document.getElementById('closeViewModalBtn');
 
         document.querySelectorAll('.btn-view-user').forEach(button => {
             button.addEventListener('click', function () {
-                // Ambil data dari atribut icon
                 document.getElementById('viewUserName').textContent = this.getAttribute('data-name') || '-';
                 document.getElementById('viewUserIC').textContent = this.getAttribute('data-ic') || '-';
                 document.getElementById('viewUserPhone').textContent = this.getAttribute('data-phone') || '-';
@@ -878,16 +924,44 @@
             closeViewModalBtn.addEventListener('click', () => viewUserModal.style.display = 'none');
         }
 
-  
-        window.addEventListener('click', (e) => {
-            if (e.target === addModal) {
-                addModal.style.display = 'none';
-            }
-            if (e.target === viewUserModal) {
-                viewUserModal.style.display = 'none';
-            }
+        // 4. Modal Kemaskini Peranan (Role) - DILETAK DI SINI
+        const editRoleModal = document.getElementById('editRoleModal');
+        const closeEditRoleBtn = document.getElementById('closeEditRoleModalBtn');
+        const editRoleForm = document.getElementById('editRoleForm');
+
+        document.querySelectorAll('.btn-edit-role').forEach(button => {
+            button.addEventListener('click', function () {
+                const userId = this.getAttribute('data-id');
+                const userName = this.getAttribute('data-name');
+                const userEmail = this.getAttribute('data-email');
+                const userRole = this.getAttribute('data-role');
+
+                // Isikan data pengguna ke dalam modal
+                if (document.getElementById('role_user_name')) document.getElementById('role_user_name').innerText = userName;
+                if (document.getElementById('role_user_email')) document.getElementById('role_user_email').innerText = userEmail;
+                if (document.getElementById('role_select')) document.getElementById('role_select').value = userRole;
+
+                // Kemaskini pautan action borang
+                if (editRoleForm) {
+                    editRoleForm.action = `/admin/pengguna/${userId}/update-role`;
+                }
+
+                if (editRoleModal) editRoleModal.style.display = 'flex';
+            });
         });
 
+        if (closeEditRoleBtn && editRoleModal) {
+            closeEditRoleBtn.addEventListener('click', () => editRoleModal.style.display = 'none');
+        }
+
+        // 5. Tutup Modal Apabila Klik Di Luar (Window Event)
+        window.addEventListener('click', (e) => {
+            if (e.target === addModal) addModal.style.display = 'none';
+            if (e.target === viewUserModal) viewUserModal.style.display = 'none';
+            if (e.target === editRoleModal) editRoleModal.style.display = 'none';
+        });
+
+        // 6. Carian Live (Search Input Filter)
         const searchInput = document.querySelector('.search-box input');
         const tableRows = document.querySelectorAll('.custom-table tbody tr');
 
@@ -896,7 +970,6 @@
                 const query = this.value.toLowerCase().trim();
 
                 tableRows.forEach(row => {
-                    // Abaikan baris "Tiada rekod dijumpai"
                     if (row.children.length === 1 && row.children[0].hasAttribute('colspan')) {
                         return;
                     }
@@ -909,7 +982,5 @@
 
     });
 </script>
-
-
 </body>
 </html>
