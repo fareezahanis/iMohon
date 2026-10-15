@@ -614,7 +614,7 @@
                             Jumlah item
                         </span>
                         <span class="value">
-                            {{ $jumlahItem }}
+                             {{ number_format($jumlahItem ?? 0) }}
                         </span>
                     </div>
                 </div>
@@ -684,10 +684,7 @@
                                 </td>
 
                                 <td class="action-icons center">
-                                    <i
-                                        class="fa-solid fa-file-lines open-detail-btn"
-                                        title="Lihat Rekod"
-                                    ></i>
+            <i class="fa-solid fa-file-lines open-detail-btn" title="Lihat Rekod" data-vendor="{{ json_encode($vendor) }}" ></i>
                                 </td>
                             </tr>
                         @empty
@@ -709,162 +706,71 @@
 
 
     
-    <div
-        class="modal"id="detailModal" >
-        <div class="modal-content modal-vendor-detail">
-            <span
-                class="close-btn" id="closeDetailModalBtn" style=" position:absolute; right:25px; top:20px; " >&times;
-            </span>
+    <div class="modal" id="detailModal">
+    <div class="modal-content modal-vendor-detail">
+        <span class="close-btn" id="closeDetailModalBtn" style="position:absolute; right:25px; top:20px;">&times;</span>
 
-            <h2 class="vendor-title">
-                BUMI OPTIMUS SDN BHD
-            </h2>
+        <!-- Nama Vendor -->
+        <h2 class="vendor-title" id="detailNamaVendor">-</h2>
 
-            <div class="contract-box">
-                <div class="contract-item">
-                    <span class="contract-label">
-                        No. kontrak
-                    </span>
-                    <span class="contract-colon">
-                        :
-                    </span>
-                    <span class="contract-value">
-                        111
-                    </span>
-
-</div>
-
-
-                <div class="contract-item">
-                    <span class="contract-label">
-                        Tarikh mula
-                    </span>
-                    <span class="contract-colon">
-                        :
-                    </span>
-                    <span class="contract-value">
-                        01/03/2026
-                    </span>
-                </div>
-                <div class="contract-item">
-                    <span class="contract-label">
-                        PIC kontrak
-                    </span>
-                    <span class="contract-colon">
-                        :
-                    </span>
-                    <span class="contract-value">
-                        Will Update
-                    </span>
-                </div>
-
-                <div class="contract-item">
-                    <span class="contract-label">
-                        Tarikh tamat
-                    </span>
-                    <span class="contract-colon">
-                        :
-                    </span>
-                    <span class="contract-value">
-                        01/10/2026
-                    </span>
-                </div>
-
-                <div class="contract-item">
-                    <span class="contract-label">
-                        Pemilik kontrak
-                    </span>
-                    <span class="contract-colon">
-                        :
-                    </span>
-
-                    <span class="contract-value">
-                        Kementerian Komunikasi
-                    </span>
-                </div>
-                <div></div>
-
-                <div class="contract-item">
-                    <span class="contract-label">
-                        Nilai kontrak
-                    </span>
-                    <span class="contract-colon">
-                        :
-                    </span>
-                    <span class="contract-value">
-                        RM-----
-                    </span>
-                </div>
+        <div class="contract-box">
+            <div class="contract-item">
+                <span class="contract-label">No. kontrak</span>
+                <span class="contract-colon">:</span>
+                <span class="contract-value" id="detailNoKontrak">-</span>
             </div>
 
-            <div class="equipment-box">
-                <table class="detail-table">
+            <div class="contract-item">
+                <span class="contract-label">Tarikh mula</span>
+                <span class="contract-colon">:</span>
+                <span class="contract-value" id="detailTarikhMula">-</span>
+            </div>
 
-                    <thead>
-                        <tr>
-                            <th style="width:50px;">
-                                Bil.
-                            </th>
-                            <th>
-                                Nama peralatan
-                            </th>
-                            <th>
-                                Model
-                            </th>
-                            <th style="text-align:center;">
-                                Jumlah unit
-                            </th>
-                        </tr>
+            <div class="contract-item">
+                <span class="contract-label">PIC kontrak</span>
+                <span class="contract-colon">:</span>
+                <span class="contract-value" id="detailPicKontrak">-</span>
+            </div>
 
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>
-                                1
-                            </td>
-                            <td>
-                                Pencetak Warna A4
-                            </td>
-                            <td>
-                                OKI C650DN
-                            </td>
-                            <td class="center">
-                                10
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                2
-                            </td>
-                            <td>
-                                Pencetak Mono A4
-                            </td>
-                            <td>
-                                OKI B432DN
-                            </td>
-                            <td class="center">
-                                15
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                3
-                            </td>
-                            <td>
-                                Komputer Riba High End
-                            </td>
-                            <td>
-                                DELL Precision
-                            </td>
-                            <td class="center">
-                                25
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+            <div class="contract-item">
+                <span class="contract-label">Tarikh tamat</span>
+                <span class="contract-colon">:</span>
+                <span class="contract-value" id="detailTarikhTamat">-</span>
+            </div>
+
+            <div class="contract-item">
+                <span class="contract-label">Pemilik kontrak</span>
+                <span class="contract-colon">:</span>
+                <span class="contract-value" id="detailPemilikKontrak">-</span>
+            </div>
+
+            <div class="contract-item">
+                <span class="contract-label">Nilai kontrak</span>
+                <span class="contract-colon">:</span>
+                <span class="contract-value" id="detailNilaiKontrak">RM 0.00</span>
             </div>
         </div>
+
+        <div class="equipment-box">
+            <table class="detail-table">
+                <thead>
+                    <tr>
+                        <th style="width:50px;">Bil.</th>
+                        <th>Keterangan</th>
+                        <th style="text-align:center;">Jumlah Unit Peralatan</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>Jumlah Peralatan Di bawah Kontrak Ini</td>
+                        <td class="center" id="detailJumlahPeralatan">0</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
+</div>
 
 
 
@@ -963,75 +869,102 @@
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const sidebar =  document.querySelector('.sidebar');
-            const toggleBtn =   document.getElementById('toggleSidebar');
+    document.addEventListener('DOMContentLoaded', function () {
+        // 1. Sidebar Toggle
+        const sidebar = document.querySelector('.sidebar');
+        const toggleBtn = document.getElementById('toggleSidebar');
 
-            if (toggleBtn && sidebar) {
-                toggleBtn.addEventListener(  'click',  function () {
-                        sidebar.classList.toggle(  'collapsed'
-                        );
+        if (toggleBtn && sidebar) {
+            toggleBtn.addEventListener('click', function () {
+                sidebar.classList.toggle('collapsed');
+                if (sidebar.classList.contains('collapsed')) {
+                    toggleBtn.style.transform = 'rotate(180deg)';
+                } else {
+                    toggleBtn.style.transform = 'rotate(0deg)';
+                }
+            });
+        }
 
-                        if (
-                            sidebar.classList.contains( 'collapsed' )
-                        ) {
-                            toggleBtn.style.transform = 'rotate(180deg)';
-                        } else {
-                            toggleBtn.style.transform = 'rotate(0deg)';
-                        }
+        // 2. Modal Detail (YANG PERLU DIBETULKAN)
+        const detailModal = document.getElementById('detailModal');
+        const detailBtns = document.querySelectorAll('.open-detail-btn');
+        const closeDetailBtn = document.getElementById('closeDetailModalBtn');
+
+        detailBtns.forEach(function (btn) {
+            btn.addEventListener('click', function () {
+                // Read data vendor daripada attribute data-vendor pada ikon/butang
+                const vendorAttr = this.getAttribute('data-vendor');
+                
+                if (vendorAttr) {
+                    const vendor = JSON.parse(vendorAttr);
+
+                    // Suntik data dari database ke dalam HTML Modal Detail
+                    if (document.getElementById('detailNamaVendor')) 
+                        document.getElementById('detailNamaVendor').innerText = vendor.nama_vendor || '-';
+                    
+                    if (document.getElementById('detailNoKontrak')) 
+                        document.getElementById('detailNoKontrak').innerText = vendor.no_kontrak || '-';
+                    
+                    if (document.getElementById('detailPicKontrak')) 
+                        document.getElementById('detailPicKontrak').innerText = vendor.pic_kontrak || 'Akan dikemaskini';
+                    
+                    if (document.getElementById('detailPemilikKontrak')) 
+                        document.getElementById('detailPemilikKontrak').innerText = vendor.pemilik_kontrak || 'Kementerian Komunikasi';
+                    
+                    if (document.getElementById('detailTarikhMula')) 
+                        document.getElementById('detailTarikhMula').innerText = vendor.tarikh_mula || '-';
+                    
+                    if (document.getElementById('detailTarikhTamat')) 
+                        document.getElementById('detailTarikhTamat').innerText = vendor.tarikh_tamat || '-';
+
+                    // Format Nilai Kontrak RM
+                    if (document.getElementById('detailNilaiKontrak')) {
+                        const nilaiFormatted = parseFloat(vendor.nilai_kontrak || 0).toLocaleString('ms-MY', { minimumFractionDigits: 2 });
+                        document.getElementById('detailNilaiKontrak').innerText = 'RM ' + nilaiFormatted;
                     }
-                );
-            }
 
-            const detailModal = document.getElementById( 'detailModal'  );
-            const detailBtns =  document.querySelectorAll(  '.open-detail-btn' );
-            const closeDetailBtn = document.getElementById(  'closeDetailModalBtn' );
+                    // Ambil jumlah peralatan dari borang
+                    if (document.getElementById('detailJumlahPeralatan')) 
+                        document.getElementById('detailJumlahPeralatan').innerText = vendor.jumlah_peralatan || 0;
+                }
 
-            detailBtns.forEach(function (btn) {
-                btn.addEventListener( 'click',  function () {detailModal.style.display =    'flex';
-                    }
-                );
+                // Paparkan modal
+                if (detailModal) detailModal.style.display = 'flex';
+            });
+        });
+
+        if (closeDetailBtn) {
+            closeDetailBtn.addEventListener('click', function () {
+                detailModal.style.display = 'none';
+            });
+        }
+
+        // 3. Modal Tambah Vendor
+        const addModal = document.getElementById('addModal');
+        const openAddBtn = document.getElementById('openAddModalBtn');
+        const closeAddBtn = document.getElementById('closeAddModalBtn');
+
+        if (openAddBtn && addModal && closeAddBtn) {
+            openAddBtn.addEventListener('click', function () {
+                addModal.style.display = 'flex';
             });
 
-            if (closeDetailBtn) {
-                closeDetailBtn.addEventListener( 'click',
-                    function () {  detailModal.style.display =   'none';
-                    }
-                );
+            closeAddBtn.addEventListener('click', function () {
+                addModal.style.display = 'none';
+            });
+        }
+
+        // 4. Tutup Modal Apabila Klik Di Luar
+        window.addEventListener('click', function (e) {
+            if (e.target === detailModal) {
+                detailModal.style.display = 'none';
             }
-
-            const addModal = document.getElementById(  'addModal' );
-            const openAddBtn = document.getElementById( 'openAddModalBtn');
-            const closeAddBtn = document.getElementById( 'closeAddModalBtn' );
-
-            if (  openAddBtn && addModal && closeAddBtn ) {
-                openAddBtn.addEventListener( 'click',
-                    function () {
-                        addModal.style.display ='flex';
-                    }
-                );
-
-                closeAddBtn.addEventListener('click',
-                    function () {
-                        addModal.style.display =
-                            'none';
-                    }
-                );
+            if (e.target === addModal) {
+                addModal.style.display = 'none';
             }
-            window.addEventListener('click',function (e) {
-                    if (
-                        e.target === detailModal
-                    ) {
-                        detailModal.style.display = 'none';
-                    }
-
-                    if ( e.target === addModal
-                    ) { addModal.style.display = 'none';
-                    }
-                }
-            );
         });
-    </script>
+    });
+</script>
 
 </body>
 </html>
