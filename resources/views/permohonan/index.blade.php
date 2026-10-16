@@ -523,8 +523,8 @@
                                 <td>
                                     @if($item->status == 'Dalam proses')
                                         <span class="badge-status bg-kuning">Dalam proses</span>
-                                    @elseif($item->status == 'Lulus')
-                                        <span class="badge-status bg-hijau">Lulus</span>
+                                    @elseif($item->status == 'Diterima')
+                                        <span class="badge-status bg-hijau">Diterima</span>
                                     @elseif($item->status == 'Ditolak')
                                         <span class="badge-status bg-merah">Ditolak</span>
                                     @else
