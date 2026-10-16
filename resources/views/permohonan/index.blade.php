@@ -119,7 +119,7 @@
             font-family: inherit;
         }
 
-        /* MAIN WRAPPER (RIGHT) */
+        
         .main-wrapper {
             flex-grow: 1;
             display: flex;
@@ -156,7 +156,7 @@
             font-size: 18px;
         }
 
-        /* KANDUNGAN UTAMA JADUAL */
+        
         .content-area {
             padding: 30px 40px;
             flex-grow: 1;
@@ -229,7 +229,7 @@
             color: #0369a1;
             padding: 5px 22px;
             border-radius: 20px;
-            font-size: 13px;
+            font-size: 12px;
             font-weight: 600;
             border: none;
             cursor: pointer;
@@ -251,11 +251,9 @@
 
         .btn-mata:hover { color: #29158f; }
 
-        /* =========================================================
-           STYLES UNTUK POPUP MODAL (FIXED POSITION)
-           ========================================================= */
+       
         .modal {
-            display: none; /* Tersembunyi secara lalai */
+            display: none;
             position: fixed; 
             z-index: 99999; 
             left: 0;
@@ -309,7 +307,7 @@
             color: #0f172a;
         }
 
-        /* POPUP JEJAK CARD */
+        
         .summary-card {
             background-color: #e8eafb; 
             padding: 18px 22px;
@@ -336,7 +334,7 @@
             font-weight: 700;
         }
 
-        /* TIMELINE TRACKING */
+        
         .timeline-container {
             padding-left: 10px;
         }
@@ -391,7 +389,7 @@
             line-height: 1.4;
         }
 
-        /* POPUP MATA (LIHAT BUTIRAN) DESIGN */
+        
         .detail-card {
             background-color: #e8ebff;
             border-radius: 14px;
