@@ -107,11 +107,12 @@ public function destroyInventori($id)
 
     return redirect()->back()->with('success', 'Peralatan berjaya dipadam!');
 }
-        public function vendor(Request $request)
+    public function vendor(Request $request)
 {
-    $query = Vendor::query();
+    // call senarai peralatan dalam vendor
+    $query = Vendor::with('peralatans');
 
-    // Carian
+    
     if ($request->filled('search')) {
         $search = $request->search;
         $query->where(function($q) use ($search) {
@@ -121,10 +122,10 @@ public function destroyInventori($id)
         });
     }
 
-    // Ambil senarai vendor terkini dari database
+    // list vendor
     $vendors = $query->latest()->get();
 
-    // Kira statistik berdasarkan data sebenar
+    // kira semua based on data
     $jumlahVendor  = $vendors->count();
     $jumlahKontrak = $vendors->count();
     $jumlahItem    = $vendors->sum('jumlah_peralatan');

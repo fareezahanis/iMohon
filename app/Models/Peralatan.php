@@ -23,5 +23,9 @@ class Peralatan extends Model
                 ->withPivot('jumlah_unit')
                 ->withTimestamps();
 }
+public function vendor()
+{
+    return $this->belongsTo(Vendor::class, 'vendor_id');
+}
 
 }

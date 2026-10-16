@@ -21,4 +21,12 @@ class Vendor extends Model
         'tarikh_tamat',
         'jumlah_peralatan',
     ];
+
+    public function peralatans()
+    {
+        // Hubungkan Vendor ke Peralatan menerusi pivot table 'peralatan_vendor'
+        return $this->belongsToMany(Peralatan::class, 'peralatan_vendor', 'vendor_id', 'peralatan_id')
+                    ->withPivot('jumlah_unit')
+                    ->withTimestamps();
+    }
 }

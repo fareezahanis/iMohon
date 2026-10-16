@@ -684,7 +684,10 @@
                                 </td>
 
                                 <td class="action-icons center">
-            <i class="fa-solid fa-file-lines open-detail-btn" title="Lihat Rekod" data-vendor="{{ json_encode($vendor) }}" ></i>
+            <i class="fa-solid fa-file-lines open-detail-btn" 
+   title="Lihat Rekod" 
+   data-vendor='@json($vendor)'>
+</i>
                                  <form action="{{ route('admin.vendor.destroy', $vendor->id) }}" method="POST" style="display: inline;" onsubmit="return confirm('Adakah anda pasti ingin memadam peralatan ini?');">
                             @csrf
                             @method('DELETE')
@@ -759,23 +762,19 @@
         </div>
 
         <div class="equipment-box">
-            <table class="detail-table">
-                <thead>
-                    <tr>
-                        <th style="width:50px;">Bil.</th>
-                        <th>Keterangan</th>
-                        <th style="text-align:center;">Jumlah Unit Peralatan</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td>Jumlah Peralatan Di bawah Kontrak Ini</td>
-                        <td class="center" id="detailJumlahPeralatan">0</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+    <table class="detail-table">
+        <thead>
+            <tr>
+                <th style="width:50px;">Bil.</th>
+                <th>Kategori / Nama Peralatan</th>
+                <th style="text-align:center;">Jumlah Unit Peralatan</th>
+            </tr>
+        </thead>
+        <tbody id="detailPeralatanList">
+            <!-- data keluar through javascript -->
+        </tbody>
+    </table>
+</div>
     </div>
 </div>
 
@@ -877,6 +876,7 @@
 
     <script>
     document.addEventListener('DOMContentLoaded', function () {
+
         // 1. Sidebar Toggle
         const sidebar = document.querySelector('.sidebar');
         const toggleBtn = document.getElementById('toggleSidebar');
@@ -892,20 +892,19 @@
             });
         }
 
-        // 2. Modal Detail (YANG PERLU DIBETULKAN)
+        // 2. Popup Detail Vendor
         const detailModal = document.getElementById('detailModal');
         const detailBtns = document.querySelectorAll('.open-detail-btn');
         const closeDetailBtn = document.getElementById('closeDetailModalBtn');
 
         detailBtns.forEach(function (btn) {
             btn.addEventListener('click', function () {
-                // Read data vendor daripada attribute data-vendor pada ikon/butang
                 const vendorAttr = this.getAttribute('data-vendor');
                 
                 if (vendorAttr) {
                     const vendor = JSON.parse(vendorAttr);
 
-                    // Suntik data dari database ke dalam HTML Modal Detail
+                    // A. Kemaskini Teks Maklumat Vendor & Kontrak
                     if (document.getElementById('detailNamaVendor')) 
                         document.getElementById('detailNamaVendor').innerText = vendor.nama_vendor || '-';
                     
@@ -924,18 +923,43 @@
                     if (document.getElementById('detailTarikhTamat')) 
                         document.getElementById('detailTarikhTamat').innerText = vendor.tarikh_tamat || '-';
 
-                    // Format Nilai Kontrak RM
                     if (document.getElementById('detailNilaiKontrak')) {
                         const nilaiFormatted = parseFloat(vendor.nilai_kontrak || 0).toLocaleString('ms-MY', { minimumFractionDigits: 2 });
                         document.getElementById('detailNilaiKontrak').innerText = 'RM ' + nilaiFormatted;
                     }
 
-                    // Ambil jumlah peralatan dari borang
-                    if (document.getElementById('detailJumlahPeralatan')) 
-                        document.getElementById('detailJumlahPeralatan').innerText = vendor.jumlah_peralatan || 0;
+                    // B. Bina Baris Jadual Peralatan (Inventori)
+                    const tbody = document.getElementById('detailPeralatanList');
+                    if (tbody) {
+                        tbody.innerHTML = ''; // Kosongkan paparan lama
+
+                        if (vendor.peralatans && vendor.peralatans.length > 0) {
+                            vendor.peralatans.forEach((item, index) => {
+                                // Dibetulkan: Dapatkan nama & jumlah_unit dari pivot/model
+                                const namaBarang = item.nama_peralatan || item.kategori || item.nama || '-';
+                                const unitBarang = (item.pivot && item.pivot.jumlah_unit) ? item.pivot.jumlah_unit : (item.jumlah || 0);
+
+                                const row = `
+                                    <tr>
+                                        <td style="text-align:center;">${index + 1}</td>
+                                        <td>${namaBarang}</td>
+                                        <td style="text-align:center; font-weight:bold;">${unitBarang}</td>
+                                    </tr>
+                                `;
+                                tbody.innerHTML += row;
+                            });
+                        } else {
+                            tbody.innerHTML = `
+                                <tr>
+                                    <td colspan="3" style="text-align:center; color:#94a3b8; padding:15px; font-style:italic;">
+                                        Tiada rekod peralatan dari inventori didaftarkan di bawah vendor ini.
+                                    </td>
+                                </tr>
+                            `;
+                        }
+                    }
                 }
 
-                // Paparkan modal
                 if (detailModal) detailModal.style.display = 'flex';
             });
         });
