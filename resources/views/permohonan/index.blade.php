@@ -213,11 +213,11 @@
 
         .badge-status {
             display: inline-block;
-            padding: 6px 18px;
+            padding: 6px 12px;
             border-radius: 50px;
-            font-size: 12px;
+            font-size: 10px;
             font-weight: 600;
-            min-width: 110px;
+            min-width: 80px;
         }
 
         .bg-kuning { background-color: #fef08a; color: #854d0e; }
