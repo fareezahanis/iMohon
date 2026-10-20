@@ -269,9 +269,9 @@
             display: inline-block;
         }
 
-        .badge-pending { background-color: #fef9c3; color: #854d0e; }
-        .badge-approved { background-color: #dcfce7; color: #166534; }
-        .badge-rejected { background-color: #fee2e2; color: #991b1b; }
+        .badge-proses { background-color: #fef9c3; color: #854d0e; }
+        .badge-lulus { background-color: #dcfce7; color: #166534; }
+        .badge-tolak { background-color: #fee2e2; color: #991b1b; }
 
         /* ANNOUNCEMENTS */
         .announcement-item {
@@ -448,16 +448,18 @@
                     <td>{{ $item->nama_item }}</td>
                     <td>{{ \Carbon\Carbon::parse($item->tarikh_mohon)->translatedFormat('d/m/y') }}</td>
                     <td>
-                        @if($item->status == 'Dalam proses')
-                            <span class="badge badge-pending">Dalam proses</span>
-                        @elseif($item->status == 'Diterima')
-                            <span class="badge badge-approved">Diterima</span>
-                        @elseif($item->status == 'Ditolak')
-                            <span class="badge badge-rejected">Ditolak</span>
-                        @else
-                            <span class="badge badge-pending">{{ $item->status }}</span>
-                        @endif
-                    </td>
+    @php
+        $statusPemohon = strtolower($item->status ?? '');
+    @endphp
+
+    @if(in_array($statusPemohon, ['diterima', 'lulus', 'terima']))
+        <span class="badge badge-lulus">Diterima</span>
+    @elseif($statusPemohon == 'ditolak')
+        <span class="badge badge-tolak">Ditolak</span>
+    @else
+        <span class="badge badge-proses">{{ $item->status ?? 'Dalam proses' }}</span>
+    @endif
+</td>
                 </tr>
             @empty
                 <tr>

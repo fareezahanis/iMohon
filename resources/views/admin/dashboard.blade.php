@@ -445,14 +445,19 @@
 
                                     <!-- Status -->
                                     <td>
-                                        @if(strtolower($item->status ?? '') == 'diterima')
-                                            <span class="badge badge-lulus">Diterima</span>
-                                        @elseif(strtolower($item->status ?? '') == 'ditolak')
-                                            <span class="badge badge-tolak">Ditolak</span>
-                                        @else
-                                            <span class="badge badge-proses">{{ $item->status ?? 'Dalam proses' }}</span>
-                                        @endif
-                                    </td>
+    @php
+        $statusUtama = strtolower($item->status ?? '');
+    @endphp
+
+    {{-- KITA PAKSA SEMUA (diterima / lulus / terima) MENJADI LENCANA "Diterima" --}}
+    @if(in_array($statusUtama, ['diterima', 'lulus', 'terima']))
+        <span class="badge badge-lulus">Diterima</span>
+    @elseif($statusUtama == 'ditolak')
+        <span class="badge badge-tolak">Ditolak</span>
+    @else
+        <span class="badge badge-proses">{{ $item->status ?? 'Dalam proses' }}</span>
+    @endif
+</td>
                                 </tr>
                             @empty
                                 <tr>

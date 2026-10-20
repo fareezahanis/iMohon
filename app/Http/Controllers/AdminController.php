@@ -12,16 +12,26 @@ use Illuminate\Support\Facades\Hash;
 
 class AdminController extends Controller
 {
-    public function dashboard()
+   public function dashboard()
 {
-    $permohonanBaru = Permohonan::whereIn('status', ['Baharu', 'Baru', 'Dalam Proses'])->count();
-    $dalamProses    = Permohonan::where('status', 'Dalam Proses')->count();
-    $diterima       = Permohonan::where('status', 'Diterima')->count();
+    // 1. DITERIMA PELULUS: Mengira permohonan yang telah diluluskan/disokong oleh Pelulus
+    $permohonanBaru = Permohonan::whereIn('status_pelulus', ['Diterima', 'Disokong', 'Lulus', 'Terima'])->count();
+
+    // 2. DALAM PROSES: Mengira permohonan yang masih belum diproses
+    $dalamProses    = Permohonan::where(function($q) {
+                        $q->whereNull('status')
+                          ->orWhere('status', '')
+                          ->orWhere('status', 'Dalam Proses');
+                    })->count();
+
+    // 3. DITERIMA ADMIN: Mengira permohonan yang telah diterima akhir oleh Admin
+    $diterima       = Permohonan::whereIn('status', ['Diterima', 'Lulus', 'Terima'])->count();
+
+    // 4. DITOLAK
     $ditolak        = Permohonan::where('status', 'Ditolak')->count();
 
     $permohonanTerkini = Permohonan::latest()->take(5)->get();
 
-    // TAMBAHKAN ARAHAN KIRAAN INI:
     // Mengira jumlah kuantiti (SUM) bagi setiap nama peralatan dari MySQL
     $inventoriKuantiti = Peralatan::select('kategori', \Illuminate\Support\Facades\DB::raw('SUM(jumlah) as total_kuantiti'))
         ->groupBy('kategori')
@@ -29,7 +39,6 @@ class AdminController extends Controller
 
     $jumlahInventori = Peralatan::sum('jumlah');
 
-    // Hantar $inventoriKuantiti ke view admin.dashboard
     return view('admin.dashboard', compact(
         'permohonanBaru', 
         'dalamProses', 
@@ -37,7 +46,7 @@ class AdminController extends Controller
         'ditolak', 
         'permohonanTerkini',
         'jumlahInventori',
-        'inventoriKuantiti' // <--- Tambah di sini
+        'inventoriKuantiti'
     ));
 }
 
@@ -241,11 +250,16 @@ public function kelulusan()
 
 public function updateStatus(Request $request, $id)
 {
-    // Cari permohonan mengikut ID
     $permohonan = Permohonan::findOrFail($id);
 
-    // Kemaskini status kelulusan akhir Admin
-    $permohonan->status = $request->status; // 'Diterima' / 'Lulus' / 'Ditolak'
+    // Paksa simpan sebagai 'Diterima' atau 'Ditolak'
+    if ($request->status == 'Lulus' || $request->status == 'Diterima' || $request->status == 'Terima') {
+        $permohonan->status = 'Diterima';
+    } elseif ($request->status == 'Ditolak') {
+        $permohonan->status = 'Ditolak';
+    } else {
+        $permohonan->status = $request->status;
+    }
 
     if ($request->filled('sebab_penolakan')) {
         $permohonan->sebab_penolakan = $request->sebab_penolakan;
@@ -253,7 +267,6 @@ public function updateStatus(Request $request, $id)
 
     $permohonan->save();
 
-    // Lakukan redirect semula ke halaman Admin
     return redirect()->back()->with('success', 'Status permohonan berjaya dikemaskini!');
 }
 public function rekodPeminjaman(Request $request)

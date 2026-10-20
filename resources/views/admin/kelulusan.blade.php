@@ -676,7 +676,7 @@
                 <select class="status-select">
                     <option value="">Semua status</option>
                     <option value="Dalam proses">Dalam proses</option>
-                    <option value="Lulus">Terima</option>
+                    <option value="Diterima">Terima</option>
                     <option value="Ditolak">Ditolak</option>
                 </select>
             </div>
@@ -752,7 +752,7 @@
                                             <i class="fa-solid fa-xmark"></i> Ditolak
                                         </span>
 
-                                    @elseif(in_array(strtolower($item->status_pelulus ?? ''), ['disokong', 'terima', 'lulus', 'diterima']))
+                                    @elseif(in_array(strtolower($item->status_pelulus ?? ''), ['disokong', 'terima', 'diterima']))
                                         
                                         <div class="btn-action-group">
                                            <button type="button" class="btn-lulus btn-open-lulus" data-id="{{ $item->id }}">

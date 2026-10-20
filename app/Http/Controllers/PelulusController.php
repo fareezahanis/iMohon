@@ -45,7 +45,7 @@ class PelulusController extends Controller
         $permohonan = Permohonan::findOrFail($id);
 
         // Kemaskini status_pelulus secara khusus
-        if ($request->status == 'Diterima' || $request->status == 'Lulus' || $request->status == 'Disokong') {
+        if ($request->status == 'Diterima' ) {
             $permohonan->status_pelulus = 'Diterima';
             // Status permohonan utama kekal 'Dalam Proses' untuk tindakan Admin kelak
             $permohonan->status = 'Dalam Proses'; 
