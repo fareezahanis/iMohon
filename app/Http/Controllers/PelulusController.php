@@ -3,10 +3,13 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Permohonan; 
+use App\Models\Permohonan;
 
 class PelulusController extends Controller
 {
+    /**
+     * Paparan Dashboard Pelulus
+     */
     public function dashboard()
     {
         $menungguCount = Permohonan::where('status', 'Menunggu')->count();
@@ -15,28 +18,50 @@ class PelulusController extends Controller
 
         $permohonanTerkini = Permohonan::latest()->take(5)->get();
 
-        return view('pelulus.dashboard', compact('menungguCount', 'diterimaCount', 'ditolakCount', 'permohonanTerkini'));
+        return view('pelulus.dashboard', compact(
+            'menungguCount', 
+            'diterimaCount', 
+            'ditolakCount', 
+            'permohonanTerkini'
+        ));
     }
 
+    /**
+     * Paparan Senarai Kelulusan Permohonan
+     */
     public function kelulusan()
     {
-        $senaraiPermohonan = Permohonan::latest()->get();
+        // Ambil senarai permohonan berserta data pengguna
+        $senaraiPermohonan = Permohonan::with('user')->latest()->get();
+
         return view('pelulus.kelulusan', compact('senaraiPermohonan'));
     }
 
-    // TAMBAH KAEDAH INI UNTUK SIMPAN DATA KE MYSQL
+    /**
+     * Kemaskini Status Kelulusan oleh Pelulus (AJAX Request)
+     */
     public function updateStatus(Request $request, $id)
     {
         $permohonan = Permohonan::findOrFail($id);
 
-        // Kemaskini dan simpan ke pangkalan data
-        $permohonan->status = $request->status;
+        // Kemaskini status_pelulus secara khusus
+        if ($request->status == 'Diterima' || $request->status == 'Lulus' || $request->status == 'Disokong') {
+            $permohonan->status_pelulus = 'Diterima';
+            // Status permohonan utama kekal 'Dalam Proses' untuk tindakan Admin kelak
+            $permohonan->status = 'Dalam Proses'; 
+        } elseif ($request->status == 'Ditolak') {
+            $permohonan->status_pelulus = 'Ditolak';
+            $permohonan->status = 'Ditolak';
+        } else {
+            $permohonan->status_pelulus = $request->status;
+        }
+
         $permohonan->save(); 
 
         return response()->json([
             'success' => true,
-            'message' => 'Status berjaya dikemaskini!',
-            'status'  => $permohonan->status
+            'message' => 'Status Pelulus berjaya dikemaskini!',
+            'status'  => $permohonan->status_pelulus
         ]);
     }
 }

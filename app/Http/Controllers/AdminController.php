@@ -233,7 +233,7 @@ public function updateRolePengguna(Request $request, $id)
 }
 public function kelulusan()
 {
-    // Ambil permohonan dari database
+    // Ambil semua permohonan berserta perhubungan user
     $permohonan = Permohonan::with('user')->latest()->get();
 
     return view('admin.kelulusan', compact('permohonan'));
@@ -241,20 +241,20 @@ public function kelulusan()
 
 public function updateStatus(Request $request, $id)
 {
-    // Cari permohonan
-    $permohonan = Permohonan::findOrFail($id); // Tukar 'Permohonan' mengikut nama Model anda
+    // Cari permohonan mengikut ID
+    $permohonan = Permohonan::findOrFail($id);
 
-    // Kemaskini status
-    $permohonan->status = $request->status;
+    // Kemaskini status kelulusan akhir Admin
+    $permohonan->status = $request->status; // 'Diterima' / 'Lulus' / 'Ditolak'
 
-    // Simpan sebab penolakan jika ada
-    if ($request->has('sebab_penolakan')) {
+    if ($request->filled('sebab_penolakan')) {
         $permohonan->sebab_penolakan = $request->sebab_penolakan;
     }
 
     $permohonan->save();
 
-    return redirect()->back()->with('success', 'Status berjaya dikemaskini!');
+    // Lakukan redirect semula ke halaman Admin
+    return redirect()->back()->with('success', 'Status permohonan berjaya dikemaskini!');
 }
 public function rekodPeminjaman(Request $request)
 {

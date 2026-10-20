@@ -11,7 +11,7 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
     <style>
-         {
+        * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
@@ -24,7 +24,6 @@
             min-height: 100vh;
         }
 
-       
         .sidebar {
             width: 260px;
             background-color: #29158f;
@@ -98,15 +97,14 @@
             font-family: inherit;
         }
 
-        
         .sidebar.collapsed {
-            width: 80px ;
+            width: 80px;
             padding: 25px 10px;
         }
 
         .sidebar.collapsed .brand-name,
         .sidebar.collapsed .nav-link span {
-            display: none ;
+            display: none;
         }
 
         .sidebar.collapsed .nav-link {
@@ -250,7 +248,6 @@
             border-bottom: 1px solid #f1f5f9;
         }
 
-        
         .btn-action-group {
             display: flex;
             align-items: center;
@@ -296,18 +293,6 @@
             background-color: #f87171;
         }
 
-        /* status */
-        .status-dot {
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            display: inline-block;
-        }
-
-        .dot-kuning { background-color: #fde047; }
-        .dot-hijau { background-color: #86efac; }
-        .dot-merah { background-color: #fca5a5; }
-
         .action-icons i {
             cursor: pointer;
             font-size: 20px;
@@ -344,7 +329,6 @@
             color: #000;
         }
 
-        
         .modal-report-content {
             background-color: white;
             border-radius: 20px;
@@ -560,15 +544,32 @@
             resize: none;
             color: #334155;
         }
-       
+        
+        /* BADGE STATUS STYLING */
         .badge-status {
             display: inline-flex;
             align-items: center;
             gap: 6px;
             padding: 6px 12px;
-            font-size: 10px;
+            font-size: 11px;
             font-weight: 600;
             border-radius: 18px;
+        }
+
+        .badge-pelulus-diterima {
+            background-color: #f3e8ff;
+            color: #6b21a8;
+            border: 1px solid #d8b4fe;
+        }
+
+        .badge-pelulus-menunggu {
+            background-color: #fef08a;
+            color: #854d0e;
+        }
+
+        .badge-pelulus-ditolak {
+            background-color: #fee2e2;
+            color: #991b1b;
         }
 
         .badge-diterima {
@@ -690,83 +691,96 @@
                             <th>Item</th>
                             <th>Tarikh mohon</th>
                             <th class="center">Butiran</th>
-                            <th class="center">Tindakan</th>
-                            <th class="center">Status</th>
+                            <th class="center">Status Pelulus</th> <!-- DIPINDAHKAN KE SINI -->
+                            <th class="center">Tindakan Admin</th> <!-- TINDAKAN DI HUJUNG -->
                         </tr>
                     </thead>
-                   <tbody>
-    @forelse($permohonan ?? [] as $item)
-        <tr>
-            <td class="center" style="font-weight: 600;">{{ str_pad($item->id_permohonan ?? $item->id, 3, '0', STR_PAD_LEFT) }}</td>
-            <td>{{ $item->user->name ?? $item->nama_pemohon ?? $item->name }}</td>
-            <td>{{ $item->nama_item ?? $item->peralatan->nama_peralatan }}</td>
-            <td>{{ \Carbon\Carbon::parse($item->created_at)->format('d/m/Y') }}</td>
-            
-            <!-- Details / Lihat Laporan -->
-            <td class="action-icons center">
-                <i class="fa-solid fa-file-lines btn-open-report" 
-                   title="Lihat Laporan"
-                   data-id="{{ str_pad($item->id_permohonan ?? $item->id, 3, '0', STR_PAD_LEFT) }}"
-                   data-nama="{{ $item->user?->name }}"
-                   data-ic="{{ $item->user?->ic }}"
-                   data-phone="{{ $item->user?->phone }}"
-                   data-email="{{ $item->user?->email }}"
-                   data-tarikh="{{ \Carbon\Carbon::parse($item->created_at)->format('d/m/Y') }}"
-                   data-jenis="{{ $item->jenis_permohonan }}"
-                   data-namapenerima="{{ $item->nama_penerima}}"
-                   data-lokasi="{{ $item->lokasi }}"
-                   data-item="{{ $item->nama_item }}"
-                   data-justifikasi="{{ $item->tujuan }}">
-                </i>
-            </td>
+                    <tbody>
+                        @forelse($permohonan ?? [] as $item)
+                            <tr>
+                                <td class="center" style="font-weight: 600;">{{ str_pad($item->id_permohonan ?? $item->id, 3, '0', STR_PAD_LEFT) }}</td>
+                                <td>{{ $item->user->name ?? $item->nama_pemohon ?? $item->name }}</td>
+                                <td>{{ $item->nama_item ?? $item->peralatan->nama_peralatan }}</td>
+                                <td>{{ \Carbon\Carbon::parse($item->created_at)->format('d/m/Y') }}</td>
+                                
+                                <!-- Details / Lihat Laporan -->
+                                <td class="action-icons center">
+                                    <i class="fa-solid fa-file-lines btn-open-report" 
+                                       title="Lihat Laporan"
+                                       data-id="{{ str_pad($item->id_permohonan ?? $item->id, 3, '0', STR_PAD_LEFT) }}"
+                                       data-nama="{{ $item->user?->name }}"
+                                       data-ic="{{ $item->user?->ic }}"
+                                       data-phone="{{ $item->user?->phone }}"
+                                       data-email="{{ $item->user?->email }}"
+                                       data-tarikh="{{ \Carbon\Carbon::parse($item->created_at)->format('d/m/Y') }}"
+                                       data-jenis="{{ $item->jenis_permohonan }}"
+                                       data-namapenerima="{{ $item->nama_penerima}}"
+                                       data-lokasi="{{ $item->lokasi }}"
+                                       data-item="{{ $item->nama_item }}"
+                                       data-justifikasi="{{ $item->tujuan }}">
+                                    </i>
+                                </td>
 
-            <!-- LAJUR TINDAKAN (AUTOMATIK TUKAR SAMA ADA BUTANG ATAU LENCANA) -->
-            <td class="center">
-                @if(in_array(strtolower($item->status ?? ''), ['terima', 'lulus', 'diterima']))
-                    {{-- Papar Lencana Diterima jika sudah diluluskan --}}
-                    <span class="badge-status badge-diterima">
-                        <i class="fa-solid fa-check"></i> Diterima
-                    </span>
+                                <!-- LAJUR STATUS PELULUS (PURPLE UNTUK DITERIMA) -->
+                                <td class="center">
+                                    @if(in_array(strtolower($item->status_pelulus ?? ''), ['disokong', 'terima', 'lulus', 'diterima']))
+                                        <span class="badge-status badge-pelulus-diterima">
+                                            <i class="fa-solid fa-user-check"></i> Diterima Pelulus
+                                        </span>
+                                    @elseif(strtolower($item->status_pelulus ?? '') == 'ditolak')
+                                        <span class="badge-status badge-pelulus-ditolak">
+                                            <i class="fa-solid fa-user-xmark"></i> Ditolak Pelulus
+                                        </span>
+                                    @else
+                                        <span class="badge-status badge-pelulus-menunggu">
+                                            <i class="fa-solid fa-clock"></i> Menunggu Pelulus
+                                        </span>
+                                    @endif
+                                </td>
 
-                @elseif(strtolower($item->status ?? '') == 'ditolak')
-                    {{-- Papar Lencana Ditolak jika sudah ditolak --}}
-                    <span class="badge-status badge-ditolak">
-                        <i class="fa-solid fa-xmark"></i> Ditolak
-                    </span>
+                                <!-- LAJUR TINDAKAN ADMIN -->
+                                <td class="center">
+                                    @if(in_array(strtolower($item->status ?? ''), ['terima', 'lulus', 'diterima']))
+                                        {{-- Papar Lencana Diterima jika Admin sudah luluskan --}}
+                                        <span class="badge-status badge-diterima">
+                                            <i class="fa-solid fa-check"></i> Diterima
+                                        </span>
 
-                @else
-                    {{-- Jika masih Dalam Proses, paparkan butang untuk buka Popup Modal --}}
-                    <div class="btn-action-group">
-                        <button type="button" class="btn-lulus btn-open-lulus" data-id="{{ $item->id_permohonan ?? $item->id }}">
-                            <i class="fa-solid fa-check"></i> Terima
-                        </button>
-                        <button type="button" class="btn-tolak btn-open-tolak" data-id="{{ $item->id_permohonan ?? $item->id }}">
-                            <i class="fa-solid fa-xmark"></i> Tolak
-                        </button>
-                    </div>
-                @endif
-            </td>
+                                    @elseif(strtolower($item->status ?? '') == 'ditolak')
+                                        {{-- Papar Lencana Ditolak jika Admin sudah tolak --}}
+                                        <span class="badge-status badge-ditolak">
+                                            <i class="fa-solid fa-xmark"></i> Ditolak
+                                        </span>
 
-            <!-- LAJUR STATUS DOT -->
-            <td class="center">
-                @if(in_array(strtolower($item->status ?? ''), ['terima', 'lulus', 'diterima']))
-                    <span class="status-dot dot-hijau" title="Diterima"></span>
-                @elseif(strtolower($item->status ?? '') == 'ditolak')
-                    <span class="status-dot dot-merah" title="Ditolak"></span>
-                @else
-                    <span class="status-dot dot-kuning" title="Dalam Proses"></span>
-                @endif
-            </td>
-        </tr>
-    @empty
-        <tr>
-            <td colspan="7" class="center" style="padding: 30px; color: #94a3b8; font-style: italic;">
-                <i class="fa-solid fa-folder-open" style="font-size: 24px; margin-bottom: 8px; display: block;"></i>
-                Tiada rekod dijumpai.
-            </td>
-        </tr>
-    @endforelse
-</tbody>
+                                    @elseif(in_array(strtolower($item->status_pelulus ?? ''), ['disokong', 'terima', 'lulus', 'diterima']))
+                                        
+                                        <div class="btn-action-group">
+                                           <button type="button" class="btn-lulus btn-open-lulus" data-id="{{ $item->id }}">
+                                                 <i class="fa-solid fa-check"></i> Terima
+                                            </button>
+                                            <button type="button" class="btn-tolak btn-open-tolak" data-id="{{ $item->id }}">
+                                                <i class="fa-solid fa-xmark"></i> Tolak
+                                            </button>
+                                        </div>
+
+                                    @else
+                                        
+                                        <span style="color: #94a3b8; font-size: 11px; font-style: italic;">
+                                            Menunggu Pelulus
+                                        </span>
+                                    @endif
+                                </td>
+
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="7" class="center" style="padding: 30px; color: #94a3b8; font-style: italic;">
+                                    <i class="fa-solid fa-folder-open" style="font-size: 24px; margin-bottom: 8px; display: block;"></i>
+                                    Tiada rekod dijumpai.
+                                </td>
+                            </tr>
+                        @endforelse
+                    </tbody>
                 </table>
             </div>
 
@@ -774,91 +788,91 @@
     </div>
 
     <!-- popup details -->
-<div class="modal" id="modalReport">
-    <div class="modal-report-content" style="max-width: 800px;">
-        <span class="close-btn" id="closeReportBtn" style="position: absolute; right: 25px; top: 20px; cursor: pointer;">&times;</span>
+    <div class="modal" id="modalReport">
+        <div class="modal-report-content" style="max-width: 800px;">
+            <span class="close-btn" id="closeReportBtn" style="position: absolute; right: 25px; top: 20px; cursor: pointer;">&times;</span>
 
-        <h2 class="report-title">Butiran permohonan</h2>
+            <h2 class="report-title">Butiran permohonan</h2>
 
-        <div class="report-grid">
-            <!-- maklumat pemohon (kiri) -->
-            <div class="report-card">
-                <h3 class="report-card-header">Maklumat pemohon</h3>
+            <div class="report-grid">
+                <!-- maklumat pemohon (kiri) -->
+                <div class="report-card">
+                    <h3 class="report-card-header">Maklumat pemohon</h3>
 
-                <div class="detail-row">
-                    <span class="detail-label">Nama penuh</span>
-                    <span class="detail-colon">:</span>
-                    <span class="detail-value" id="repNama">-</span>
+                    <div class="detail-row">
+                        <span class="detail-label">Nama penuh</span>
+                        <span class="detail-colon">:</span>
+                        <span class="detail-value" id="repNama">-</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">No. kad pengenalan</span>
+                        <span class="detail-colon">:</span>
+                        <span class="detail-value" id="repIC">-</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">No. Tel</span>
+                        <span class="detail-colon">:</span>
+                        <span class="detail-value" id="repPhone">-</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Email</span>
+                        <span class="detail-colon">:</span>
+                        <span class="detail-value" id="repEmail">-</span>
+                    </div>
                 </div>
-                <div class="detail-row">
-                    <span class="detail-label">No. kad pengenalan</span>
-                    <span class="detail-colon">:</span>
-                    <span class="detail-value" id="repIC">-</span>
-                </div>
-                <div class="detail-row">
-                    <span class="detail-label">No. Tel</span>
-                    <span class="detail-colon">:</span>
-                    <span class="detail-value" id="repPhone">-</span>
-                </div>
-                <div class="detail-row">
-                    <span class="detail-label">Email</span>
-                    <span class="detail-colon">:</span>
-                    <span class="detail-value" id="repEmail">-</span>
+
+                <!-- maklumat permohonan (kanan) -->
+                <div class="report-card">
+                    <h3 class="report-card-header">Maklumat permohonan</h3>
+
+                    <div class="detail-row">
+                        <span class="detail-label">ID permohonan</span>
+                        <span class="detail-colon">:</span>
+                        <span class="detail-value" id="repID">-</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Tarikh mohon</span>
+                        <span class="detail-colon">:</span>
+                        <span class="detail-value" id="repTarikh">-</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Jenis permohonan</span>
+                        <span class="detail-colon">:</span>
+                        <span class="detail-value" id="repJenis">-</span>
+                    </div>
                 </div>
             </div>
 
-            <!-- maklumat permohonan (kanan) -->
-            <div class="report-card">
-                <h3 class="report-card-header">Maklumat permohonan</h3>
+            <!-- table untuk nama penerima -->
+            <div style="margin-top: 15px; background: #f8fafc; border-radius: 12px; padding: 15px;">
+                <h3 style="font-size: 14px; font-weight: bold; color: #334155; margin-top: 0; margin-bottom: 12px;">
+                    <i style="color: #08070c;"></i> Senarai Penerima Permohonan
+                </h3>
 
-                <div class="detail-row">
-                    <span class="detail-label">ID permohonan</span>
-                    <span class="detail-colon">:</span>
-                    <span class="detail-value" id="repID">-</span>
-                </div>
-                <div class="detail-row">
-                    <span class="detail-label">Tarikh mohon</span>
-                    <span class="detail-colon">:</span>
-                    <span class="detail-value" id="repTarikh">-</span>
-                </div>
-                <div class="detail-row">
-                    <span class="detail-label">Jenis permohonan</span>
-                    <span class="detail-colon">:</span>
-                    <span class="detail-value" id="repJenis">-</span>
+                <div style="overflow-x: auto;">
+                    <table style="width: 100%; border-collapse: collapse; font-size: 13px; text-align: left; background: white; border-radius: 8px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
+                        <thead>
+                            <tr style="background: #e2e8f0; color: #334155;">
+                                <th style="padding: 10px 12px; width: 130px;">Penerima</th>
+                                <th style="padding: 10px 12px;">Nama Penerima</th>
+                                <th style="padding: 10px 12px;"> Alat Dimohon</th>
+                                <th style="padding: 10px 12px;">Lokasi</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tblBodyPenerima">
+                            <!-- baris dalam table (js) -->
+                        </tbody>
+                    </table>
                 </div>
             </div>
-        </div>
 
-        <!-- table untuk nama penerima -->
-        <div style="margin-top: 15px; background: #f8fafc; border-radius: 12px; padding: 15px;">
-            <h3 style="font-size: 14px; font-weight: bold; color: #334155; margin-top: 0; margin-bottom: 12px;">
-                <i  style="color: #08070c;"></i> Senarai Penerima Permohonan
-            </h3>
-
-            <div style="overflow-x: auto;">
-                <table style="width: 100%; border-collapse: collapse; font-size: 13px; text-align: left; background: white; border-radius: 8px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
-                    <thead>
-                        <tr style="background: #e2e8f0; color: #334155;">
-                            <th style="padding: 10px 12px; width: 130px;">Penerima</th>
-                            <th style="padding: 10px 12px;">Nama Penerima</th>
-                            <th style="padding: 10px 12px;"> Alat Dimohon</th>
-                            <th style="padding: 10px 12px;">Lokasi</th>
-                        </tr>
-                    </thead>
-                    <tbody id="tblBodyPenerima">
-                        <!-- baris dalam table (js) -->
-                    </tbody>
-                </table>
+           
+            <div class="justification-section" style="margin-top: 15px;">
+                <h3 class="justification-title">Justifikasi</h3>
+                <div class="justification-box" id="repJustifikasi">-</div>
             </div>
-        </div>
-
-        <!-- JUSTIFIKASI -->
-        <div class="justification-section" style="margin-top: 15px;">
-            <h3 class="justification-title">Justifikasi</h3>
-            <div class="justification-box" id="repJustifikasi">-</div>
         </div>
     </div>
-</div>
 
     <!-- popup lulus -->
     <div class="modal" id="modalLulus">
@@ -873,7 +887,7 @@
                 <input type="hidden" name="status" value="Lulus">
                 <button type="submit" class="modal-btn-confirm-lulus">Terima</button>
             </form>
-            <button type="button" class="modal-btn-batal close-lulus-btn">Tolak</button>
+            <button type="button" class="modal-btn-batal close-lulus-btn">Batal</button>
         </div>
     </div>
 
@@ -901,171 +915,165 @@
     </div>
 
     <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        // 1. Sidebar Collapsed
-        const sidebar = document.querySelector('.sidebar');
-        const toggleBtn = document.getElementById('toggleSidebar');
+document.addEventListener('DOMContentLoaded', function () {
+    // 1. Sidebar Collapsed
+    const sidebar = document.querySelector('.sidebar');
+    const toggleBtn = document.getElementById('toggleSidebar');
 
-        if (toggleBtn && sidebar) {
-            toggleBtn.addEventListener('click', function () {
-                sidebar.classList.toggle('collapsed');
-                if (sidebar.classList.contains('collapsed')) {
-                    toggleBtn.style.transform = 'rotate(180deg)';
-                } else {
-                    toggleBtn.style.transform = 'rotate(0deg)';
-                }
-            });
-        }
+    if (toggleBtn && sidebar) {
+        toggleBtn.addEventListener('click', function () {
+            sidebar.classList.toggle('collapsed');
+            if (sidebar.classList.contains('collapsed')) {
+                toggleBtn.style.transform = 'rotate(180deg)';
+            } else {
+                toggleBtn.style.transform = 'rotate(0deg)';
+            }
+        });
+    }
 
-        // 2. Popup Report / Butiran Permohonan
-        const modalReport = document.getElementById('modalReport');
-        const btnsReport = document.querySelectorAll('.btn-open-report');
-        const closeReportBtn = document.getElementById('closeReportBtn');
+    // butiran
+    const modalReport = document.getElementById('modalReport');
+    const btnsReport = document.querySelectorAll('.btn-open-report');
+    const closeReportBtn = document.getElementById('closeReportBtn');
 
-        btnsReport.forEach(btn => {
-            btn.onclick = function () {
-                // Isikan Maklumat Asas
-                document.getElementById('repNama').innerText = this.getAttribute('data-nama') || '-';
-                document.getElementById('repIC').innerText = this.getAttribute('data-ic') || '-';
-                document.getElementById('repPhone').innerText = this.getAttribute('data-phone') || '-';
-                document.getElementById('repEmail').innerText = this.getAttribute('data-email') || '-';
+    btnsReport.forEach(btn => {
+        btn.onclick = function () {
+            document.getElementById('repNama').innerText = this.getAttribute('data-nama') || '-';
+            document.getElementById('repIC').innerText = this.getAttribute('data-ic') || '-';
+            document.getElementById('repPhone').innerText = this.getAttribute('data-phone') || '-';
+            document.getElementById('repEmail').innerText = this.getAttribute('data-email') || '-';
 
-                document.getElementById('repID').innerText = this.getAttribute('data-id') || '-';
-                document.getElementById('repTarikh').innerText = this.getAttribute('data-tarikh') || '-';
-                document.getElementById('repJenis').innerText = this.getAttribute('data-jenis') || '-';
-                document.getElementById('repJustifikasi').innerText = this.getAttribute('data-justifikasi') || 'Tiada justifikasi.';
+            document.getElementById('repID').innerText = this.getAttribute('data-id') || '-';
+            document.getElementById('repTarikh').innerText = this.getAttribute('data-tarikh') || '-';
+            document.getElementById('repJenis').innerText = this.getAttribute('data-jenis') || '-';
+            document.getElementById('repJustifikasi').innerText = this.getAttribute('data-justifikasi') || 'Tiada justifikasi.';
 
-                // AMBIL STRING GABUNGAN & PECAHKAN DENGAN KOMA
-                const strPenerima = this.getAttribute('data-namapenerima') || '';
-                const strItem     = this.getAttribute('data-item') || '';
-                const strLokasi   = this.getAttribute('data-lokasi') || '';
+            const strPenerima = this.getAttribute('data-namapenerima') || '';
+            const strItem     = this.getAttribute('data-item') || '';
+            const strLokasi   = this.getAttribute('data-lokasi') || '';
 
-                // Pecah string koma menjadi array
-                const listPenerima = strPenerima ? strPenerima.split(',').map(s => s.trim()) : [];
-                const listItem     = strItem ? strItem.split(',').map(s => s.trim()) : [];
-                const listLokasi   = strLokasi ? strLokasi.split(',').map(s => s.trim()) : [];
+            const listPenerima = strPenerima ? strPenerima.split(',').map(s => s.trim()) : [];
+            const listItem     = strItem ? strItem.split(',').map(s => s.trim()) : [];
+            const listLokasi   = strLokasi ? strLokasi.split(',').map(s => s.trim()) : [];
 
-                const tbody = document.getElementById('tblBodyPenerima');
-                if (tbody) {
-                    tbody.innerHTML = ''; // Clear jadual lama
+            const tbody = document.getElementById('tblBodyPenerima');
+            if (tbody) {
+                tbody.innerHTML = '';
 
-                    if (listPenerima.length > 0) {
-                        // Loop mengikut setiap penerima yang diisi
-                        listPenerima.forEach((nama, index) => {
-                            const item = listItem[index] || listItem[0] || '-';
-                            const lokasi = listLokasi[index] || listLokasi[0] || '-';
+                if (listPenerima.length > 0) {
+                    listPenerima.forEach((nama, index) => {
+                        const item = listItem[index] || listItem[0] || '-';
+                        const lokasi = listLokasi[index] || listLokasi[0] || '-';
 
-                            const row = `
-                                <tr style="border-bottom: 1px solid #f1f5f9;">
-                                    <td style="padding: 10px 12px; font-weight: 700; color: #201f25;">Penerima ${index + 1}</td>
-                                    <td style="padding: 10px 12px; font-weight: 600; color: #0f172a;">${nama}</td>
-                                    <td style="padding: 10px 12px; color: #334155;">${item}</td>
-                                    <td style="padding: 10px 12px; color: #64748b;">${lokasi}</td>
-                                </tr>
-                            `;
-                            tbody.insertAdjacentHTML('beforeend', row);
-                        });
-                    } else {
-                        tbody.innerHTML = `
-                            <tr>
-                                <td colspan="4" style="padding: 15px; text-align: center; color: #94a3b8; font-style: italic;">
-                                    Tiada maklumat penerima.
-                                </td>
+                        const row = `
+                            <tr style="border-bottom: 1px solid #f1f5f9;">
+                                <td style="padding: 10px 12px; font-weight: 700; color: #201f25;">Penerima ${index + 1}</td>
+                                <td style="padding: 10px 12px; font-weight: 600; color: #0f172a;">${nama}</td>
+                                <td style="padding: 10px 12px; color: #334155;">${item}</td>
+                                <td style="padding: 10px 12px; color: #64748b;">${lokasi}</td>
                             </tr>
                         `;
-                    }
+                        tbody.insertAdjacentHTML('beforeend', row);
+                    });
+                } else {
+                    tbody.innerHTML = `
+                        <tr>
+                            <td colspan="4" style="padding: 15px; text-align: center; color: #94a3b8; font-style: italic;">
+                                Tiada maklumat penerima.
+                            </td>
+                        </tr>
+                    `;
+                }
+            }
+
+            if (modalReport) modalReport.style.display = 'flex';
+        };
+    });
+
+    if (closeReportBtn) {
+        closeReportBtn.onclick = () => modalReport.style.display = 'none';
+    }
+
+    // popup terima
+    const modalLulus = document.getElementById('modalLulus');
+    const btnsLulus = document.querySelectorAll('.btn-open-lulus');
+    const closeLulusBtn = document.querySelector('.close-lulus-btn');
+    const formConfirmLulus = document.getElementById('formConfirmLulus');
+
+    btnsLulus.forEach(btn => {
+        btn.onclick = function () {
+            // ambil ID permohonan asal (ID Pangkalan Data)
+            const id = this.getAttribute('data-id');
+            if (formConfirmLulus) {
+                let actionUrl = "{{ route('admin.kelulusan.update', ':id') }}";
+                formConfirmLulus.action = actionUrl.replace(':id', id);
+            }
+            if (modalLulus) modalLulus.style.display = 'flex';
+        };
+    });
+
+    if (closeLulusBtn) {
+        closeLulusBtn.onclick = () => modalLulus.style.display = 'none';
+    }
+
+    // popup tolak
+    const modalTolak = document.getElementById('modalTolak');
+    const btnsTolak = document.querySelectorAll('.btn-open-tolak');
+    const closeTolakBtn = document.querySelector('.close-tolak-btn');
+    const formConfirmTolak = document.getElementById('formConfirmTolak');
+
+    btnsTolak.forEach(btn => {
+        btn.onclick = function () {
+            const id = this.getAttribute('data-id');
+            if (formConfirmTolak) {
+                let actionUrl = "{{ route('admin.kelulusan.update', ':id') }}";
+                formConfirmTolak.action = actionUrl.replace(':id', id);
+                
+                const reasonBox = formConfirmTolak.querySelector('textarea[name="sebab_penolakan"]');
+                if (reasonBox) reasonBox.value = '';
+            }
+            if (modalTolak) modalTolak.style.display = 'flex';
+        };
+    });
+
+    if (closeTolakBtn) {
+        closeTolakBtn.onclick = () => modalTolak.style.display = 'none';
+    }
+
+    
+    window.onclick = (e) => {
+        if (e.target === modalReport) modalReport.style.display = 'none';
+        if (e.target === modalLulus) modalLulus.style.display = 'none';
+        if (e.target === modalTolak) modalTolak.style.display = 'none';
+    };
+
+    
+    const searchInput = document.querySelector('.search-box input');
+    const tableRows = document.querySelectorAll('.custom-table tbody tr');
+
+    if (searchInput) {
+        searchInput.addEventListener('input', function () {
+            const query = this.value.toLowerCase().trim();
+
+            tableRows.forEach(row => {
+                if (
+                    row.children.length === 1 &&
+                    row.children[0].hasAttribute('colspan')
+                ) {
+                    return;
                 }
 
-                if (modalReport) modalReport.style.display = 'flex';
-            };
-        });
+                const textContent = row.textContent.toLowerCase();
 
-        // Event listener butang tutup modal report
-        if (closeReportBtn) {
-            closeReportBtn.onclick = () => modalReport.style.display = 'none';
-        }
-
-        // 3. Popup Lulus (Diperbaiki URL Action)
-       const modalLulus = document.getElementById('modalLulus');
-const btnsLulus = document.querySelectorAll('.btn-open-lulus');
-const closeLulusBtn = document.querySelector('.close-lulus-btn');
-const formConfirmLulus = document.getElementById('formConfirmLulus');
-
-btnsLulus.forEach(btn => {
-    btn.onclick = function () {
-        const id = this.getAttribute('data-id');
-        if (formConfirmLulus) {
-            // Gunakan Route Laravel secara tepat
-            let actionUrl = "{{ route('admin.kelulusan.update', ':id') }}";
-            formConfirmLulus.action = actionUrl.replace(':id', id);
-        }
-        if (modalLulus) modalLulus.style.display = 'flex';
-    };
-});
-
-if (closeLulusBtn) {
-    closeLulusBtn.onclick = () => modalLulus.style.display = 'none';
-}
-
-        // 4. Popup Tolak (Diperbaiki URL Action & Reset Textarea)
-        const modalTolak = document.getElementById('modalTolak');
-const btnsTolak = document.querySelectorAll('.btn-open-tolak');
-const closeTolakBtn = document.querySelector('.close-tolak-btn');
-const formConfirmTolak = document.getElementById('formConfirmTolak');
-
-btnsTolak.forEach(btn => {
-    btn.onclick = function () {
-        const id = this.getAttribute('data-id');
-        if (formConfirmTolak) {
-            // Gunakan Route Laravel secara tepat
-            let actionUrl = "{{ route('admin.kelulusan.update', ':id') }}";
-            formConfirmTolak.action = actionUrl.replace(':id', id);
-            
-            const reasonBox = formConfirmTolak.querySelector('textarea[name="sebab_penolakan"]');
-            if (reasonBox) reasonBox.value = '';
-        }
-        if (modalTolak) modalTolak.style.display = 'flex';
-    };
-});
-
-if (closeTolakBtn) {
-    closeTolakBtn.onclick = () => modalTolak.style.display = 'none';
-}
-
-        // 5. Tutup modal bila klik kawasan luar
-        window.onclick = (e) => {
-            if (e.target === modalReport) modalReport.style.display = 'none';
-            if (e.target === modalLulus) modalLulus.style.display = 'none';
-            if (e.target === modalTolak) modalTolak.style.display = 'none';
-        };
-
-        // 6. Search Bar Filter
-        const searchInput = document.querySelector('.search-box input');
-        const tableRows = document.querySelectorAll('.custom-table tbody tr');
-
-        if (searchInput) {
-            searchInput.addEventListener('input', function () {
-                const query = this.value.toLowerCase().trim();
-
-                tableRows.forEach(row => {
-                    if (
-                        row.children.length === 1 &&
-                        row.children[0].hasAttribute('colspan')
-                    ) {
-                        return;
-                    }
-
-                    const textContent = row.textContent.toLowerCase();
-
-                    if (textContent.includes(query)) {
-                        row.style.display = '';
-                    } else {
-                        row.style.display = 'none';
-                    }
-                });
+                if (textContent.includes(query)) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
             });
-        }
-    });
+        });
+    }
+});
 </script>
 </body>
 </html>

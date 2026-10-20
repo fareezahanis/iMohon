@@ -148,7 +148,6 @@
             font-size: 18px;
         }
 
-        
         .content-body {
             padding: 35px 40px 40px;
             width: 100%;
@@ -170,12 +169,12 @@
             color: #6b7280;
         }
 
-        
         .card-box {
             background: white;
             border-radius: 16px;
             padding: 25px;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+            overflow-x: auto;
         }
 
         .custom-table {
@@ -199,32 +198,39 @@
             border-bottom: 1px solid #f1f5f9;
         }
 
-        
+        /* BADGES */
         .badge {
-            padding: 4px 14px;
-            border-radius: 12px;
+            padding: 6px 14px;
+            border-radius: 18px;
             font-size: 11px;
             font-weight: 600;
-            display: inline-block;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
         }
-        .badge-proses { background-color: #fef3c7; color: #b45309; }
-        .badge-lulus  { background-color: #bbf7d0; color: #15803d; }
-        .badge-tolak  { background-color: #fecaca; color: #b91c1c; }
+        
+        .badge-proses { background-color: #fef08a; color: #854d0e; }
+        .badge-purple { background-color: #f3e8ff; color: #6b21a8; border: 1px solid #d8b4fe; }
+        .badge-tolak  { background-color: #fee2e2; color: #991b1b; }
 
         .btn-action-edit {
             color: #111;
             text-decoration: none;
-            font-size: 15px;
+            font-size: 16px;
             cursor: pointer;
             background: none;
             border: none;
+            padding: 4px 8px;
+            border-radius: 6px;
+            transition: background 0.2s;
         }
 
         .btn-action-edit:hover {
+            background-color: #f1f5f9;
             color: #29158f;
         }
 
-        /* popup */
+        /* POPUP MODAL OVERLAY */
         .modal-overlay {
             position: fixed;
             top: 0;
@@ -239,7 +245,6 @@
             z-index: 1000;
         }
 
-       
         .modal-card {
             background: #ffffff;
             border-radius: 20px;
@@ -263,7 +268,6 @@
             margin-bottom: 20px;
         }
 
-        
         .modal-info-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -294,6 +298,7 @@
             padding: 6px 0;
             font-size: 13px;
             vertical-align: top;
+            text-align: left;
         }
 
         .info-table td.label {
@@ -314,6 +319,7 @@
 
         .justifikasi-section {
             margin-bottom: 25px;
+            text-align: left;
         }
 
         .justifikasi-title {
@@ -333,7 +339,6 @@
             min-height: 45px;
         }
 
-        
         .modal-actions {
             display: flex;
             justify-content: flex-end;
@@ -387,7 +392,7 @@
 </head>
 <body>
 
-   <!-- SIDEBAR LEFT -->
+    <!-- SIDEBAR LEFT -->
     <aside class="sidebar">
         <div class="sidebar-header">
             <div class="brand-logo">
@@ -398,35 +403,35 @@
         </div>
 
         <ul class="nav-menu">
-        <li>
-            <a href="{{ route('pelulus.dashboard') }}" class="nav-link {{ request()->routeIs('pelulus.dashboard') ? 'active' : '' }}">
-                <i class="fa-solid fa-house"></i>
-                <span>Laman utama</span>
-            </a>
-        </li>
-        <li>
-            <a href="{{ route('pelulus.kelulusan') }}" class="nav-link {{ request()->routeIs('pelulus.kelulusan*') ? 'active' : '' }}">
-                <i class="fa-solid fa-circle-check"></i>
-                <span>Kelulusan</span>
-            </a>
-        </li>
-        <li>
-            <a href="{{ route('pelulus.profile.user') }}" class="nav-link {{ request()->routeIs('pelulus.profile*') ? 'active' : '' }}">
-                <i class="fa-solid fa-users"></i>
-                <span>Profil</span>
-            </a>
-        </li>
-        
-        <li>
-            <form method="POST" action="{{ route('logout') }}">
-                @csrf
-                <button type="submit" class="nav-link logout-btn">
-                    <i class="fa-solid fa-right-from-bracket"></i>
-                    <span>Log keluar</span>
-                </button>
-            </form>
-        </li>
-    </ul>
+            <li>
+                <a href="{{ route('pelulus.dashboard') }}" class="nav-link {{ request()->routeIs('pelulus.dashboard') ? 'active' : '' }}">
+                    <i class="fa-solid fa-house"></i>
+                    <span>Laman utama</span>
+                </a>
+            </li>
+            <li>
+                <a href="{{ route('pelulus.kelulusan') }}" class="nav-link {{ request()->routeIs('pelulus.kelulusan*') ? 'active' : '' }}">
+                    <i class="fa-solid fa-circle-check"></i>
+                    <span>Kelulusan</span>
+                </a>
+            </li>
+            <li>
+                <a href="{{ route('pelulus.profile.user') }}" class="nav-link {{ request()->routeIs('pelulus.profile*') ? 'active' : '' }}">
+                    <i class="fa-solid fa-users"></i>
+                    <span>Profil</span>
+                </a>
+            </li>
+            
+            <li>
+                <form method="POST" action="{{ route('logout') }}">
+                    @csrf
+                    <button type="submit" class="nav-link logout-btn">
+                        <i class="fa-solid fa-right-from-bracket"></i>
+                        <span>Log keluar</span>
+                    </button>
+                </form>
+            </li>
+        </ul>
     </aside>
 
     <div class="main-wrapper">
@@ -450,7 +455,6 @@
                 <p class="page-subtitle">Senarai permohonan yang memerlukan kelulusan</p>
             </div>
 
-            
             <div class="card-box">
                 <table class="custom-table">
                     <thead>
@@ -461,12 +465,15 @@
                             <th>Jabatan/Unit</th>
                             <th>Item</th>
                             <th>Jenis</th>
-                            <th>Status</th>
+                            <th>Status Pelulus</th>
                             <th>Tindakan</th>
                         </tr>
                     </thead>
                     <tbody>
                         @forelse($senaraiPermohonan ?? [] as $item)
+                            @php
+                                $statusPelulus = strtolower($item->status_pelulus ?? $item->status ?? '');
+                            @endphp
                             <tr>
                                 <td>{{ $item->id_permohonan ?? 'REQ'.str_pad($item->id, 3, '0', STR_PAD_LEFT) }}</td>
                                 <td>{{ \Carbon\Carbon::parse($item->created_at)->format('j M Y') }}</td>
@@ -474,28 +481,38 @@
                                 <td>{{ $item->jabatan ?? $item->unit ?? 'STM' }}</td>
                                 <td>{{ $item->nama_item ?? '-' }}</td>
                                 <td>{{ $item->jenis_permohonan ?? 'Baru' }}</td>
+                                
+                                <!-- BADGE STATUS PELULUS (PURPLE UNTUK DITERIMA) -->
                                 <td>
-                                @if(strtolower($item->status) == 'diterima')
-                                <span class="badge badge-lulus">Diterima</span>
-                                @elseif(strtolower($item->status) == 'ditolak')
-                                <span class="badge badge-tolak">Ditolak</span>
-                                @else
-                                <span class="badge badge-proses">Menunggu</span>
-                                @endif
+                                    @if(in_array($statusPelulus, ['diterima', 'disokong', 'lulus']))
+                                        <span class="badge badge-purple">
+                                            <i class="fa-solid fa-user-check"></i> Diterima Pelulus
+                                        </span>
+                                    @elseif($statusPelulus == 'ditolak')
+                                        <span class="badge badge-tolak">
+                                            <i class="fa-solid fa-user-xmark"></i> Ditolak Pelulus
+                                        </span>
+                                    @else
+                                        <span class="badge badge-proses">
+                                            <i class="fa-solid fa-clock"></i> Menunggu Pelulus
+                                        </span>
+                                    @endif
                                 </td>
+
                                 <td>
                                     <button class="btn-action-edit btn-view-permohonan"
+                                        title="Kemaskini Kelulusan"
                                         data-id="{{ $item->id }}"
                                         data-id-permohonan="{{ $item->id_permohonan ?? 'REQ'.str_pad($item->id, 3, '0', STR_PAD_LEFT) }}"
-                                        data-nama="{{ $item->user->name ?? $item->nama_pemohon ?? 'Nur Fareeza' }}"
-                                        data-ic="{{ $item->no_ic ?? $item->user->no_ic ?? '030607050088' }}"
-                                        data-tel="{{ $item->no_tel ?? $item->user->no_tel ?? '0173940556' }}"
-                                        data-email="{{ $item->email ?? $item->user->email ?? 'fareeza@rtm.gov.my' }}"
+                                        data-nama="{{ $item->user->name ?? $item->nama_pemohon ?? '-' }}"
+                                        data-ic="{{ $item->no_ic ?? $item->user->no_ic ?? '-' }}"
+                                        data-tel="{{ $item->no_tel ?? $item->user->no_tel ?? '-' }}"
+                                        data-email="{{ $item->email ?? $item->user->email ?? '-' }}"
                                         data-tarikh="{{ \Carbon\Carbon::parse($item->created_at)->format('d/m/Y') }}"
                                         data-jenis="{{ $item->jenis_permohonan ?? 'Baru' }}"
-                                        data-lokasi="{{ $item->lokasi ?? 'Aras 12, Menara Angkasapuri' }}"
-                                        data-item="{{ $item->nama_item ?? 'Komputer riba' }}"
-                                        data-justifikasi="{{ $item->justifikasi ?? 'Permohonan komputer riba baru' }}">
+                                        data-lokasi="{{ $item->lokasi ?? '-' }}"
+                                        data-item="{{ $item->nama_item ?? '-' }}"
+                                        data-justifikasi="{{ $item->justifikasi ?? $item->tujuan ?? 'Tiada justifikasi.' }}">
                                         <i class="fa-solid fa-pen-to-square"></i>
                                     </button>
                                 </td>
@@ -515,14 +532,13 @@
 
     </div>
 
-    
+    <!-- MODAL POPUP BUTIRAN -->
     <div class="modal-overlay" id="modalButiran">
         <div class="modal-card">
             <button class="close-modal-btn" id="btnCloseModal">&times;</button>
             <h2 class="modal-header-title">Butiran permohonan</h2>
 
             <div class="modal-info-grid">
-               
                 <div class="info-box-card">
                     <div class="info-box-title">Maklumat pemohon</div>
                     <table class="info-table">
@@ -533,7 +549,6 @@
                     </table>
                 </div>
 
-                
                 <div class="info-box-card">
                     <div class="info-box-title">Maklumat permohonan</div>
                     <table class="info-table">
@@ -546,13 +561,11 @@
                 </div>
             </div>
 
-          
             <div class="justifikasi-section">
                 <div class="justifikasi-title">Justifikasi</div>
                 <div class="justifikasi-box" id="modalJustifikasi">-</div>
             </div>
 
-           
             <div class="modal-actions">
                 <button type="button" class="btn-modal btn-lulus" id="btnProsesLulus">
                     <i class="fa-solid fa-check"></i> TERIMA
@@ -564,10 +577,10 @@
         </div>
     </div>
 
-    
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             
+            // 1. Sidebar Toggle
             const sidebar = document.querySelector('.sidebar');
             const toggleBtn = document.getElementById('toggleSidebar');
 
@@ -582,52 +595,52 @@
                 });
             }
 
-            
+            // 2. Modal Logic
             const modalButiran = document.getElementById('modalButiran');
             const btnCloseModal = document.getElementById('btnCloseModal');
             let selectedPermohonanId = null;
             let selectedRowTarget = null;
 
-            // Buka Modal & Pass Data
             document.querySelectorAll('.btn-view-permohonan').forEach(btn => {
                 btn.addEventListener('click', function () {
                     selectedPermohonanId = this.getAttribute('data-id');
                     selectedRowTarget = this.closest('tr');
 
-                    document.getElementById('modalNama').innerText = this.getAttribute('data-nama');
-                    document.getElementById('modalIC').innerText = this.getAttribute('data-ic');
-                    document.getElementById('modalTel').innerText = this.getAttribute('data-tel');
-                    document.getElementById('modalEmail').innerText = this.getAttribute('data-email');
+                    document.getElementById('modalNama').innerText = this.getAttribute('data-nama') || '-';
+                    document.getElementById('modalIC').innerText = this.getAttribute('data-ic') || '-';
+                    document.getElementById('modalTel').innerText = this.getAttribute('data-tel') || '-';
+                    document.getElementById('modalEmail').innerText = this.getAttribute('data-email') || '-';
 
-                    document.getElementById('modalIDPermohonan').innerText = this.getAttribute('data-id-permohonan');
-                    document.getElementById('modalTarikh').innerText = this.getAttribute('data-tarikh');
-                    document.getElementById('modalJenis').innerText = this.getAttribute('data-jenis');
-                    document.getElementById('modalLokasi').innerText = this.getAttribute('data-lokasi');
-                    document.getElementById('modalItem').innerText = this.getAttribute('data-item');
+                    document.getElementById('modalIDPermohonan').innerText = this.getAttribute('data-id-permohonan') || '-';
+                    document.getElementById('modalTarikh').innerText = this.getAttribute('data-tarikh') || '-';
+                    document.getElementById('modalJenis').innerText = this.getAttribute('data-jenis') || '-';
+                    document.getElementById('modalLokasi').innerText = this.getAttribute('data-lokasi') || '-';
+                    document.getElementById('modalItem').innerText = this.getAttribute('data-item') || '-';
 
-                    document.getElementById('modalJustifikasi').innerText = this.getAttribute('data-justifikasi');
+                    document.getElementById('modalJustifikasi').innerText = this.getAttribute('data-justifikasi') || 'Tiada justifikasi.';
 
                     modalButiran.style.display = 'flex';
                 });
             });
 
-            // Tutup Modal
             if (btnCloseModal) {
                 btnCloseModal.addEventListener('click', () => modalButiran.style.display = 'none');
             }
 
-           
             window.addEventListener('click', (e) => {
                 if (e.target === modalButiran) modalButiran.style.display = 'none';
             });
 
-            // update guna ajax tak reload page
-function updateStatusPermohonan(status) {
+    function updateStatusPermohonan(status) {
     if (!selectedPermohonanId) return;
 
     const token = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
 
-    fetch(`/pelulus/kelulusan/${selectedPermohonanId}/update`, {
+    // Bina URL tepat menggunakan nama route Laravel
+    let actionUrl = "{{ route('pelulus.kelulusan.update', ':id') }}";
+    actionUrl = actionUrl.replace(':id', selectedPermohonanId);
+
+    fetch(actionUrl, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -636,35 +649,48 @@ function updateStatusPermohonan(status) {
         },
         body: JSON.stringify({ status: status })
     })
-    .then(res => {
+    .then(async res => {
+        const data = await res.json();
         if (!res.ok) {
-            throw new Error('Gagal mengemaskini pangkalan data');
+            throw new Error(data.message || 'Gagal mengemaskini pangkalan data');
         }
-        return res.json();
+        return data;
     })
     .then(data => {
         if (data.success) {
             modalButiran.style.display = 'none';
 
-            // Kemaskini Badge pada jadual secara automatik
+            // Kemaskini Badge pada jadual secara automatik dengan style Purple baharu
             if (selectedRowTarget) {
-                const statusTd = selectedRowTarget.children[6];
-                if (data.status === 'Diterima') {
-                    statusTd.innerHTML = '<span class="badge badge-lulus">Diterima</span>';
+                const statusTd = selectedRowTarget.children[6]; // Lajur Status Pelulus
+                
+                if (data.status === 'Diterima' || data.status === 'Disokong') {
+                    statusTd.innerHTML = `
+                        <span class="badge badge-purple">
+                            <i class="fa-solid fa-user-check"></i> Diterima Pelulus
+                        </span>
+                    `;
                 } else if (data.status === 'Ditolak') {
-                    statusTd.innerHTML = '<span class="badge badge-tolak">Ditolak</span>';
+                    statusTd.innerHTML = `
+                        <span class="badge badge-tolak">
+                            <i class="fa-solid fa-user-xmark"></i> Ditolak Pelulus
+                        </span>
+                    `;
                 } else {
-                    statusTd.innerHTML = '<span class="badge badge-proses">Menunggu</span>';
+                    statusTd.innerHTML = `
+                        <span class="badge badge-proses">
+                            <i class="fa-solid fa-clock"></i> Menunggu Pelulus
+                        </span>
+                    `;
                 }
             }
         }
     })
     .catch(err => {
         console.error('Ralat:', err);
-        alert('Gagal menyimpan status ke dalam pangkalan data.');
+        alert('Gagal menyimpan status: ' + err.message);
     });
 }
-
             document.getElementById('btnProsesLulus').addEventListener('click', () => updateStatusPermohonan('Diterima'));
             document.getElementById('btnProsesTolak').addEventListener('click', () => updateStatusPermohonan('Ditolak'));
         });
