@@ -948,43 +948,60 @@ document.addEventListener('DOMContentLoaded', function () {
             document.getElementById('repJenis').innerText = this.getAttribute('data-jenis') || '-';
             document.getElementById('repJustifikasi').innerText = this.getAttribute('data-justifikasi') || 'Tiada justifikasi.';
 
+            // ambil nama-nama penerima and lokasi asing
             const strPenerima = this.getAttribute('data-namapenerima') || '';
             const strItem     = this.getAttribute('data-item') || '';
             const strLokasi   = this.getAttribute('data-lokasi') || '';
 
             const listPenerima = strPenerima ? strPenerima.split(',').map(s => s.trim()) : [];
             const listItem     = strItem ? strItem.split(',').map(s => s.trim()) : [];
-            const listLokasi   = strLokasi ? strLokasi.split(',').map(s => s.trim()) : [];
+
+            let listLokasi = []; // split kan lokasi
+
+            if (strLokasi.includes('|')) {
+            
+                listLokasi = strLokasi.split('|').map(s => s.trim());
+            } else if (strLokasi.includes(';')) {
+            
+                listLokasi = strLokasi.split(';').map(s => s.trim());
+            } else if (strLokasi.includes(',')) {
+            
+            const rawParts = strLokasi.split(',').map(s => s.trim());
+    
+            // gabungkan koma untuk alamat
+            for (let i = 0; i < rawParts.length; i += 2) {
+                if (rawParts[i + 1]) {
+                    listLokasi.push(`${rawParts[i]}, ${rawParts[i + 1]}`);
+                } else {
+                listLokasi.push(rawParts[i]);
+                }
+            }
+             } else {
+                listLokasi = [strLokasi.trim()];
+            }
 
             const tbody = document.getElementById('tblBodyPenerima');
             if (tbody) {
                 tbody.innerHTML = '';
 
-                if (listPenerima.length > 0) {
-                    listPenerima.forEach((nama, index) => {
-                        const item = listItem[index] || listItem[0] || '-';
-                        const lokasi = listLokasi[index] || listLokasi[0] || '-';
+            if (listPenerima.length > 0) {
+                listPenerima.forEach((nama, index) => {
+            const item = listItem[index] || listItem[0] || '-';
+            
+            const lokasi = listLokasi[index] || listLokasi[0] || '-';
 
-                        const row = `
-                            <tr style="border-bottom: 1px solid #f1f5f9;">
-                                <td style="padding: 10px 12px; font-weight: 700; color: #201f25;">Penerima ${index + 1}</td>
-                                <td style="padding: 10px 12px; font-weight: 600; color: #0f172a;">${nama}</td>
-                                <td style="padding: 10px 12px; color: #334155;">${item}</td>
-                                <td style="padding: 10px 12px; color: #64748b;">${lokasi}</td>
-                            </tr>
-                        `;
-                        tbody.insertAdjacentHTML('beforeend', row);
-                    });
-                } else {
-                    tbody.innerHTML = `
-                        <tr>
-                            <td colspan="4" style="padding: 15px; text-align: center; color: #94a3b8; font-style: italic;">
-                                Tiada maklumat penerima.
-                            </td>
-                        </tr>
-                    `;
-                }
-            }
+            const row = `
+                <tr style="border-bottom: 1px solid #f1f5f9;">
+                    <td style="padding: 10px 12px; font-weight: 700; color: #201f25;">Penerima ${index + 1}</td>
+                    <td style="padding: 10px 12px; font-weight: 600; color: #0f172a;">${nama}</td>
+                    <td style="padding: 10px 12px; color: #334155;">${item}</td>
+                    <td style="padding: 10px 12px; color: #64748b;">${lokasi}</td>
+                </tr>
+            `;
+            tbody.insertAdjacentHTML('beforeend', row);
+        });
+    }
+}
 
             if (modalReport) modalReport.style.display = 'flex';
         };
