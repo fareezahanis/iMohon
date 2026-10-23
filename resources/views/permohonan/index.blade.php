@@ -643,141 +643,221 @@
         </div>
     </div>
 
-    <!-- button eye content-->
-    <div id="detailModal" class="modal">
-        <div class="modal-content modal-content-wide">
-            <span class="close-btn" onclick="closeModal('detailModal')">&times;</span>
+<div id="detailModal" class="modal">
+    <div class="modal-content modal-content-wide" style="max-width: 800px; width: 90%; background: #ffffff; border-radius: 20px; padding: 30px; position: relative;">
+        <span class="close-btn" onclick="closeModal('detailModal')" style="position: absolute; right: 25px; top: 20px; cursor: pointer; font-size: 24px;">&times;</span>
 
-            <h3 class="detail-section-title">Maklumat Pemohon</h3>
-            <div class="detail-card">
-                <div class="detail-grid-3">
-                    <div class="detail-field">
-                        <label>Nama Pemohon</label>
-                        <strong id="dt-nama">-</strong>
-                    </div>
-                    <div class="detail-field">
-                        <label>Jawatan</label>
-                        <strong id="dt-jawatan">-</strong>
-                    </div>
-                    <div class="detail-field">
-                        <label>Emel</label>
-                        <strong id="dt-email">-</strong>
-                    </div>
-
-                    <div class="detail-field">
-                        <label>No.Tel Pej</label>
-                        <strong id="dt-tel-pej">-</strong>
-                    </div>
-                    <div class="detail-field">
-                        <label>Unit</label>
-                        <strong id="dt-unit">-</strong>
-                    </div>
-                    <div class="detail-field">
-                        <label>No.Tel Hp</label>
-                        <strong id="dt-tel-hp">-</strong>
-                    </div>
+        
+        <h3 class="detail-section-title">Maklumat Pemohon</h3>
+        <div class="detail-card">
+            <div class="detail-grid-3">
+                <div class="detail-field">
+                    <label>Nama Pemohon</label>
+                    <strong id="dt-nama">-</strong>
                 </div>
-            </div>
+                <div class="detail-field">
+                    <label>Jawatan</label>
+                    <strong id="dt-jawatan">-</strong>
+                </div>
+                <div class="detail-field">
+                    <label>Emel</label>
+                    <strong id="dt-email">-</strong>
+                </div>
 
-            <h3 class="detail-section-title">Maklumat Permohonan</h3>
-            <div class="detail-card" style="margin-bottom: 0;">
-                <div class="detail-grid-3">
-                    <div class="detail-field">
-                        <label>Jenis permohonan</label>
-                        <strong id="dt-jenis">-</strong>
-                    </div>
-                    <div class="detail-field">
-                        <label>Item</label>
-                        <strong id="dt-item">-</strong>
-                    </div>
-                    <div class="detail-field">
-                        <label>Nama penerima</label>
-                        <strong id="dt-penerima">-</strong>
-                    </div>
-
-                    <div class="detail-field">
-                        <label>Tarikh</label>
-                        <strong id="dt-tarikh">-</strong>
-                    </div>
-                    <div class="detail-field">
-                        <label>Tujuan</label>
-                        <strong id="dt-tujuan">-</strong>
-                    </div>
-                    <div class="detail-field">
-                        <label>Lokasi/Alamat penggunaan</label>
-                        <strong id="dt-lokasi">-</strong>
-                    </div>
+                <div class="detail-field">
+                    <label>No.Tel Pej</label>
+                    <strong id="dt-tel-pej">-</strong>
+                </div>
+                <div class="detail-field">
+                    <label>Unit</label>
+                    <strong id="dt-unit">-</strong>
+                </div>
+                <div class="detail-field">
+                    <label>No.Tel Hp</label>
+                    <strong id="dt-tel-hp">-</strong>
                 </div>
             </div>
         </div>
+
+        
+        <h3 class="detail-section-title" style="margin-top: 20px;">Maklumat Permohonan</h3>
+        <div class="detail-card">
+            <div class="detail-grid-3">
+                <div class="detail-field">
+                    <label>Jenis permohonan</label>
+                    <strong id="dt-jenis">-</strong>
+                </div>
+                <div class="detail-field">
+                    <label>Tarikh</label>
+                    <strong id="dt-tarikh">-</strong>
+                </div>
+                <div class="detail-field" style="grid-column: span 3;">
+                    <label>Tujuan / Justifikasi</label>
+                    <strong id="dt-tujuan">-</strong>
+                </div>
+            </div>
+        </div>
+
+        
+        <h3 class="detail-section-title" style="margin-top: 20px;">Senarai Penerima Permohonan</h3>
+        <div class="detail-card" style="margin-bottom: 0; padding: 15px;">
+            <div style="max-height: 220px; overflow-y: auto; border-radius: 8px; border: 1px solid #e2e8f0;">
+                <table style="width: 100%; border-collapse: collapse; font-size: 13px; text-align: left; background: white;">
+                    <thead style="position: sticky; top: 0; z-index: 10;">
+                        <tr style="background: #e2e8f0; color: #334155;">
+                            <th style="padding: 10px 12px; width: 110px;">Penerima</th>
+                            <th style="padding: 10px 12px;">Nama Penerima</th>
+                            <th style="padding: 10px 12px;">Item Dimohon</th>
+                            <th style="padding: 10px 12px;">Lokasi / Alamat</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tblPemohonPenerima">
+                        <!-- js -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
     </div>
+</div>
 
-    <!-- JAVASCRIPT -->
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            // Sidebar toggle
-            const sidebar = document.querySelector('.sidebar');
-            const toggleBtn = document.getElementById('toggleSidebar');
+    document.addEventListener('DOMContentLoaded', function () {
+        // Sidebar toggle
+        const sidebar = document.querySelector('.sidebar');
+        const toggleBtn = document.getElementById('toggleSidebar');
 
-            if (toggleBtn && sidebar) {
-                toggleBtn.addEventListener('click', function () {
-                    sidebar.classList.toggle('collapsed');
-                    if (sidebar.classList.contains('collapsed')) {
-                        toggleBtn.style.transform = 'rotate(180deg)';
-                    } else {
-                        toggleBtn.style.transform = 'rotate(0deg)';
-                    }
-                });
-            }
-        });
-
-        // open popup jejak
-        function openTrackingModal(id, item, date, qty) {
-            document.getElementById('modal-req-id').innerText = id;
-            document.getElementById('modal-item').innerText = item;
-            document.getElementById('modal-date').innerText = date;
-            document.getElementById('modal-qty').innerText = qty + ' unit';
-            document.getElementById('modal-step1-time').innerText = date;
-
-            document.getElementById('trackingModal').style.display = 'flex';
+        if (toggleBtn && sidebar) {
+            toggleBtn.addEventListener('click', function () {
+                sidebar.classList.toggle('collapsed');
+                if (sidebar.classList.contains('collapsed')) {
+                    toggleBtn.style.transform = 'rotate(180deg)';
+                } else {
+                    toggleBtn.style.transform = 'rotate(0deg)';
+                }
+            });
         }
+    });
 
-        // open btn eye
-        function openDetailModal(nama, jawatan, email, telPej, unit, telHp, jenis, item, penerima, tarikh, tujuan, lokasi) {
-            document.getElementById('dt-nama').innerText = nama;
-            document.getElementById('dt-jawatan').innerText = jawatan;
-            document.getElementById('dt-email').innerText = email;
-            document.getElementById('dt-tel-pej').innerText = telPej;
-            document.getElementById('dt-unit').innerText = unit;
-            document.getElementById('dt-tel-hp').innerText = telHp;
+    
+    function openTrackingModal(id, item, date, qty) {
+        document.getElementById('modal-req-id').innerText = id;
+        document.getElementById('modal-item').innerText = item;
+        document.getElementById('modal-date').innerText = date;
+        document.getElementById('modal-qty').innerText = qty + ' unit';
+        document.getElementById('modal-step1-time').innerText = date;
 
-            document.getElementById('dt-jenis').innerText = jenis;
-            document.getElementById('dt-item').innerText = item;
-            document.getElementById('dt-penerima').innerText = penerima;
-            document.getElementById('dt-tarikh').innerText = tarikh;
-            document.getElementById('dt-tujuan').innerText = tujuan;
-            document.getElementById('dt-lokasi').innerText = lokasi;
+        document.getElementById('trackingModal').style.display = 'flex';
+    }
 
-            document.getElementById('detailModal').style.display = 'flex';
-        }
-
-        // tutup popup eye
-        function closeModal(modalId) {
-            document.getElementById(modalId).style.display = 'none';
+    function openDetailModal(nama, jawatan, email, telPej, unit, telHp, jenis, item, penerima, tarikh, tujuan, lokasi) {
+        
+        if (typeof nama === 'object' && nama !== null) {
+            const btn = nama;
+            nama = btn.getAttribute('data-nama') || '-';
+            jawatan = btn.getAttribute('data-jawatan') || '-';
+            email = btn.getAttribute('data-email') || '-';
+            telPej = btn.getAttribute('data-telpej') || '-';
+            unit = btn.getAttribute('data-unit') || '-';
+            telHp = btn.getAttribute('data-telhp') || '-';
+            jenis = btn.getAttribute('data-jenis') || '-';
+            item = btn.getAttribute('data-item') || '-';
+            penerima = btn.getAttribute('data-namapenerima') || '-';
+            tarikh = btn.getAttribute('data-tarikh') || '-';
+            tujuan = btn.getAttribute('data-tujuan') || '-';
+            lokasi = btn.getAttribute('data-lokasi') || '-';
         }
 
         
-        window.onclick = function(event) {
-            const trackingModal = document.getElementById('trackingModal');
-            const detailModal = document.getElementById('detailModal');
-            
-            if (event.target == trackingModal) {
-                trackingModal.style.display = 'none';
+        document.getElementById('dt-nama').innerText = nama || '-';
+        document.getElementById('dt-jawatan').innerText = jawatan || '-';
+        document.getElementById('dt-email').innerText = email || '-';
+        document.getElementById('dt-tel-pej').innerText = telPej || '-';
+        document.getElementById('dt-unit').innerText = unit || '-';
+        document.getElementById('dt-tel-hp').innerText = telHp || '-';
+
+        document.getElementById('dt-jenis').innerText = jenis || '-';
+        document.getElementById('dt-tarikh').innerText = tarikh || '-';
+        document.getElementById('dt-tujuan').innerText = tujuan || 'Tiada tujuan.';
+
+        
+        const strPenerima = penerima || '';
+        const strItem     = item || '';
+        const strLokasi   = lokasi || '';
+
+        const listPenerima = strPenerima ? strPenerima.split(',').map(s => s.trim()) : [];
+        const listItem     = strItem ? strItem.split(',').map(s => s.trim()) : [];
+
+        //list lokasi
+        let listLokasi = [];
+        if (strLokasi.includes('|')) {
+            listLokasi = strLokasi.split('|').map(s => s.trim());
+        } else if (strLokasi.includes(';')) {
+            listLokasi = strLokasi.split(';').map(s => s.trim());
+        } else if (strLokasi.includes(',')) {
+            const rawParts = strLokasi.split(',').map(s => s.trim());
+            for (let i = 0; i < rawParts.length; i += 2) {
+                if (rawParts[i + 1]) {
+                    listLokasi.push(`${rawParts[i]}, ${rawParts[i + 1]}`);
+                } else {
+                    listLokasi.push(rawParts[i]);
+                }
             }
-            if (event.target == detailModal) {
-                detailModal.style.display = 'none';
+        } else {
+            listLokasi = [strLokasi.trim()];
+        }
+
+        // jadual penerima
+        const tbody = document.getElementById('tblPemohonPenerima');
+        if (tbody) {
+            tbody.innerHTML = '';
+
+            if (listPenerima.length > 0) {
+                listPenerima.forEach((namaPen, index) => {
+                    const itemNama = listItem[index] || listItem[0] || '-';
+                    const lokNama = listLokasi[index] || listLokasi[0] || '-';
+
+                    const row = `
+                        <tr style="border-bottom: 1px solid #f1f5f9;">
+                            <td style="padding: 10px 12px; font-weight: 700; color: #201f25;">Penerima ${index + 1}</td>
+                            <td style="padding: 10px 12px; font-weight: 600; color: #0f172a;">${namaPen}</td>
+                            <td style="padding: 10px 12px; color: #334155;">${itemNama}</td>
+                            <td style="padding: 10px 12px; color: #64748b;">${lokNama}</td>
+                        </tr>
+                    `;
+                    tbody.insertAdjacentHTML('beforeend', row);
+                });
+            } else {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="4" style="padding: 15px; text-align: center; color: #94a3b8; font-style: italic;">
+                            Tiada maklumat penerima.
+                        </td>
+                    </tr>
+                `;
             }
         }
-    </script>
+
+        document.getElementById('detailModal').style.display = 'flex';
+    }
+
+    
+    function closeModal(modalId) {
+        document.getElementById(modalId).style.display = 'none';
+    }
+
+   
+    window.onclick = function(event) {
+        const trackingModal = document.getElementById('trackingModal');
+        const detailModal = document.getElementById('detailModal');
+        
+        if (event.target == trackingModal) {
+            trackingModal.style.display = 'none';
+        }
+        if (event.target == detailModal) {
+            detailModal.style.display = 'none';
+        }
+    }
+</script>
 </body>
 </html>
