@@ -396,7 +396,7 @@
 
     </div>
 
-    <!-- SCRIPT SIDEBAR -->
+    
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             const sidebar = document.querySelector('.sidebar');

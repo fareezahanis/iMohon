@@ -504,15 +504,16 @@
                                         title="Kemaskini Kelulusan"
                                         data-id="{{ $item->id }}"
                                         data-id-permohonan="{{ $item->id_permohonan ?? 'REQ'.str_pad($item->id, 3, '0', STR_PAD_LEFT) }}"
-                                        data-nama="{{ $item->user->name ?? $item->nama_pemohon ?? '-' }}"
-                                        data-ic="{{ $item->no_ic ?? $item->user->no_ic ?? '-' }}"
-                                        data-tel="{{ $item->no_tel ?? $item->user->no_tel ?? '-' }}"
-                                        data-email="{{ $item->email ?? $item->user->email ?? '-' }}"
+                                        data-nama="{{ $item->user->name  }}"
+                                        data-ic="{{  $item->user->ic ?? '-' }}"
+                                        data-tel="{{  $item->user->phone ?? '-' }}"
+                                        data-email="{{  $item->user->email ?? '-' }}"
                                         data-tarikh="{{ \Carbon\Carbon::parse($item->created_at)->format('d/m/Y') }}"
-                                        data-jenis="{{ $item->jenis_permohonan ?? 'Baru' }}"
+                                        data-jenis="{{ $item->jenis_permohonan  }}"
+                                        data-namapenerima="{{ $item->nama_penerima}}"
                                         data-lokasi="{{ $item->lokasi ?? '-' }}"
                                         data-item="{{ $item->nama_item ?? '-' }}"
-                                        data-justifikasi="{{ $item->justifikasi ?? $item->tujuan ?? 'Tiada justifikasi.' }}">
+                                        data-justifikasi="{{  $item->tujuan ?? 'Tiada justifikasi.' }}">
                                         <i class="fa-solid fa-pen-to-square"></i>
                                     </button>
                                 </td>
@@ -532,168 +533,252 @@
 
     </div>
 
-    <!-- MODAL POPUP BUTIRAN -->
-    <div class="modal-overlay" id="modalButiran">
-        <div class="modal-card">
-            <button class="close-modal-btn" id="btnCloseModal">&times;</button>
-            <h2 class="modal-header-title">Butiran permohonan</h2>
+    <!-- MODAL POPUP BUTIRAN PELULUS -->
+<div class="modal-overlay" id="modalButiran" style="display: none;">
+    <div class="modal-card" style="max-width: 800px; width: 90%;">
+        <button class="close-modal-btn" id="btnCloseModal">&times;</button>
+        <h2 class="modal-header-title">Butiran permohonan</h2>
 
-            <div class="modal-info-grid">
-                <div class="info-box-card">
-                    <div class="info-box-title">Maklumat pemohon</div>
-                    <table class="info-table">
-                        <tr><td class="label">Nama penuh</td><td class="colon">:</td><td class="value" id="modalNama">-</td></tr>
-                        <tr><td class="label">No. kad pengenalan</td><td class="colon">:</td><td class="value" id="modalIC">-</td></tr>
-                        <tr><td class="label">No. Tel</td><td class="colon">:</td><td class="value" id="modalTel">-</td></tr>
-                        <tr><td class="label">Email</td><td class="colon">:</td><td class="value" id="modalEmail">-</td></tr>
-                    </table>
-                </div>
-
-                <div class="info-box-card">
-                    <div class="info-box-title">Maklumat permohonan</div>
-                    <table class="info-table">
-                        <tr><td class="label">ID permohonan</td><td class="colon">:</td><td class="value" id="modalIDPermohonan">-</td></tr>
-                        <tr><td class="label">Tarikh mohon</td><td class="colon">:</td><td class="value" id="modalTarikh">-</td></tr>
-                        <tr><td class="label">Jenis permohonan</td><td class="colon">:</td><td class="value" id="modalJenis">-</td></tr>
-                        <tr><td class="label">Lokasi</td><td class="colon">:</td><td class="value" id="modalLokasi">-</td></tr>
-                        <tr><td class="label">Item dimohon</td><td class="colon">:</td><td class="value" id="modalItem">-</td></tr>
-                    </table>
-                </div>
+        <div class="modal-info-grid">
+            <!-- Maklumat Pemohon -->
+            <div class="info-box-card">
+                <div class="info-box-title">Maklumat pemohon</div>
+                <table class="info-table">
+                    <tr><td class="label">Nama penuh</td><td class="colon">:</td><td class="value" id="modalNama">-</td></tr>
+                    <tr><td class="label">No. kad pengenalan</td><td class="colon">:</td><td class="value" id="modalIC">-</td></tr>
+                    <tr><td class="label">No. Tel</td><td class="colon">:</td><td class="value" id="modalTel">-</td></tr>
+                    <tr><td class="label">Email</td><td class="colon">:</td><td class="value" id="modalEmail">-</td></tr>
+                </table>
             </div>
 
-            <div class="justifikasi-section">
-                <div class="justifikasi-title">Justifikasi</div>
-                <div class="justifikasi-box" id="modalJustifikasi">-</div>
-            </div>
-
-            <div class="modal-actions">
-                <button type="button" class="btn-modal btn-lulus" id="btnProsesLulus">
-                    <i class="fa-solid fa-check"></i> TERIMA
-                </button>
-                <button type="button" class="btn-modal btn-tolak" id="btnProsesTolak">
-                    <i class="fa-solid fa-xmark"></i> TOLAK
-                </button>
+            <!-- Maklumat Permohonan (Lokasi & Item Dibuang Dari Sini) -->
+            <div class="info-box-card">
+                <div class="info-box-title">Maklumat permohonan</div>
+                <table class="info-table">
+                    <tr><td class="label">ID permohonan</td><td class="colon">:</td><td class="value" id="modalIDPermohonan">-</td></tr>
+                    <tr><td class="label">Tarikh mohon</td><td class="colon">:</td><td class="value" id="modalTarikh">-</td></tr>
+                    <tr><td class="label">Jenis permohonan</td><td class="colon">:</td><td class="value" id="modalJenis">-</td></tr>
+                </table>
             </div>
         </div>
+
+        <!-- JADUAL SENARAI PENERIMA PERMOHONAN -->
+        <div style="margin-top: 20px; background: #f8fafc; border-radius: 12px; padding: 15px; border: 1px solid #e2e8f0;">
+            <div style="font-size: 14px; font-weight: 700; color: #334155; margin-bottom: 12px;">
+                Senarai Penerima Permohonan
+            </div>
+
+            <div style="overflow-x: auto;">
+                <table style="width: 100%; border-collapse: collapse; font-size: 13px; text-align: left; background: white; border-radius: 8px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
+                    <thead>
+                        <tr style="background: #e2e8f0; color: #334155;">
+                            <th style="padding: 10px 12px; width: 120px;">Penerima</th>
+                            <th style="padding: 10px 12px;">Nama Penerima</th>
+                            <th style="padding: 10px 12px;">Alat Dimohon</th>
+                            <th style="padding: 10px 12px;">Lokasi</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tblBodyPenerima">
+                        <!-- Baris akan dimasukkan oleh JS -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- JUSTIFIKASI -->
+        <div class="justifikasi-section" style="margin-top: 15px;">
+            <div class="justifikasi-title">Justifikasi</div>
+            <div class="justifikasi-box" id="modalJustifikasi">-</div>
+        </div>
+
+        <!-- BUTANG TERIMA / TOLAK -->
+        <div class="modal-actions" style="margin-top: 20px; display: flex; justify-content: flex-end; gap: 10px;">
+            <button type="button" class="btn-modal btn-lulus" id="btnProsesLulus">
+                <i class="fa-solid fa-check"></i> TERIMA
+            </button>
+            <button type="button" class="btn-modal btn-tolak" id="btnProsesTolak">
+                <i class="fa-solid fa-xmark"></i> TOLAK
+            </button>
+        </div>
     </div>
+</div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            
-            // 1. Sidebar Toggle
-            const sidebar = document.querySelector('.sidebar');
-            const toggleBtn = document.getElementById('toggleSidebar');
+    document.addEventListener('DOMContentLoaded', function () {
+        
+        // 1. Sidebar Toggle
+        const sidebar = document.querySelector('.sidebar');
+        const toggleBtn = document.getElementById('toggleSidebar');
 
-            if (toggleBtn && sidebar) {
-                toggleBtn.addEventListener('click', function () {
-                    sidebar.classList.toggle('collapsed');
-                    if (sidebar.classList.contains('collapsed')) {
-                        toggleBtn.style.transform = 'rotate(180deg)';
-                    } else {
-                        toggleBtn.style.transform = 'rotate(0deg)';
-                    }
-                });
-            }
-
-            // 2. Modal Logic
-            const modalButiran = document.getElementById('modalButiran');
-            const btnCloseModal = document.getElementById('btnCloseModal');
-            let selectedPermohonanId = null;
-            let selectedRowTarget = null;
-
-            document.querySelectorAll('.btn-view-permohonan').forEach(btn => {
-                btn.addEventListener('click', function () {
-                    selectedPermohonanId = this.getAttribute('data-id');
-                    selectedRowTarget = this.closest('tr');
-
-                    document.getElementById('modalNama').innerText = this.getAttribute('data-nama') || '-';
-                    document.getElementById('modalIC').innerText = this.getAttribute('data-ic') || '-';
-                    document.getElementById('modalTel').innerText = this.getAttribute('data-tel') || '-';
-                    document.getElementById('modalEmail').innerText = this.getAttribute('data-email') || '-';
-
-                    document.getElementById('modalIDPermohonan').innerText = this.getAttribute('data-id-permohonan') || '-';
-                    document.getElementById('modalTarikh').innerText = this.getAttribute('data-tarikh') || '-';
-                    document.getElementById('modalJenis').innerText = this.getAttribute('data-jenis') || '-';
-                    document.getElementById('modalLokasi').innerText = this.getAttribute('data-lokasi') || '-';
-                    document.getElementById('modalItem').innerText = this.getAttribute('data-item') || '-';
-
-                    document.getElementById('modalJustifikasi').innerText = this.getAttribute('data-justifikasi') || 'Tiada justifikasi.';
-
-                    modalButiran.style.display = 'flex';
-                });
-            });
-
-            if (btnCloseModal) {
-                btnCloseModal.addEventListener('click', () => modalButiran.style.display = 'none');
-            }
-
-            window.addEventListener('click', (e) => {
-                if (e.target === modalButiran) modalButiran.style.display = 'none';
-            });
-
-    function updateStatusPermohonan(status) {
-    if (!selectedPermohonanId) return;
-
-    const token = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
-
-    // Bina URL tepat menggunakan nama route Laravel
-    let actionUrl = "{{ route('pelulus.kelulusan.update', ':id') }}";
-    actionUrl = actionUrl.replace(':id', selectedPermohonanId);
-
-    fetch(actionUrl, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'X-CSRF-TOKEN': token,
-            'Accept': 'application/json'
-        },
-        body: JSON.stringify({ status: status })
-    })
-    .then(async res => {
-        const data = await res.json();
-        if (!res.ok) {
-            throw new Error(data.message || 'Gagal mengemaskini pangkalan data');
-        }
-        return data;
-    })
-    .then(data => {
-        if (data.success) {
-            modalButiran.style.display = 'none';
-
-            // Kemaskini Badge pada jadual secara automatik dengan style Purple baharu
-            if (selectedRowTarget) {
-                const statusTd = selectedRowTarget.children[6]; // Lajur Status Pelulus
-                
-                if (data.status === 'Diterima' || data.status === 'Disokong') {
-                    statusTd.innerHTML = `
-                        <span class="badge badge-purple">
-                            <i class="fa-solid fa-user-check"></i> Diterima Pelulus
-                        </span>
-                    `;
-                } else if (data.status === 'Ditolak') {
-                    statusTd.innerHTML = `
-                        <span class="badge badge-tolak">
-                            <i class="fa-solid fa-user-xmark"></i> Ditolak Pelulus
-                        </span>
-                    `;
+        if (toggleBtn && sidebar) {
+            toggleBtn.addEventListener('click', function () {
+                sidebar.classList.toggle('collapsed');
+                if (sidebar.classList.contains('collapsed')) {
+                    toggleBtn.style.transform = 'rotate(180deg)';
                 } else {
-                    statusTd.innerHTML = `
-                        <span class="badge badge-proses">
-                            <i class="fa-solid fa-clock"></i> Menunggu Pelulus
-                        </span>
-                    `;
+                    toggleBtn.style.transform = 'rotate(0deg)';
                 }
-            }
+            });
         }
-    })
-    .catch(err => {
-        console.error('Ralat:', err);
-        alert('Gagal menyimpan status: ' + err.message);
-    });
-}
-            document.getElementById('btnProsesLulus').addEventListener('click', () => updateStatusPermohonan('Diterima'));
-            document.getElementById('btnProsesTolak').addEventListener('click', () => updateStatusPermohonan('Ditolak'));
+
+        // 2. Modal Logic
+        const modalButiran = document.getElementById('modalButiran');
+        const btnCloseModal = document.getElementById('btnCloseModal');
+        let selectedPermohonanId = null;
+        let selectedRowTarget = null;
+
+        document.querySelectorAll('.btn-view-permohonan').forEach(btn => {
+            btn.addEventListener('click', function () {
+                selectedPermohonanId = this.getAttribute('data-id');
+                selectedRowTarget = this.closest('tr');
+
+                // Maklumat Pemohon
+                document.getElementById('modalNama').innerText = this.getAttribute('data-nama') || '-';
+                document.getElementById('modalIC').innerText = this.getAttribute('data-ic') || '-';
+                document.getElementById('modalTel').innerText = this.getAttribute('data-tel') || '-';
+                document.getElementById('modalEmail').innerText = this.getAttribute('data-email') || '-';
+
+                // Maklumat Permohonan
+                document.getElementById('modalIDPermohonan').innerText = this.getAttribute('data-id-permohonan') || '-';
+                document.getElementById('modalTarikh').innerText = this.getAttribute('data-tarikh') || '-';
+                document.getElementById('modalJenis').innerText = this.getAttribute('data-jenis') || '-';
+                document.getElementById('modalJustifikasi').innerText = this.getAttribute('data-justifikasi') || 'Tiada justifikasi.';
+
+                // AMBIL DATA KOMA & PECAHKAN UNTUK JADUAL PENERIMA
+                const strPenerima = this.getAttribute('data-namapenerima') || '';
+                const strItem     = this.getAttribute('data-item') || '';
+                const strLokasi   = this.getAttribute('data-lokasi') || '';
+
+                const listPenerima = strPenerima ? strPenerima.split(',').map(s => s.trim()) : [];
+                const listItem     = strItem ? strItem.split(',').map(s => s.trim()) : [];
+
+                // Logik Pecah Lokasi Pintar (Mengandungkan Tingkat + Bangunan)
+                let listLokasi = [];
+                if (strLokasi.includes('|')) {
+                    listLokasi = strLokasi.split('|').map(s => s.trim());
+                } else if (strLokasi.includes(';')) {
+                    listLokasi = strLokasi.split(';').map(s => s.trim());
+                } else if (strLokasi.includes(',')) {
+                    const rawParts = strLokasi.split(',').map(s => s.trim());
+                    for (let i = 0; i < rawParts.length; i += 2) {
+                        if (rawParts[i + 1]) {
+                            listLokasi.push(`${rawParts[i]}, ${rawParts[i + 1]}`);
+                        } else {
+                            listLokasi.push(rawParts[i]);
+                        }
+                    }
+                } else {
+                    listLokasi = [strLokasi.trim()];
+                }
+
+                // BINA JADUAL PENERIMA
+                const tbody = document.getElementById('tblBodyPenerima');
+                if (tbody) {
+                    tbody.innerHTML = '';
+
+                    if (listPenerima.length > 0) {
+                        listPenerima.forEach((nama, index) => {
+                            const item = listItem[index] || listItem[0] || '-';
+                            const lokasi = listLokasi[index] || listLokasi[0] || '-';
+
+                            const row = `
+                                <tr style="border-bottom: 1px solid #f1f5f9;">
+                                    <td style="padding: 10px 12px; font-weight: 700; color: #201f25;">Penerima ${index + 1}</td>
+                                    <td style="padding: 10px 12px; font-weight: 600; color: #0f172a;">${nama}</td>
+                                    <td style="padding: 10px 12px; color: #334155;">${item}</td>
+                                    <td style="padding: 10px 12px; color: #64748b;">${lokasi}</td>
+                                </tr>
+                            `;
+                            tbody.insertAdjacentHTML('beforeend', row);
+                        });
+                    } else {
+                        tbody.innerHTML = `
+                            <tr>
+                                <td colspan="4" style="padding: 15px; text-align: center; color: #94a3b8; font-style: italic;">
+                                    Tiada maklumat penerima.
+                                </td>
+                            </tr>
+                        `;
+                    }
+                }
+
+                modalButiran.style.display = 'flex';
+            });
         });
-    </script>
+
+        if (btnCloseModal) {
+            btnCloseModal.addEventListener('click', () => modalButiran.style.display = 'none');
+        }
+
+        window.addEventListener('click', (e) => {
+            if (e.target === modalButiran) modalButiran.style.display = 'none';
+        });
+
+        // 3. Kemaskini Status AJAX
+        function updateStatusPermohonan(status) {
+            if (!selectedPermohonanId) return;
+
+            const token = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
+
+            let actionUrl = "{{ route('pelulus.kelulusan.update', ':id') }}";
+            actionUrl = actionUrl.replace(':id', selectedPermohonanId);
+
+            fetch(actionUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': token,
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify({ status: status })
+            })
+            .then(async res => {
+                const data = await res.json();
+                if (!res.ok) {
+                    throw new Error(data.message || 'Gagal mengemaskini pangkalan data');
+                }
+                return data;
+            })
+            .then(data => {
+                if (data.success) {
+                    modalButiran.style.display = 'none';
+
+                    // Kemaskini Badge pada jadual secara automatik
+                    if (selectedRowTarget) {
+                        const statusTd = selectedRowTarget.children[6]; // Lajur Status Pelulus
+                        
+                        if (data.status === 'Diterima' || data.status === 'Disokong') {
+                            statusTd.innerHTML = `
+                                <span class="badge badge-purple">
+                                    <i class="fa-solid fa-user-check"></i> Diterima Pelulus
+                                </span>
+                            `;
+                        } else if (data.status === 'Ditolak') {
+                            statusTd.innerHTML = `
+                                <span class="badge badge-tolak">
+                                    <i class="fa-solid fa-user-xmark"></i> Ditolak Pelulus
+                                </span>
+                            `;
+                        } else {
+                            statusTd.innerHTML = `
+                                <span class="badge badge-proses">
+                                    <i class="fa-solid fa-clock"></i> Menunggu Pelulus
+                                </span>
+                            `;
+                        }
+                    }
+                }
+            })
+            .catch(err => {
+                console.error('Ralat:', err);
+                alert('Gagal menyimpan status: ' + err.message);
+            });
+        }
+
+        document.getElementById('btnProsesLulus').addEventListener('click', () => updateStatusPermohonan('Diterima'));
+        document.getElementById('btnProsesTolak').addEventListener('click', () => updateStatusPermohonan('Ditolak'));
+    });
+</script>
+    <
 </body>
 </html>
