@@ -11,7 +11,7 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
     <style>
-        * {
+         {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
@@ -354,7 +354,7 @@
         }
 
         .report-card {
-            background-color: #f8fafc;
+            background-color: #eef2ff;
             border: 1px solid #f1f5f9;
             border-radius: 16px;
             padding: 22px 25px;
@@ -407,7 +407,7 @@
         }
 
         .justification-box {
-            background-color: #f8fafc;
+            background-color: #eef2ff;
             border: 1px solid #e2e8f0;
             border-radius: 12px;
             padding: 14px 18px;
@@ -844,7 +844,7 @@
             </div>
 
             <!-- table untuk nama penerima -->
-            <div style="margin-top: 15px; background: #f8fafc; border-radius: 12px; padding: 15px;">
+            <div style="margin-top: 15px; background: #eef2ff; border-radius: 12px; padding: 15px;">
                 <h3 style="font-size: 14px; font-weight: bold; color: #334155; margin-top: 0; margin-bottom: 12px;">
                     <i style="color: #08070c;"></i> Senarai Penerima Permohonan
                 </h3>

@@ -276,7 +276,7 @@
         }
 
         .info-box-card {
-            background: #f8fafc;
+            background: #eef2ff;
             border: 1px solid #e2e8f0;
             border-radius: 16px;
             padding: 20px;
@@ -330,7 +330,7 @@
         }
 
         .justifikasi-box {
-            background: #f8fafc;
+            background: #eef2ff;
             border: 1px solid #e2e8f0;
             border-radius: 12px;
             padding: 12px 16px;
@@ -563,7 +563,7 @@
         </div>
 
         <!-- JADUAL SENARAI PENERIMA PERMOHONAN -->
-        <div style="margin-top: 20px; background: #f8fafc; border-radius: 12px; padding: 15px; border: 1px solid #e2e8f0;">
+        <div style="margin-top: 20px; background: #eef2ff; border-radius: 12px; padding: 15px; border: 1px solid #e2e8f0;">
             <div style="font-size: 14px; font-weight: 700; color: #334155; margin-bottom: 12px;">
                 Senarai Penerima Permohonan
             </div>
