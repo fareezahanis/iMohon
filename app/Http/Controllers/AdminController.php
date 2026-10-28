@@ -15,7 +15,7 @@ class AdminController extends Controller
    public function dashboard()
 {
     // 1. DITERIMA PELULUS: Mengira permohonan yang telah diluluskan/disokong oleh Pelulus
-    $permohonanBaru = Permohonan::whereIn('status_pelulus', ['Diterima', 'Disokong', 'Lulus', 'Terima'])->count();
+    $permohonanBaru = Permohonan::count();
 
     // 2. DALAM PROSES: Mengira permohonan yang masih belum diproses
     $dalamProses    = Permohonan::where(function($q) {

@@ -11,7 +11,7 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
     <style>
-        * {
+        {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
@@ -357,7 +357,7 @@
                 </div>
 
                 <div class="stat-card">
-                    <span class="stat-title">Diterima pelulus</span>
+                    <span class="stat-title">Jumlah permohonan</span>
                     <div class="stat-bottom">
                         <div class="stat-icon bg-blue"><i class="fa-solid fa-file-invoice"></i></div>
                         <span class="stat-value">{{ $permohonanBaru  }}</span>
