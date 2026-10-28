@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 16, 2026 at 08:59 AM
+-- Generation Time: Oct 28, 2026 at 08:22 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -250,16 +250,19 @@ CREATE TABLE `permohonans` (
   `lokasi` varchar(255) NOT NULL,
   `status` varchar(255) NOT NULL DEFAULT 'Dalam proses',
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `status_pelulus` varchar(50) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `permohonans`
 --
 
-INSERT INTO `permohonans` (`id`, `user_id`, `id_permohonan`, `jenis_permohonan`, `nama_item`, `kuantiti`, `tarikh_mohon`, `tujuan`, `nama_penerima`, `lokasi`, `status`, `created_at`, `updated_at`) VALUES
-(1, 2, 'REQ-9887', 'Baru', 'Notebook Highend, PC Highend', '1, 1', '2026-10-13', 'permohonan baru', 'fareeza, hanis', 'tingkat 12, menara angksapuri, tingkat 10, menara angksapuri', 'Diterima', '2026-10-12 16:54:21', '2026-10-12 23:28:12'),
-(2, 2, 'REQ-9303', 'Ganti', 'PC Highend', '1', '2026-10-13', 'hdfh', 'fareeza', 'tingkat 10, menara angksapuri', 'Ditolak', '2026-10-12 23:31:20', '2026-10-15 18:26:21');
+INSERT INTO `permohonans` (`id`, `user_id`, `id_permohonan`, `jenis_permohonan`, `nama_item`, `kuantiti`, `tarikh_mohon`, `tujuan`, `nama_penerima`, `lokasi`, `status`, `created_at`, `updated_at`, `status_pelulus`) VALUES
+(3, 2, 'REQ-5980', 'Baru', 'Notebook Highend, PC Highend', '1, 1', '2026-10-20', 'baru', 'hanis, fareeza', 'tingkat 12, menara angksapuri, tingkat 10, menara angksapuri', 'Diterima', '2026-10-19 18:16:14', '2026-10-19 18:57:29', 'Diterima'),
+(4, 2, 'REQ-9434', 'Baru', 'PC Highend, Printer Mono A4', '1, 1', '2026-10-20', 'kegunaan pejabat', 'hadif, alia', 'tingkat 9, Menara Angkasapuri, tingkat 6, Menara Angksapauri', 'Diterima', '2026-10-19 19:34:42', '2026-10-19 19:35:29', 'Diterima'),
+(5, 2, 'REQ-5810', 'Baru', 'Notebook Highend, PC Highend', '1, 1', '2026-10-21', 'kegunaan pejabat', 'fareeza, hadif', 'tingkat 12, menara angksapuri, tingkat 10, menara angksapuri', 'Diterima', '2026-10-20 16:45:53', '2026-10-21 17:38:51', 'Diterima'),
+(6, 2, 'REQ-6338', 'Baru', 'Notebook Highend, PC Highend', '1, 2', '2026-10-22', 'kegunaan pejabat', 'hadif, alia', 'tingkat 10, menara angksapuri, tingkat 12, menara angksapuri', 'Dalam proses', '2026-10-21 23:37:43', '2026-10-21 23:37:43', NULL);
 
 -- --------------------------------------------------------
 
@@ -281,7 +284,9 @@ CREATE TABLE `sessions` (
 --
 
 INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
-('snhddjZ0IDK23dkSqEImciYm2gXK2aFeahXREbFe', 2, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/155.0.0.0 Safari/537.36', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoiRTl6M1pGdmFGRUJrVkpyZFBYQ0F0UTZUSXVtM2JIbXR3SG1UVjRpTiI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6NDA6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9zZW5hcmFpLXBlcm1vaG9uYW4iO3M6NToicm91dGUiO3M6MTY6InBlcm1vaG9uYW4uaW5kZXgiO31zOjUwOiJsb2dpbl93ZWJfNTliYTM2YWRkYzJiMmY5NDAxNTgwZjAxNGM3ZjU4ZWE0ZTMwOTg5ZCI7aToyO30=', 1792120211);
+('Bp7gzykw2jSkfdIRlRPSc8dOFhkLZ8xfiN3LUBbE', 2, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/155.0.0.0 Safari/537.36', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoiUUp1RFJtWnBVSEhneDlyelJXZWhzM3JlZVFJajFyQWl0Q1U0MVlYbCI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6Mzc6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9hZG1pbi9kYXNoYm9hcmQiO3M6NToicm91dGUiO3M6MTU6ImFkbWluLmRhc2hib2FyZCI7fXM6NTA6ImxvZ2luX3dlYl81OWJhMzZhZGRjMmIyZjk0MDE1ODBmMDE0YzdmNThlYTRlMzA5ODlkIjtpOjI7fQ==', 1793071873),
+('FAz5eTo43Ur4aKV2FujO2pPKMbd3evXtDz3LGqhV', 1, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/156.0.0.0 Safari/537.36', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoiU2hzREdmbUExZXZPa3doYmVLZGxuZkkzTExhNVdBa1I2VHcwaVhSdiI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6Mzc6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9hZG1pbi9rZWx1bHVzYW4iO3M6NToicm91dGUiO3M6MTU6ImFkbWluLmtlbHVsdXNhbiI7fXM6NTA6ImxvZ2luX3dlYl81OWJhMzZhZGRjMmIyZjk0MDE1ODBmMDE0YzdmNThlYTRlMzA5ODlkIjtpOjE7fQ==', 1793171840),
+('y5wJQnpGXcFGo2TKeZ74ChrMBU3Qjmvfug68wTk2', 1, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/155.0.0.0 Safari/537.36', 'YTo1OntzOjY6Il90b2tlbiI7czo0MDoiTnRGS29IYzlqZ3RGNTF4cVBBa1dZUG9DY095MzBRRXByMHBzWGtzaiI7czozOiJ1cmwiO2E6MDp7fXM6OToiX3ByZXZpb3VzIjthOjI6e3M6MzoidXJsIjtzOjM3OiJodHRwOi8vMTI3LjAuMC4xOjgwMDAvYWRtaW4va2VsdWx1c2FuIjtzOjU6InJvdXRlIjtzOjE1OiJhZG1pbi5rZWx1bHVzYW4iO31zOjY6Il9mbGFzaCI7YToyOntzOjM6Im9sZCI7YTowOnt9czozOiJuZXciO2E6MDp7fX1zOjUwOiJsb2dpbl93ZWJfNTliYTM2YWRkYzJiMmY5NDAxNTgwZjAxNGM3ZjU4ZWE0ZTMwOTg5ZCI7aToxO30=', 1793153154);
 
 -- --------------------------------------------------------
 
@@ -311,8 +316,9 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`id`, `name`, `ic`, `email`, `phone`, `unit`, `address`, `jawatan`, `bahagian`, `role`, `password`, `created_at`, `updated_at`) VALUES
 (1, 'hanis', '030607050088', 'hanis@gmail.com', '0173940556', 'Seksyen Teknologi Maklumat', 'Tingkat 12, Menara Angkasapuri', 'Admin', 'Media Digital Interaktif', 'admin', '$2y$12$1l7zbrFI.woWRcNG5v6cYuK/e4COo9ynr4U1JnY7rd6hI/O3TO4Ze', '2026-10-12 16:51:51', '2026-10-12 16:51:51'),
-(2, 'fareeza', '030607050099', 'fareezahanis@gmail.com', '0126530556', 'Seksyen Teknologi Maklumat', 'Tingkat 12, Menara Angkasapuri', 'Pelatih', 'Media Digital Interaktif', 'customer', '$2y$12$F5qWaC8XbcBqaRO7z.WJJ.QrcJmng6tX1gEpHBn2q7tgJ9G49IUBS', '2026-10-12 16:53:03', '2026-10-12 16:53:03'),
-(3, 'lily', '030417061256', 'lily@gmail.com', '0129731559', 'Seksyen Teknologi Maklumat', 'Tingkat 12, Menara Angkasapuri', 'Pelulus', 'Media Digital Interaktif', 'pelulus', '$2y$12$XIZxyuy6nO7ynA0jM8yL5.YXPIebZAvzRFw3xyrxNw02rH.JImiq.', '2026-10-12 16:55:39', '2026-10-14 18:03:40');
+(2, 'fareeza', '030607050099', 'fareezahanis@gmail.com', '0126530556', 'Seksyen Teknologi Maklumat', 'Tingkat 12, Menara Angkasapuri', 'Pelatih', 'Media Digital Interaktif', 'Pemohon', '$2y$12$F5qWaC8XbcBqaRO7z.WJJ.QrcJmng6tX1gEpHBn2q7tgJ9G49IUBS', '2026-10-12 16:53:03', '2026-10-12 16:53:03'),
+(3, 'lily', '030417061256', 'lily@gmail.com', '0129731559', 'Seksyen Teknologi Maklumat', 'Tingkat 12, Menara Angkasapuri', 'Pelulus', 'Media Digital Interaktif', 'pelulus', '$2y$12$XIZxyuy6nO7ynA0jM8yL5.YXPIebZAvzRFw3xyrxNw02rH.JImiq.', '2026-10-12 16:55:39', '2026-10-14 18:03:40'),
+(4, 'hadif', '123456789', 'hadif@gmail.com', '01234567', 'Seksyen Teknologi Maklumat', 'mfns', 'Pelatih', 'Media Digital Interaktif', 'pengguna', '$2y$12$Z16iHImHka7rOJCriwvBruQfxgh4P9UZ90XUj9Ip.AnZ/R7py2uy2', '2026-10-27 23:10:42', '2026-10-27 23:10:42');
 
 -- --------------------------------------------------------
 
@@ -488,13 +494,13 @@ ALTER TABLE `peralatan_vendor`
 -- AUTO_INCREMENT for table `permohonans`
 --
 ALTER TABLE `permohonans`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `vendors`
