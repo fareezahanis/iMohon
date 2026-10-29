@@ -738,7 +738,7 @@
                                     @endif
                                 </td>
 
-                                <!-- LAJUR TINDAKAN ADMIN -->
+                                <!-- tindakan admin-->
                                 <td class="center">
                                     @if(in_array(strtolower($item->status ?? ''), ['terima', 'lulus', 'diterima']))
                                         {{-- Papar Lencana Diterima jika Admin sudah luluskan --}}
