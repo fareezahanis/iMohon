@@ -353,7 +353,7 @@
                 <p class="page-subtitle">Senarai peralatan yang telah dipinjam atau diagihkan kepada pengguna.</p>
             </div>
 
-            <!-- FILTER BAR & CARIAN -->
+            <!-- filter bar -->
            <form action="{{ route('admin.peminjaman') }}" method="GET" class="filter-bar">
         <div class="search-box">
             <i class="fa-solid fa-magnifying-glass" style="color: #94a3b8;"></i>
@@ -375,9 +375,7 @@
 
         <button type="submit" style="display: none;"></button> <!-- Auto submit bila tekan Enter -->
 
-        <a href="{{ route('admin.peminjaman') }}" class="btn-reset" style="text-decoration: none;">
-            <i class="fa-solid fa-rotate-left"></i> Set Semula
-        </a>
+        
     </form>
 
             <!-- table record penempatan -->
