@@ -469,8 +469,8 @@
             </div>
         </div>
 
-        <!-- Grid Butiran (Sini tempat kumpul semua info yang dibuang dari jadual utama) -->
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; background: #f8fafc; padding: 20px; border-radius: 12px; font-size: 13px;">
+        <!-- semua info untuk penempatan -->
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; background: #eef2ff; padding: 20px; border-radius: 12px; font-size: 13px;">
             <div>
                 <span style="color: #64748b; font-weight: 500; display: block; font-size: 11px; text-transform: uppercase;">Nama Pemohon</span>
                 <strong id="detNama" style="color: #0f172a; font-size: 14px;">-</strong>
@@ -509,7 +509,7 @@
 </div>
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-        // 1. Sidebar Toggle
+        
         const sidebar = document.querySelector('.sidebar');
         const toggleBtn = document.getElementById('toggleSidebar');
 
@@ -524,7 +524,7 @@
             });
         }
 
-        // 2. Search Bar Filter
+        
         const searchInput = document.querySelector('.search-box input');
         const tableRows = document.querySelectorAll('.custom-table tbody tr');
 
@@ -548,7 +548,7 @@
             });
         }
 
-        // 3. Modal Butiran Penempatan (Ikon Mata)
+       
         const modal = document.getElementById('modalButiranPenempatan');
         const closeBtn = document.getElementById('closePenempatanBtn');
         const btnsView = document.querySelectorAll('.btn-view-penempatan');

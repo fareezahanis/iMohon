@@ -392,7 +392,7 @@
 </head>
 <body>
 
-    <!-- SIDEBAR LEFT -->
+    
     <aside class="sidebar">
         <div class="sidebar-header">
             <div class="brand-logo">
@@ -434,115 +434,114 @@
         </ul>
     </aside>
 
-    <div class="main-wrapper">
+         <div class="main-wrapper">
 
-        <!-- TOP HEADER -->
-        <header class="top-header">
-            <div class="user-profile">
-                <span>Pelulus</span>
+             <!-- TOP HEADER -->
+            <header class="top-header">
+                <div class="user-profile">
+                    <span>Pelulus</span>
                 <div class="user-avatar">
                     <i class="fa-solid fa-user"></i>
                 </div>
             </div>
-        </header>
+            </header>
 
-        <!-- CONTENT BODY -->
+
         <main class="content-body">
 
-            <!-- PAGE HEADER -->
-            <div class="page-header">
-                <h1 class="page-title">Permohonan</h1>
-                <p class="page-subtitle">Senarai permohonan yang memerlukan kelulusan</p>
-            </div>
-
-            <div class="card-box">
-                <table class="custom-table">
-                    <thead>
-                        <tr>
-                            <th>ID Permohonan</th>
-                            <th>Tarikh mohon</th>
-                            <th>Pemohon</th>
-                            <th>Jabatan/Unit</th>
-                            <th>Item</th>
-                            <th>Jenis</th>
-                            <th>Status Pelulus</th>
-                            <th>Tindakan</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @forelse($senaraiPermohonan ?? [] as $item)
-                            @php
-                                $statusPelulus = strtolower($item->status_pelulus ?? $item->status ?? '');
-                            @endphp
-                            <tr>
-                                <td>{{ $item->id_permohonan ?? 'REQ'.str_pad($item->id, 3, '0', STR_PAD_LEFT) }}</td>
-                                <td>{{ \Carbon\Carbon::parse($item->created_at)->format('j M Y') }}</td>
-                                <td>{{ $item->user->name ?? $item->nama_pemohon ?? '-' }}</td>
-                                <td>{{ $item->jabatan ?? $item->unit ?? 'STM' }}</td>
-                                <td>{{ $item->nama_item ?? '-' }}</td>
-                                <td>{{ $item->jenis_permohonan ?? 'Baru' }}</td>
-                                
-                                <!-- BADGE STATUS PELULUS (PURPLE UNTUK DITERIMA) -->
-                                <td>
-                                    @if(in_array($statusPelulus, ['diterima', 'disokong', 'lulus']))
-                                        <span class="badge badge-purple">
-                                            <i class="fa-solid fa-user-check"></i> Diterima Pelulus
-                                        </span>
-                                    @elseif($statusPelulus == 'ditolak')
-                                        <span class="badge badge-tolak">
-                                            <i class="fa-solid fa-user-xmark"></i> Ditolak Pelulus
-                                        </span>
-                                    @else
-                                        <span class="badge badge-proses">
-                                            <i class="fa-solid fa-clock"></i> Menunggu Pelulus
-                                        </span>
-                                    @endif
-                                </td>
-
-                                <td>
-                                    <button class="btn-action-edit btn-view-permohonan"
-                                        title="Kemaskini Kelulusan"
-                                        data-id="{{ $item->id }}"
-                                        data-id-permohonan="{{ $item->id_permohonan ?? 'REQ'.str_pad($item->id, 3, '0', STR_PAD_LEFT) }}"
-                                        data-nama="{{ $item->user->name  }}"
-                                        data-ic="{{  $item->user->ic ?? '-' }}"
-                                        data-tel="{{  $item->user->phone ?? '-' }}"
-                                        data-email="{{  $item->user->email ?? '-' }}"
-                                        data-tarikh="{{ \Carbon\Carbon::parse($item->created_at)->format('d/m/Y') }}"
-                                        data-jenis="{{ $item->jenis_permohonan  }}"
-                                        data-namapenerima="{{ $item->nama_penerima}}"
-                                        data-lokasi="{{ $item->lokasi ?? '-' }}"
-                                        data-item="{{ $item->nama_item ?? '-' }}"
-                                        data-justifikasi="{{  $item->tujuan ?? 'Tiada justifikasi.' }}">
-                                        <i class="fa-solid fa-pen-to-square"></i>
-                                    </button>
-                                </td>
-                            </tr>
-                        @empty
-                            <tr>
-                                <td colspan="8" style="text-align: center; color: #888; padding: 25px;">
-                                    Tiada permohonan memerlukan kelulusan buat masa ini.
-                                </td>
-                            </tr>
-                        @endforelse
-                    </tbody>
-                </table>
-            </div>
-
-        </main>
-
+    
+    <div class="page-header">
+        <h1 class="page-title">Permohonan</h1>
+        <p class="page-subtitle">Senarai permohonan yang memerlukan kelulusan</p>
     </div>
 
-    <!-- MODAL POPUP BUTIRAN PELULUS -->
+    <div class="card-box">
+        <table class="custom-table">
+            <thead>
+                <tr>
+                    <th>ID Permohonan</th>
+                    <th>Tarikh mohon</th>
+                    <th>Pemohon</th>
+                    <th>Jabatan/Unit</th>
+                    <th>Item</th>
+                    <th>Jenis</th>
+                    <th>Status Pelulus</th>
+                    <th>Tindakan</th>
+                </tr>
+            </thead>
+            <tbody>
+                @forelse($senaraiPermohonan ?? [] as $item)
+                    @php
+                        $statusPelulus = strtolower($item->status_pelulus ?? $item->status ?? '');
+                    @endphp
+                    <tr>
+                        <td>{{ $item->id_permohonan ?? 'REQ'.str_pad($item->id, 3, '0', STR_PAD_LEFT) }}</td>
+                        <td>{{ \Carbon\Carbon::parse($item->created_at)->format('j M Y') }}</td>
+                        <td>{{ $item->user->name ?? $item->nama_pemohon ?? '-' }}</td>
+                        <td>{{ $item->jabatan ?? $item->unit ?? 'STM' }}</td>
+                        <td>{{ $item->nama_item ?? '-' }}</td>
+                        <td>{{ $item->jenis_permohonan ?? 'Baru' }}</td>
+                        
+                       
+                        <td>
+                            @if(in_array($statusPelulus, ['diterima', 'disokong', 'lulus', 'terima']))
+                                <span class="badge badge-purple">
+                                    <i class="fa-solid fa-user-check"></i> Diterima Pelulus
+                                </span>
+                            @elseif($statusPelulus == 'ditolak')
+                                <span class="badge badge-tolak">
+                                    <i class="fa-solid fa-user-xmark"></i> Ditolak Pelulus
+                                </span>
+                            @else
+                                <span class="badge badge-proses">
+                                    <i class="fa-solid fa-clock"></i> Menunggu Pelulus
+                                </span>
+                            @endif
+                        </td>
+
+                        <td>
+                            <button class="btn-action-edit btn-view-permohonan"
+                                title="Kemaskini Kelulusan"
+                                data-id="{{ $item->id }}"
+                                data-id-permohonan="{{ $item->id_permohonan ?? 'REQ'.str_pad($item->id, 3, '0', STR_PAD_LEFT) }}"
+                                data-nama="{{ $item->user->name ?? $item->nama_pemohon ?? '-' }}"
+                                data-ic="{{ $item->user->ic ?? '-' }}"
+                                data-tel="{{ $item->user->phone ?? '-' }}"
+                                data-email="{{ $item->user->email ?? '-' }}"
+                                data-tarikh="{{ \Carbon\Carbon::parse($item->created_at)->format('d/m/Y') }}"
+                                data-jenis="{{ $item->jenis_permohonan ?? 'Baru' }}"
+                                data-namapenerima="{{ $item->nama_penerima }}"
+                                data-lokasi="{{ $item->lokasi ?? '-' }}"
+                                data-item="{{ $item->nama_item ?? '-' }}"
+                                data-justifikasi="{{ $item->tujuan ?? 'Tiada justifikasi.' }}"
+                                data-status="{{ $statusPelulus }}"> {{-- DITAMBAH UNTUK BACAAN STATUS AKHIR --}}
+                                <i class="fa-solid fa-pen-to-square"></i>
+                            </button>
+                        </td>
+                    </tr>
+                @empty
+                    <tr>
+                        <td colspan="8" style="text-align: center; color: #888; padding: 25px;">
+                            Tiada permohonan memerlukan kelulusan buat masa ini.
+                        </td>
+                    </tr>
+                @endforelse
+            </tbody>
+        </table>
+    </div>
+
+</main>
+
+<!-- popup detail -->
 <div class="modal-overlay" id="modalButiran" style="display: none;">
-    <div class="modal-card" style="max-width: 800px; width: 90%;">
+    <div class="modal-card" style="max-width: 800px; width: 90%; background: white; border-radius: 20px; padding: 30px;">
         <button class="close-modal-btn" id="btnCloseModal">&times;</button>
         <h2 class="modal-header-title">Butiran permohonan</h2>
 
         <div class="modal-info-grid">
-            <!-- Maklumat Pemohon -->
-            <div class="info-box-card">
-                <div class="info-box-title">Maklumat pemohon</div>
+            <!-- maklumat Pemohon -->
+            <div class="info-box-card" style="background: #eef2ff; border-radius: 14px; padding: 18px; border: none;">
+                <div class="info-box-title" style="color: #1e1b4b; font-weight: 700;">Maklumat pemohon</div>
                 <table class="info-table">
                     <tr><td class="label">Nama penuh</td><td class="colon">:</td><td class="value" id="modalNama">-</td></tr>
                     <tr><td class="label">No. kad pengenalan</td><td class="colon">:</td><td class="value" id="modalIC">-</td></tr>
@@ -551,9 +550,9 @@
                 </table>
             </div>
 
-            <!-- Maklumat Permohonan (Lokasi & Item Dibuang Dari Sini) -->
-            <div class="info-box-card">
-                <div class="info-box-title">Maklumat permohonan</div>
+            <!-- maklumat Permohonan -->
+            <div class="info-box-card" style="background: #eef2ff; border-radius: 14px; padding: 18px; border: none;">
+                <div class="info-box-title" style="color: #1e1b4b; font-weight: 700;">Maklumat permohonan</div>
                 <table class="info-table">
                     <tr><td class="label">ID permohonan</td><td class="colon">:</td><td class="value" id="modalIDPermohonan">-</td></tr>
                     <tr><td class="label">Tarikh mohon</td><td class="colon">:</td><td class="value" id="modalTarikh">-</td></tr>
@@ -562,9 +561,9 @@
             </div>
         </div>
 
-        <!-- JADUAL SENARAI PENERIMA PERMOHONAN -->
-        <div style="margin-top: 20px; background: #eef2ff; border-radius: 12px; padding: 15px; border: 1px solid #e2e8f0;">
-            <div style="font-size: 14px; font-weight: 700; color: #334155; margin-bottom: 12px;">
+        <!-- table senarai permohonan -->
+        <div style="margin-top: 20px; background: #eef2ff; border-radius: 14px; padding: 18px; border: none;">
+            <div style="font-size: 14px; font-weight: 700; color: #1e1b4b; margin-bottom: 12px;">
                 Senarai Penerima Permohonan
             </div>
 
@@ -579,20 +578,20 @@
                         </tr>
                     </thead>
                     <tbody id="tblBodyPenerima">
-                        <!-- Baris akan dimasukkan oleh JS -->
+                        <!-- js -->
                     </tbody>
                 </table>
             </div>
         </div>
 
-        <!-- JUSTIFIKASI -->
+        <!-- justification -->
         <div class="justifikasi-section" style="margin-top: 15px;">
-            <div class="justifikasi-title">Justifikasi</div>
-            <div class="justifikasi-box" id="modalJustifikasi">-</div>
+            <div class="justifikasi-title" style="font-size: 14px; font-weight: 700; color: #1e1b4b; margin-bottom: 8px;">Justifikasi</div>
+            <div class="justifikasi-box" id="modalJustifikasi" style="background: #eef2ff; border-radius: 12px; padding: 14px 18px; color: #1e1b4b; border: none;">-</div>
         </div>
 
-        <!-- BUTANG TERIMA / TOLAK -->
-        <div class="modal-actions" style="margin-top: 20px; display: flex; justify-content: flex-end; gap: 10px;">
+        <!-- button terima/tolak -->
+        <div class="modal-actions" id="modalActionsGroup" style="margin-top: 20px; display: flex; justify-content: flex-end; gap: 10px;">
             <button type="button" class="btn-modal btn-lulus" id="btnProsesLulus">
                 <i class="fa-solid fa-check"></i> TERIMA
             </button>
@@ -603,10 +602,10 @@
     </div>
 </div>
 
-    <script>
+   <script>
     document.addEventListener('DOMContentLoaded', function () {
         
-        // 1. Sidebar Toggle
+        
         const sidebar = document.querySelector('.sidebar');
         const toggleBtn = document.getElementById('toggleSidebar');
 
@@ -621,9 +620,10 @@
             });
         }
 
-        // 2. Modal Logic
+        
         const modalButiran = document.getElementById('modalButiran');
         const btnCloseModal = document.getElementById('btnCloseModal');
+        const modalActionsGroup = document.getElementById('modalActionsGroup');
         let selectedPermohonanId = null;
         let selectedRowTarget = null;
 
@@ -632,19 +632,27 @@
                 selectedPermohonanId = this.getAttribute('data-id');
                 selectedRowTarget = this.closest('tr');
 
-                // Maklumat Pemohon
+                // maklumat Pemohon
                 document.getElementById('modalNama').innerText = this.getAttribute('data-nama') || '-';
                 document.getElementById('modalIC').innerText = this.getAttribute('data-ic') || '-';
                 document.getElementById('modalTel').innerText = this.getAttribute('data-tel') || '-';
                 document.getElementById('modalEmail').innerText = this.getAttribute('data-email') || '-';
 
-                // Maklumat Permohonan
+                // maklumat Permohonan
                 document.getElementById('modalIDPermohonan').innerText = this.getAttribute('data-id-permohonan') || '-';
                 document.getElementById('modalTarikh').innerText = this.getAttribute('data-tarikh') || '-';
                 document.getElementById('modalJenis').innerText = this.getAttribute('data-jenis') || '-';
                 document.getElementById('modalJustifikasi').innerText = this.getAttribute('data-justifikasi') || 'Tiada justifikasi.';
 
-                // AMBIL DATA KOMA & PECAHKAN UNTUK JADUAL PENERIMA
+                // button invisible if dah diterima/tolak
+                const currentStatus = (this.getAttribute('data-status') || '').toLowerCase().trim();
+                if (['diterima', 'disokong', 'ditolak', 'lulus', 'terima'].includes(currentStatus)) {
+                    if (modalActionsGroup) modalActionsGroup.style.display = 'none';
+                } else {
+                    if (modalActionsGroup) modalActionsGroup.style.display = 'flex';
+                }
+
+                // ambil data
                 const strPenerima = this.getAttribute('data-namapenerima') || '';
                 const strItem     = this.getAttribute('data-item') || '';
                 const strLokasi   = this.getAttribute('data-lokasi') || '';
@@ -652,7 +660,7 @@
                 const listPenerima = strPenerima ? strPenerima.split(',').map(s => s.trim()) : [];
                 const listItem     = strItem ? strItem.split(',').map(s => s.trim()) : [];
 
-                // Logik Pecah Lokasi Pintar (Mengandungkan Tingkat + Bangunan)
+                // pecahkan locationn
                 let listLokasi = [];
                 if (strLokasi.includes('|')) {
                     listLokasi = strLokasi.split('|').map(s => s.trim());
@@ -671,7 +679,7 @@
                     listLokasi = [strLokasi.trim()];
                 }
 
-                // BINA JADUAL PENERIMA
+                // jadual penerima
                 const tbody = document.getElementById('tblBodyPenerima');
                 if (tbody) {
                     tbody.innerHTML = '';
@@ -743,23 +751,27 @@
                 if (data.success) {
                     modalButiran.style.display = 'none';
 
-                    // Kemaskini Badge pada jadual secara automatik
+                    
                     if (selectedRowTarget) {
-                        const statusTd = selectedRowTarget.children[6]; // Lajur Status Pelulus
+                        const statusTd = selectedRowTarget.children[6]; 
+                        const actionBtn = selectedRowTarget.querySelector('.btn-view-permohonan');
                         
                         if (data.status === 'Diterima' || data.status === 'Disokong') {
+                            if (actionBtn) actionBtn.setAttribute('data-status', 'diterima');
                             statusTd.innerHTML = `
                                 <span class="badge badge-purple">
                                     <i class="fa-solid fa-user-check"></i> Diterima Pelulus
                                 </span>
                             `;
                         } else if (data.status === 'Ditolak') {
+                            if (actionBtn) actionBtn.setAttribute('data-status', 'ditolak');
                             statusTd.innerHTML = `
                                 <span class="badge badge-tolak">
                                     <i class="fa-solid fa-user-xmark"></i> Ditolak Pelulus
                                 </span>
                             `;
                         } else {
+                            if (actionBtn) actionBtn.setAttribute('data-status', 'dalam proses');
                             statusTd.innerHTML = `
                                 <span class="badge badge-proses">
                                     <i class="fa-solid fa-clock"></i> Menunggu Pelulus

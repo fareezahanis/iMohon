@@ -418,7 +418,7 @@
         }
 
         .contract-box {
-            background-color: #f8fafc;
+            background-color:#eef2ff;
             border: 1px solid #f1f5f9;
             border-radius: 16px;
             padding: 22px 25px;
@@ -436,7 +436,7 @@
         }
 
         .contract-label {
-            color: #7c7e81;
+            color: #131416;
             width: 120px;
             flex-shrink: 0;
         }
@@ -466,7 +466,7 @@
         }
 
         .detail-table th {
-            background-color: #e0e7ff;
+            background-color: #eef2ff;
             color: #373642;
             padding: 10px 16px;
             text-align: left;
