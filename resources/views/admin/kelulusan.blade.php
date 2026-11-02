@@ -691,8 +691,8 @@
                             <th>Item</th>
                             <th>Tarikh mohon</th>
                             <th class="center">Butiran</th>
-                            <th class="center">Status Pelulus</th> <!-- DIPINDAHKAN KE SINI -->
-                            <th class="center">Tindakan Admin</th> <!-- TINDAKAN DI HUJUNG -->
+                            <th class="center">Status Pelulus</th> 
+                            <th class="center">Tindakan Admin</th> 
                         </tr>
                     </thead>
                     <tbody>
@@ -703,7 +703,7 @@
                                 <td>{{ $item->nama_item ?? $item->peralatan->nama_peralatan }}</td>
                                 <td>{{ \Carbon\Carbon::parse($item->created_at)->format('d/m/Y') }}</td>
                                 
-                                <!-- Details / Lihat Laporan -->
+                                <!-- details report -->
                                 <td class="action-icons center">
                                     <i class="fa-solid fa-file-lines btn-open-report" 
                                        title="Lihat Laporan"
@@ -721,7 +721,7 @@
                                     </i>
                                 </td>
 
-                                <!-- LAJUR STATUS PELULUS (PURPLE UNTUK DITERIMA) -->
+                                
                                 <td class="center">
                                     @if(in_array(strtolower($item->status_pelulus ?? ''), ['disokong', 'terima', 'lulus', 'diterima']))
                                         <span class="badge-status badge-pelulus-diterima">

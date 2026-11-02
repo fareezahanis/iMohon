@@ -877,7 +877,7 @@
     <script>
     document.addEventListener('DOMContentLoaded', function () {
 
-        // 1. Sidebar Toggle
+        
         const sidebar = document.querySelector('.sidebar');
         const toggleBtn = document.getElementById('toggleSidebar');
 
@@ -892,7 +892,7 @@
             });
         }
 
-        // 2. Popup Detail Vendor
+        
         const detailModal = document.getElementById('detailModal');
         const detailBtns = document.querySelectorAll('.open-detail-btn');
         const closeDetailBtn = document.getElementById('closeDetailModalBtn');
@@ -904,7 +904,7 @@
                 if (vendorAttr) {
                     const vendor = JSON.parse(vendorAttr);
 
-                    // A. Kemaskini Teks Maklumat Vendor & Kontrak
+                    
                     if (document.getElementById('detailNamaVendor')) 
                         document.getElementById('detailNamaVendor').innerText = vendor.nama_vendor || '-';
                     
@@ -928,7 +928,7 @@
                         document.getElementById('detailNilaiKontrak').innerText = 'RM ' + nilaiFormatted;
                     }
 
-                    // B. Bina Baris Jadual Peralatan (Inventori)
+                    // list alatan
                     const tbody = document.getElementById('detailPeralatanList');
                     if (tbody) {
                         tbody.innerHTML = ''; // Kosongkan paparan lama
@@ -970,7 +970,6 @@
             });
         }
 
-        // 3. Modal Tambah Vendor
         const addModal = document.getElementById('addModal');
         const openAddBtn = document.getElementById('openAddModalBtn');
         const closeAddBtn = document.getElementById('closeAddModalBtn');
@@ -985,7 +984,7 @@
             });
         }
 
-        // 4. Tutup Modal Apabila Klik Di Luar
+        
         window.addEventListener('click', function (e) {
             if (e.target === detailModal) {
                 detailModal.style.display = 'none';
