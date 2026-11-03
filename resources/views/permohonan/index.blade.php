@@ -723,7 +723,7 @@
 
     <script>
     document.addEventListener('DOMContentLoaded', function () {
-        // Sidebar toggle
+     
         const sidebar = document.querySelector('.sidebar');
         const toggleBtn = document.getElementById('toggleSidebar');
 

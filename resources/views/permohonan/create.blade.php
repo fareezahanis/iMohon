@@ -549,7 +549,7 @@
 
                 <div class="form-grid">
 
-                    <!-- KAD 1: MAKLUMAT PEMOHON (AUTO-FILL DATA USER) -->
+                    <!-- maklumat pemohon -->
                     <div class="form-card">
                         <div class="card-header-step">
                             <div class="step-number">1</div>
@@ -587,14 +587,14 @@
                         </div>
                     </div>
 
-                    <!-- KAD 2: MAKLUMAT PERMOHONAN -->
+                    <!-- maklumat permohonan -->
                     <div class="form-card">
                         <div class="card-header-step">
                             <div class="step-number">2</div>
                             <div class="step-title">Maklumat Permohonan</div>
                         </div>
 
-                        <!-- JENIS PERMOHONAN -->
+                        
                         <div class="form-group">
                             <label class="form-label">Jenis permohonan</label>
                             <div class="radio-group">
@@ -607,7 +607,7 @@
                             </div>
                         </div>
 
-                        <!-- ITEM & KUANTITI -->
+                        <!-- item&kuantiti -->
                         <div class="form-group">
                             <div id="items-container">
                                 <div class="item-qty-grid item-row" style="margin-bottom: 8px;">
@@ -635,19 +635,17 @@
                             <button type="button" class="btn-small" id="addItemBtn">Tambah Item</button>
                         </div>
 
-                        <!-- TARIKH -->
+                 
                         <div class="form-group" style="margin-top: 15px;">
                             <label class="form-label">Tarikh</label>
                             <input type="date" name="tarikh_mohon" id="inputTarikh" class="form-input" value="{{ date('Y-m-d') }}" required>
                         </div>
 
-                        <!-- TUJUAN / JUSTIFIKASI -->
                         <div class="form-group">
                             <label class="form-label">Tujuan/justifikasi</label>
                             <textarea name="tujuan" id="inputTujuan" class="form-textarea" rows="3" placeholder="Nyatakan tujuan permohonan ini" required></textarea>
                         </div>
 
-                        <!-- SENARAI PENERIMA -->
                         <div id="penerima-container">
                             <div class="penerima-block">
                                 <div class="form-group">
@@ -671,7 +669,7 @@
                             <button type="button" class="btn-small" id="addPenerimaBtn">Tambah penerima</button>
                         </div>
 
-                        <!-- button tu open popup -->
+                        <!-- button to open popup -->
                         <div class="btn-container">
                             <button type="button" class="submit-btn" onclick="triggerConfirmModal()">Hantar permohonan</button>
                         </div>
@@ -696,7 +694,7 @@
                 Sila semak permohonan anda sebelum dihantar.
             </div>
 
-            <!-- KOTAK 1: MAKLUMAT PERMOHONAN -->
+            
             <div class="confirm-box">
                 <div class="confirm-box-header">
                     Maklumat permohonan
@@ -732,7 +730,7 @@
                 </div>
             </div>
 
-            <!-- KOTAK 2: SENARAI NAMA PENERIMA & ITEM -->
+            
             <div class="confirm-box" style="margin-bottom: 25px;">
                 <div class="confirm-box-header">
                     Senarai nama penerima & item
@@ -763,7 +761,7 @@
     <!-- js -->
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            // 1. Sidebar Toggle
+            
             const sidebar = document.querySelector('.sidebar');
             const toggleBtn = document.getElementById('toggleSidebar');
 
@@ -778,7 +776,7 @@
                 });
             }
 
-            // 2. Tambah Item Dinamik
+            
             const itemsContainer = document.getElementById('items-container');
             const addItemBtn = document.getElementById('addItemBtn');
 
@@ -804,7 +802,7 @@
                 });
             }
 
-            // 3. Tambah Penerima Dinamik
+            
             const penerimaContainer = document.getElementById('penerima-container');
             const addPenerimaBtn = document.getElementById('addPenerimaBtn');
 
@@ -837,9 +835,7 @@
             }
         });
 
-        // =========================================================
-        // FUNGSI POPUP PENGESAHAN (CONFIRMATION MODAL)
-        // =========================================================
+     
         function triggerConfirmModal() {
             const form = document.getElementById('permohonanForm');
             
@@ -849,11 +845,11 @@
                 return;
             }
 
-            // 1. Ambil Jenis Permohonan
+            
             const jenisEl = document.querySelector('input[name="jenis_permohonan"]:checked');
             document.getElementById('cfm-jenis').innerText = jenisEl ? jenisEl.value : '-';
 
-            // 2. Ambil Senarai Item & Kuantiti
+            
             const itemSelects = document.querySelectorAll('.input-nama-item');
             const qtyInputs = document.querySelectorAll('.input-kuantiti');
 
@@ -871,17 +867,17 @@
             document.getElementById('cfm-item').innerText = itemList.join(', ') || '-';
             document.getElementById('cfm-kuantiti').innerText = totalQty;
 
-            // 3. Ambil Tarikh (Format DD/MM/YYYY)
+            
             const rawDate = document.getElementById('inputTarikh').value;
             if (rawDate) {
                 const parts = rawDate.split('-');
                 document.getElementById('cfm-tarikh').innerText = `${parts[2]}/${parts[1]}/${parts[0]}`;
             }
 
-            // 4. Ambil Tujuan
+            
             document.getElementById('cfm-tujuan').innerText = document.getElementById('inputTujuan').value || '-';
 
-            // 5. Bina Jadual Senarai Penerima Dalam Modal
+           
             const pNama = document.querySelectorAll('.input-penerima-nama');
             const pLokasi = document.querySelectorAll('.input-penerima-lokasi');
             const pItem = document.querySelectorAll('.input-penerima-item');
@@ -903,7 +899,7 @@
                 tbody.appendChild(tr);
             });
 
-            // Paparkan Modal Pengesahan
+            
             document.getElementById('confirmModal').style.display = 'flex';
         }
 
