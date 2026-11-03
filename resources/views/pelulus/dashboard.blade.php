@@ -273,7 +273,7 @@
             font-size: 15px;
         }
     </style>
-</head>
+    </head>
 <body>
 
     <!-- SIDEBAR LEFT -->
@@ -331,9 +331,7 @@
         </header>
 
         <!-- CONTENT BODY -->
-        <main class="content-body">
-
-            
+        <main class="content-body">        
         <div class="stats-grid">
             <div class="stat-card">
                 <div class="stat-icon bg-yellow-light">
@@ -366,11 +364,10 @@
     </div>
 </div>
 
-            <!-- JADUAL PERMOHONAN -->
+            <!-- table permohonan -->
             <div class="card-box">
                 <div class="table-top-link">
-                    <a href="{{ route('pelulus.kelulusan') }}" class="btn-lihat-semua">
-                        Lihat semua <i class="fa-solid fa-arrow-right"></i>
+                    <a href="{{ route('pelulus.kelulusan') }}" class="btn-lihat-semua"> Lihat semua <i class="fa-solid fa-arrow-right"></i>
                     </a>
                 </div>
 
@@ -426,7 +423,7 @@
 
     </div>
 
-    <!-- SCRIPT SIDEBAR TOGGLE -->
+    
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             const sidebar = document.querySelector('.sidebar');

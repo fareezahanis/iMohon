@@ -230,7 +230,7 @@
             color: #29158f;
         }
 
-        /* POPUP MODAL OVERLAY */
+        /* popup */
         .modal-overlay {
             position: fixed;
             top: 0;
@@ -358,23 +358,10 @@
             transition: all 0.2s ease;
         }
 
-        .btn-lulus {
-            background-color: #48bb78;
-            color: white;
-        }
-
-        .btn-lulus:hover {
-            background-color: #38a169;
-        }
-
-        .btn-tolak {
-            background-color: #e53e3e;
-            color: white;
-        }
-
-        .btn-tolak:hover {
-            background-color: #c53030;
-        }
+        .btn-lulus { background-color: #48bb78;color: white; }
+        .btn-lulus:hover {background-color: #38a169;}
+        .btn-tolak { background-color: #e53e3e;color: white; }
+        .btn-tolak:hover { background-color: #c53030;}
 
         .close-modal-btn {
             position: absolute;
@@ -446,29 +433,26 @@
             </div>
             </header>
 
-
         <main class="content-body">
+            <div class="page-header">
+                <h1 class="page-title">Permohonan</h1>
+                <p class="page-subtitle">Senarai permohonan yang memerlukan kelulusan</p>
+            </div>
 
-    
-    <div class="page-header">
-        <h1 class="page-title">Permohonan</h1>
-        <p class="page-subtitle">Senarai permohonan yang memerlukan kelulusan</p>
-    </div>
-
-    <div class="card-box">
-        <table class="custom-table">
-            <thead>
-                <tr>
-                    <th>ID Permohonan</th>
-                    <th>Tarikh mohon</th>
-                    <th>Pemohon</th>
-                    <th>Jabatan/Unit</th>
-                    <th>Item</th>
-                    <th>Jenis</th>
-                    <th>Status Pelulus</th>
-                    <th>Tindakan</th>
-                </tr>
-            </thead>
+            <div class="card-box">
+                <table class="custom-table">
+                <thead>
+                    <tr>
+                        <th>ID Permohonan</th>
+                        <th>Tarikh mohon</th>
+                        <th>Pemohon</th>
+                        <th>Jabatan/Unit</th>
+                        <th>Item</th>
+                        <th>Jenis</th>
+                        <th>Status Pelulus</th>
+                        <th>Tindakan</th>
+                    </tr>
+                </thead>
             <tbody>
                 @forelse($senaraiPermohonan ?? [] as $item)
                     @php
@@ -514,7 +498,7 @@
                                 data-lokasi="{{ $item->lokasi ?? '-' }}"
                                 data-item="{{ $item->nama_item ?? '-' }}"
                                 data-justifikasi="{{ $item->tujuan ?? 'Tiada justifikasi.' }}"
-                                data-status="{{ $statusPelulus }}"> {{-- DITAMBAH UNTUK BACAAN STATUS AKHIR --}}
+                                data-status="{{ $statusPelulus }}"> 
                                 <i class="fa-solid fa-pen-to-square"></i>
                             </button>
                         </td>
@@ -722,7 +706,7 @@
             if (e.target === modalButiran) modalButiran.style.display = 'none';
         });
 
-        // 3. Kemaskini Status AJAX
+        // AJAX for update
         function updateStatusPermohonan(status) {
             if (!selectedPermohonanId) return;
 
