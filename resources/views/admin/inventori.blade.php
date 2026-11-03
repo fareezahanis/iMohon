@@ -166,13 +166,12 @@
             font-weight: bold;
             color: #111;
         }
-    .page-subtitle {
+        .page-subtitle {
             font-size: 13px;
             color: #64748b;
         }
         
 
-        /* 3 card */
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -472,38 +471,25 @@
         <!-- CONTENT BODY -->
         <main class="content-body">
 
-          
-                <h1 style="font-size: 28px; font-weight: bold; color: #0f172a; margin-bottom: 25px;">
-    Inventori Peralatan
-</h1>
-               
-            
-            
-
-         <!-- SEARCH BAR & BUTTON ADD  -->
-<div class="action-bar" style="display: flex; justify-content: flex-start; align-items: center; gap: 12px; margin-top: 20px; margin-bottom: 25px;">
+                <h1 style="font-size: 28px; font-weight: bold; color: #0f172a; margin-bottom: 25px;">Inventori Peralatan</h1>
     
-    
-    <form action="{{ route('admin.inventori') }}" method="GET" style="width: 350px; display: flex; align-items: center; margin: 0;">
-        <div class="search-box" style="width: 100%;">
-            <i class="fa-solid fa-magnifying-glass" style="color: #94a3b8;"></i>
-           
-            <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari peralatan.." style="width: 100%; border: none; outline: none;">
+         <!-- search bar & button add  -->
+        <div class="action-bar" style="display: flex; justify-content: flex-start; align-items: center; gap: 12px; margin-top: 20px; margin-bottom: 25px;">
+   
+        <form action="{{ route('admin.inventori') }}" method="GET" style="width: 350px; display: flex; align-items: center; margin: 0;">
+            <div class="search-box" style="width: 100%;">
+                <i class="fa-solid fa-magnifying-glass" style="color: #94a3b8;"></i>
+                <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari peralatan.." style="width: 100%; border: none; outline: none;">
+            </div>
+            <button type="submit" style="display: none;"></button>
+        </form>
+            <button type="button" class="btn-add" id="openModalBtn">
+                <i class="fa-solid fa-plus"></i> Tambah Peralatan
+            </button>
         </div>
 
-        
-        <button type="submit" style="display: none;"></button>
-    </form>
-
-   
-    <button type="button" class="btn-add" id="openModalBtn">
-        <i class="fa-solid fa-plus"></i> Tambah Peralatan
-    </button>
-
-</div>
-
- <div class="table-card" style="background: white; border-radius: 16px; padding: 25px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);">
-    <table class="custom-table" style="width: 100%; border-collapse: collapse; font-size: 13px;">
+        <div class="table-card" style="background: white; border-radius: 16px; padding: 25px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);">
+            <table class="custom-table" style="width: 100%; border-collapse: collapse; font-size: 13px;">
         <thead>
             <tr style="background-color: #e0e7ff; color: #3730a3;">
                 <th style="padding: 12px 14px; text-align: center; font-weight: 600; width: 50px;">No.</th>
@@ -527,19 +513,15 @@
                     <td style="padding: 14px; text-align: center;" class="action-icons">
                         
                         <i class="fa-solid fa-eye btn-view-kontrak" 
-   style="cursor: pointer; font-size: 16px; color: #0f172a; margin-right: 10px;" 
-   title="Lihat Kontrak & Vendor"
-   data-kontrak="{{ json_encode($item->vendors->map(function($v) {
-       return [
-           'no_kontrak'  => $v->no_kontrak ?? '-',
-           'vendor'      => $v->nama_vendor ?? '-',
-           'tarikh'      => $v->created_at ? $v->created_at->format('d/m/Y') : '-',
-           'jumlah_unit' => $v->pivot->jumlah_unit ?? 0
-       ];
-   })) }}">
-</i>
+                            style="cursor: pointer; font-size: 16px; color: #0f172a; margin-right: 10px;" title="Lihat Kontrak & Vendor"
+                            data-kontrak="{{ json_encode($item->vendors->map(function($v) {
+                            return ['no_kontrak'  => $v->no_kontrak ?? '-',
+                                    'vendor'      => $v->nama_vendor ?? '-',
+                                    'tarikh'      => $v->created_at ? $v->created_at->format('d/m/Y') : '-',
+                                    'jumlah_unit' => $v->pivot->jumlah_unit ?? 0];})) }}">
+                        </i>
 
-                        <!-- Form Padam -->
+                        <!-- delete -->
                         <form action="{{ route('admin.inventori.destroy', $item->id) }}" method="POST" style="display: inline;" onsubmit="return confirm('Adakah anda pasti ingin memadam peralatan ini?');">
                             @csrf
                             @method('DELETE')
@@ -563,15 +545,13 @@
 </main>
 </div>
 
-<!-- popup kontrak & vendor -->
-<div class="modal" id="modalKontrakVendor" style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; width: 100vw; height: 100vh; background: rgba(0, 0, 0, 0.5); justify-content: center; align-items: center; z-index: 99999;">
+        <!-- popup kontrak & vendor -->
+        <div class="modal" id="modalKontrakVendor" style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; width: 100vw; height: 100vh; background: rgba(0, 0, 0, 0.5); justify-content: center; align-items: center; z-index: 99999;">
     
-    <div style="background: white; border-radius: 16px; width: 90%; max-width: 750px; padding: 30px; position: relative; margin: auto; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1);">
-        
-       
-        <span id="closeKontrakModalBtn" style="position: absolute; right: 25px; top: 20px; cursor: pointer; font-size: 22px; color: #94a3b8;"><i class="fa-solid fa-xmark"></i></span>
+            <div style="background: white; border-radius: 16px; width: 90%; max-width: 750px; padding: 30px; position: relative; margin: auto; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1);">
+            <span id="closeKontrakModalBtn" style="position: absolute; right: 25px; top: 20px; cursor: pointer; font-size: 22px; color: #94a3b8;"><i class="fa-solid fa-xmark"></i></span>
 
-        <!-- Tajuk Utama & Subtajuk -->
+        <!-- title -->
         <div style="display: flex; align-items: flex-start; gap: 12px; margin-bottom: 20px;">
             <div style="background: #1e0b75; color: white; padding: 10px 12px; border-radius: 10px; font-size: 18px; display: flex; align-items: center; justify-content: center;">
                 <i class="fa-solid fa-clipboard-list"></i>
@@ -594,7 +574,7 @@
                     </tr>
                 </thead>
                 <tbody id="tblBodyKontrak">
-                    <!-- Baris rekod kontrak dipaparkan secara dinamik -->
+                    <!-- js -->
                 </tbody>
             </table>
         </div>
@@ -604,11 +584,11 @@
 
 
 
-  <!-- Popup Tambah Peralatan -->
+  <!-- popup add item -->
 <div class="modal" id="addModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); justify-content: center; align-items: center; z-index: 9999; box-sizing: border-box;">
     <div style="background: white; border-radius: 16px; width: 100%; max-width: 600px; padding: 25px; position: relative; max-height: 90vh; overflow-y: auto; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1); box-sizing: border-box; margin: 20px;">
         
-        <!-- Header Modal -->
+        <!-- header -->
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
             <h2 style="font-size: 18px; font-weight: bold; color: #1e0b75; margin: 0;">
                 <i class="fa-solid fa-boxes-packing" style="margin-right: 8px;"></i> Tambah Peralatan
@@ -616,18 +596,17 @@
             <span id="closeModalBtn" style="cursor: pointer; font-size: 24px; color: #94a3b8; font-weight: bold; line-height: 1;">&times;</span>
         </div>
 
-        <!-- Borang Tambah Peralatan -->
         <form action="{{ route('admin.inventori.store') }}" method="POST">
             @csrf
 
-            <!-- 1. Nama Peralatan -->
+            <!-- nama item -->
             <div style="margin-bottom: 15px;">
                 <label style="display: block; font-size: 12px; font-weight: 600; color: #475569; margin-bottom: 5px;">Nama Peralatan</label>
                 <input type="text" name="nama_peralatan" required 
                        style="width: 100%; padding: 10px 12px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 13px; box-sizing: border-box;">
             </div>
 
-            <!-- 2. Kategori -->
+            <!-- kategori -->
             <div style="margin-bottom: 15px;">
                 <label style="display: block; font-size: 12px; font-weight: 600; color: #475569; margin-bottom: 5px;">Kategori</label>
                 <select name="kategori" required style="width: 100%; padding: 10px 12px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 13px; background: white; box-sizing: border-box; outline: none;">
@@ -643,7 +622,7 @@
                 </select>
             </div>
 
-            <!-- 3. Kontrak & Vendor (Dynamic Dynamic Inputs) -->
+            <!-- kontrak & vendor -->
             <div style="margin-bottom: 15px; background: #f8fafc; padding: 12px; border-radius: 8px; border: 1px solid #e2e8f0; box-sizing: border-box;">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
                     <label style="font-size: 12px; font-weight: 600; color: #475569;">No. Kontrak, Vendor, Unit & Tarikh</label>
@@ -670,14 +649,14 @@
                 </div>
             </div>
 
-            <!-- 4. Kuantiti Keseluruhan -->
+            <!-- kuantiti (semua) -->
             <div style="margin-bottom: 15px;">
                 <label style="display: block; font-size: 12px; font-weight: 600; color: #475569; margin-bottom: 5px;">Jumlah Kuantiti</label>
                 <input type="number" name="jumlah" min="1" required 
                        style="width: 100%; padding: 10px 12px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 13px; box-sizing: border-box;">
             </div>
 
-            <!-- 5. Status Agihan -->
+            <!-- status agih -->
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px;">
                 <div>
                     <label style="display: block; font-size: 12px; font-weight: 600; color: #475569; margin-bottom: 5px;">Kuantiti Tersedia</label>
@@ -691,7 +670,7 @@
                 </div>
             </div>
 
-            <!-- Butang Hantar -->
+           
             <button type="submit" style="width: 100%; background: #1e0b75; color: white; border: none; padding: 12px; border-radius: 10px; font-weight: bold; font-size: 14px; cursor: pointer;">
                 Simpan Peralatan
             </button>
@@ -806,13 +785,13 @@
         const btnTambahVendor = document.getElementById('btn-tambah-vendor');
 
         if (btnTambahVendor && vendorWrapper) {
-            // Aksi Klik Butang "+ Tambah Vendor"
+            
             btnTambahVendor.addEventListener('click', function () {
                 const firstRow = vendorWrapper.querySelector('.vendor-row');
                 if (firstRow) {
                     const newRow = firstRow.cloneNode(true);
                     
-                    // Reset pilihan dropdown pada baris baharu
+                    
                     const selectElem = newRow.querySelector('select');
                     if (selectElem) selectElem.value = "";
 

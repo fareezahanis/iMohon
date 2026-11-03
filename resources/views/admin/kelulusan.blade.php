@@ -545,7 +545,7 @@
             color: #334155;
         }
         
-        /* BADGE STATUS STYLING */
+        
         .badge-status {
             display: inline-flex;
             align-items: center;
@@ -916,7 +916,7 @@
 
     <script>
 document.addEventListener('DOMContentLoaded', function () {
-    // 1. Sidebar Collapsed
+    
     const sidebar = document.querySelector('.sidebar');
     const toggleBtn = document.getElementById('toggleSidebar');
 
@@ -1019,7 +1019,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     btnsLulus.forEach(btn => {
         btn.onclick = function () {
-            // ambil ID permohonan asal (ID Pangkalan Data)
+            // ambil ID permohonan asal 
             const id = this.getAttribute('data-id');
             if (formConfirmLulus) {
                 let actionUrl = "{{ route('admin.kelulusan.update', ':id') }}";

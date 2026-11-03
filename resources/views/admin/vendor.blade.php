@@ -199,20 +199,9 @@
             font-size: 22px;
         }
 
-        .bg-purple-light {
-            background-color: #e9d5ff;
-            color: #7e22ce;
-        }
-
-        .bg-pink-light {
-            background-color: #fbcfe8;
-            color: #be185d;
-        }
-
-        .bg-green-light {
-            background-color: #bbf7d0;
-            color: #15803d;
-        }
+        .bg-purple-light { background-color: #e9d5ff; color: #7e22ce;}
+        .bg-pink-light { background-color: #fbcfe8; color: #be185d;}
+        .bg-green-light { background-color: #bbf7d0; color: #15803d;}
 
         .stat-info .title {
             font-size: 13px;
@@ -227,8 +216,6 @@
             font-weight: bold;
             color: #1e293b;
         }
-
-       
 
         .action-bar {
             display: flex;
@@ -321,8 +308,6 @@
             color: #1e0b75;
         }
 
-       
-
         .modal {
             display: none;
             position: fixed;
@@ -401,9 +386,6 @@
             cursor: pointer;
             margin-top: 10px;
         }
-
-   
-       
 
         .modal-vendor-detail {
             max-width: 750px;
@@ -486,42 +468,31 @@
 
     </style>
 </head>
-
 <body>
 
 
     <aside class="sidebar">
-
         <div class="sidebar-header">
-
             <div class="brand-logo">
                 <img src="{{ asset('images/rtmlogo.png') }}" alt="RTM Logo">
                 <span class="brand-name">iMohon</span>
             </div>
-
-            <i class="fa-solid fa-angles-left"
-               id="toggleSidebar"
-               style="cursor:pointer; opacity:.8; font-size:18px;">
-            </i>
-
+            <i class="fa-solid fa-angles-left" id="toggleSidebar"  style="cursor:pointer; opacity:.8; font-size:18px;"></i>
         </div>
 
         <ul class="nav-menu">
-
             <li>
                 <a href="{{ route('admin.dashboard') }}" class="nav-link">
                     <i class="fa-solid fa-house"></i>
                     <span>Laman utama</span>
                 </a>
             </li>
-
             <li>
                 <a href="{{ route('admin.inventori') }}" class="nav-link">
                     <i class="fa-solid fa-boxes-stacked"></i>
                     <span>Inventori peralatan</span>
                 </a>
             </li>
-
             <li>
                 <a href="{{ route('admin.vendor') }}" class="nav-link active">
                     <i class="fa-solid fa-clipboard-list"></i>
@@ -562,32 +533,20 @@
     <div class="main-wrapper">
         <header class="top-header">
             <div class="user-profile">
-                <span>
-                    Admin
-                </span>
-                <div class="user-avatar">
-                    <i class="fa-solid fa-user"></i>
-                </div>
-</div>
+                <span>Admin</span>
+                <div class="user-avatar"><i class="fa-solid fa-user"></i></div>
+            </div>
         </header>
         <main class="content-body">
-            <h1 class="page-title">
-                Rekod vendor
-            </h1>
-
+            <h1 class="page-title"> Rekod vendor </h1>
             <div class="stats-grid">
                 <div class="stat-card">
                     <div class="stat-icon bg-purple-light">
                         <i class="fa-solid fa-store"></i>
                     </div>
                     <div class="stat-info">
-
-                        <span class="title">
-                            Jumlah vendor
-                        </span>
-                        <span class="value">
-                            {{ $jumlahVendor }}
-                        </span>
+                        <span class="title"> Jumlah vendor </span>
+                        <span class="value">  {{ $jumlahVendor }} </span>
                     </div>
                 </div>
 
@@ -596,12 +555,8 @@
                         <i class="fa-solid fa-file-signature"></i>
                     </div>
                     <div class="stat-info">
-                        <span class="title">
-                            Jumlah kontrak
-                        </span>
-                        <span class="value">
-                            {{ $jumlahKontrak }}
-                        </span>
+                        <span class="title"> Jumlah kontrak </span>
+                        <span class="value"> {{ $jumlahKontrak }}</span>
                     </div>
                 </div>
 
@@ -610,12 +565,8 @@
                         <i class="fa-solid fa-box-archive"></i>
                     </div>
                     <div class="stat-info">
-                        <span class="title">
-                            Jumlah item
-                        </span>
-                        <span class="value">
-                             {{ number_format($jumlahItem ?? 0) }}
-                        </span>
+                        <span class="title"> Jumlah item</span>
+                        <span class="value"> {{ number_format($jumlahItem ?? 0) }}</span>
                     </div>
                 </div>
             </div>
@@ -632,8 +583,7 @@
 
                 <button
                     type="button" class="btn-add" id="openAddModalBtn">
-                    <i class="fa-solid fa-plus"></i>
-                    Tambah Vendor
+                    <i class="fa-solid fa-plus"></i> Tambah Vendor
                 </button>
             </div>
 
@@ -641,61 +591,31 @@
                 <table class="custom-table">
                     <thead>
                         <tr>
-                            <th
-                                class="center"
-                                style="width:60px;"
-                            >    No
-                            </th>
-                            <th style="width:30%;">
-                                Vendor
-                            </th>
-
-                            <th>
-                                No. Kontrak
-                            </th>
-                            <th class="center">
-                                Jumlah Peralatan
-                            </th>
-                            <th
-                                class="center"
-                                style="width:100px;"
-                            >  Butiran
-                            </th>
+                            <th class="center" style="width:60px;">No</th>
+                            <th style="width:30%;"> Vendor</th>
+                            <th> No. Kontrak</th>
+                            <th class="center">Jumlah Peralatan </th>
+                            <th class="center" style="width:100px;">Butiran</th>
                         </tr>
                     </thead>
                     <tbody>   
 
                         @forelse($vendors as $vendor)
                             <tr>
-                                <td class="center">
-                                    {{ $loop->iteration }}
-                                </td>
-                                <td style="font-weight:600;">
-                                    {{ $vendor->nama_vendor }}
-                                </td>
-                                <td>
-                                    {{ $vendor->no_kontrak }}
-                                </td>
-                                <td
-                                    class="center"
-                                    style="font-weight:bold;"
-                                >
-                                    {{ $vendor->jumlah_peralatan }}
-                                </td>
-
-                                <td class="action-icons center">
-            <i class="fa-solid fa-file-lines open-detail-btn" 
-   title="Lihat Rekod" 
-   data-vendor='@json($vendor)'>
+                                <td class="center">{{ $loop->iteration }}</td>
+                                <td style="font-weight:600;"> {{ $vendor->nama_vendor }}</td>
+                                <td>{{ $vendor->no_kontrak }} </td>
+                                <td class="center" style="font-weight:bold;" >{{ $vendor->jumlah_peralatan }}</td>
+                                <td class="action-icons center"><i class="fa-solid fa-file-lines open-detail-btn"  title="Lihat Rekod" data-vendor='@json($vendor)'>
 </i>
-                                 <form action="{{ route('admin.vendor.destroy', $vendor->id) }}" method="POST" style="display: inline;" onsubmit="return confirm('Adakah anda pasti ingin memadam peralatan ini?');">
+                        <form action="{{ route('admin.vendor.destroy', $vendor->id) }}" method="POST" style="display: inline;" onsubmit="return confirm('Adakah anda pasti ingin memadam peralatan ini?');">
                             @csrf
                             @method('DELETE')
                             <button type="submit" style="background: none; border: none; padding: 0; cursor: pointer;">
                                 <i class="fa-solid fa-trash-can" style="font-size: 16px; color: #131111;" title="Padam"></i>
                             </button>
                         </form>
-        </td>
+                        </td>
                             </tr>
                         @empty
                             <tr>
@@ -715,16 +635,15 @@
     </div>
 
 
-    
-    <div class="modal" id="detailModal">
-    <div class="modal-content modal-vendor-detail">
-        <span class="close-btn" id="closeDetailModalBtn" style="position:absolute; right:25px; top:20px;">&times;</span>
+            <!-- details vendor -->
+            <div class="modal" id="detailModal">
+            <div class="modal-content modal-vendor-detail">
+                <span class="close-btn" id="closeDetailModalBtn" style="position:absolute; right:25px; top:20px;">&times;</span>
 
-        <!-- Nama Vendor -->
-        <h2 class="vendor-title" id="detailNamaVendor">-</h2>
-
-        <div class="contract-box">
-            <div class="contract-item">
+       
+                <h2 class="vendor-title" id="detailNamaVendor">-</h2>
+                <div class="contract-box">
+                <div class="contract-item">
                 <span class="contract-label">No. kontrak</span>
                 <span class="contract-colon">:</span>
                 <span class="contract-value" id="detailNoKontrak">-</span>
@@ -761,41 +680,31 @@
             </div>
         </div>
 
-        <div class="equipment-box">
-    <table class="detail-table">
-        <thead>
-            <tr>
-                <th style="width:50px;">Bil.</th>
-                <th>Kategori / Nama Peralatan</th>
-                <th style="text-align:center;">Jumlah Unit Peralatan</th>
-            </tr>
-        </thead>
-        <tbody id="detailPeralatanList">
-            <!-- data keluar through javascript -->
-        </tbody>
-    </table>
-</div>
-    </div>
-</div>
+            <div class="equipment-box">
+                <table class="detail-table">
+                    <thead>
+                    <tr>
+                        <th style="width:50px;">Bil.</th>
+                        <th>Kategori / Nama Peralatan</th>
+                        <th style="text-align:center;">Jumlah Unit Peralatan</th>
+                    </tr>
+                    </thead>
+                <tbody id="detailPeralatanList">
+                    <!-- data keluar through javascript -->
+                </tbody>
+                </table>
+                </div>
+            </div>
+        </div>
 
-
-
-
-    <div
-        class="modal"
-        id="addModal"
-    >
+    <div class="modal" id="addModal" >
 
         <div class="modal-content">
             <div class="modal-header">
                 <h3>
-                    <i class="fa-solid fa-clipboard-list"></i>
-                    Tambah Vendor & Kontrak
+                    <i class="fa-solid fa-clipboard-list"></i>Tambah Vendor & Kontrak
                 </h3>
-            <span
-                    class="close-btn"
-                    id="closeAddModalBtn"  > &times;
-                </span>
+            <span class="close-btn" id="closeAddModalBtn"  > &times;</span>
             </div>
 
 
@@ -805,10 +714,7 @@
                 @csrf
                 <div class="form-group">
 
-                    <label>
-                        Nama Vendor
-                    </label>
-
+                    <label>Nama Vendor</label>
                     <input
                         type="text" name="nama_vendor" required >
                 </div>
@@ -816,16 +722,11 @@
                 <div
                     style="  display:grid; grid-template-columns:1fr 1fr;  gap:12px;  "  >
                     <div class="form-group">
-                        <label>
-                            No. Kontrak
-                        </label>
+                        <label> No. Kontrak </label>
                         <input  type="text"  name="no_kontrak"  required  >
                     </div>
                     <div class="form-group">
-                        <label>
-                            PIC Kontrak
-                        </label>
-
+                        <label> PIC Kontrak</label>
                         <input  type="text" name="pic_kontrak"   >
                     </div>
                 </div>
@@ -833,16 +734,11 @@
                 <div
                     style=" display:grid; grid-template-columns:1fr 1fr; gap:12px; ">
                     <div class="form-group">
-                        <label>
-                            Pemilik Kontrak
-                        </label>
+                        <label> Pemilik Kontrak</label>
                         <input type="text" name="pemilik_kontrak"   >
                     </div>
-
                     <div class="form-group">
-                        <label>
-                            Nilai Kontrak (RM)
-                        </label>
+                        <label> Nilai Kontrak (RM)</label>
                         <input type="number"  step="0.01" name="nilai_kontrak"   >
                     </div>
                 </div>
@@ -850,21 +746,19 @@
                 <div
                     style=" display:grid; grid-template-columns:1fr 1fr; gap:12px; ">
                     <div class="form-group">
-                        <label>
-                            Tarikh Mula
-                        </label>
+                        <label> Tarikh Mula </label>
                         <input  type="date"  name="tarikh_mula" required >
                     </div>
 
                     <div class="form-group">
                         <label> Tarikh Tamat</label>
-                        <input type="date"  name="tarikh_tamat"    required   >
+                        <input type="date"  name="tarikh_tamat"    required >
                     </div>
                 </div>
 
                 <div class="form-group">
                  <label>   Jumlah Peralatan / Unit </label>
-                    <input   type="number"  name="jumlah_peralatan" required   min="0"    >
+                    <input   type="number"  name="jumlah_peralatan" required   min="0" >
                 </div>
 
                 <button
@@ -877,7 +771,6 @@
     <script>
     document.addEventListener('DOMContentLoaded', function () {
 
-        
         const sidebar = document.querySelector('.sidebar');
         const toggleBtn = document.getElementById('toggleSidebar');
 

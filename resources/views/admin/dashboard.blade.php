@@ -403,17 +403,17 @@
                             </tr>
                         </thead>
                         <tbody>
-    @forelse($inventoriKuantiti as $kategori => $total)
-        <tr>
-            <td>{{ $kategori }}</td>
-            <td style="text-align: right; font-weight: bold;">{{ $total }}</td>
-        </tr>
-    @empty
-        <tr>
-            <td colspan="2" style="text-align: center; color: #888;">Tiada rekod peralatan dijumpai.</td>
-        </tr>
-    @endforelse
-</tbody>
+                        @forelse($inventoriKuantiti as $kategori => $total)
+                        <tr>
+                        <td>{{ $kategori }}</td>
+                            <td style="text-align: right; font-weight: bold;">{{ $total }}</td>
+                        </tr>
+                            @empty
+                        <tr>
+                            <td colspan="2" style="text-align: center; color: #888;">Tiada rekod peralatan dijumpai.</td>
+                        </tr>
+                            @endforelse
+                        </tbody>
                     </table>
                 </div>
 
@@ -433,31 +433,25 @@
                             @forelse($permohonanTerkini as $item)
                                 <tr>
                                     
-                                    <td>{{ str_pad($item->id_permohonan, 3, '0', STR_PAD_LEFT) }}</td>
-
-                                   
+                                    <td>{{ str_pad($item->id_permohonan, 3, '0', STR_PAD_LEFT) }}</td>       
                                     <td>{{ $item->nama_penerima }}</td>
-
                                     <td>{{ $item->nama_item }}</td>
-
-                                   
                                     <td>{{ \Carbon\Carbon::parse($item->created_at)->format('d M Y') }}</td>
 
-                                    <!-- Status -->
                                     <td>
-    @php
-        $statusUtama = strtolower($item->status ?? '');
-    @endphp
+                                    @php
+                                    $statusUtama = strtolower($item->status ?? '');
+                                    @endphp
 
-    {{-- KITA PAKSA SEMUA (diterima / lulus / terima) MENJADI LENCANA "Diterima" --}}
-    @if(in_array($statusUtama, ['diterima', 'lulus', 'terima']))
-        <span class="badge badge-lulus">Diterima</span>
-    @elseif($statusUtama == 'ditolak')
-        <span class="badge badge-tolak">Ditolak</span>
-    @else
-        <span class="badge badge-proses">{{ $item->status ?? 'Dalam proses' }}</span>
-    @endif
-</td>
+   
+                                    @if(in_array($statusUtama, ['diterima', 'lulus', 'terima']))
+                                    <span class="badge badge-lulus">Diterima</span>
+                                    @elseif($statusUtama == 'ditolak')
+                                    <span class="badge badge-tolak">Ditolak</span>
+                                    @else
+                                    <span class="badge badge-proses">{{ $item->status ?? 'Dalam proses' }}</span>
+                                    @endif
+                                    </td>
                                 </tr>
                             @empty
                                 <tr>
@@ -477,7 +471,7 @@
     </div>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            // 1. Sidebar Toggle
+            
             const sidebar = document.querySelector('.sidebar');
             const toggleBtn = document.getElementById('toggleSidebar');
 
@@ -493,6 +487,5 @@
             }
         });
     </script>
-
 </body>
 </html>

@@ -177,7 +177,7 @@
             color: #64748b;
         }
 
-        /* FILTER BAR & SEARCH */
+        /* search bar */
         .filter-bar {
             display: flex;
             align-items: center;
@@ -317,9 +317,8 @@
                 <i class="fa-solid fa-clipboard-list"></i><span>Vendor</span></a></li>
             <li><a href="#" class="nav-link active">
                 <i class="fa-solid fa-pen-to-square"></i><span>Rekod Penempatan</span></a></li>
-                <li><a href="{{ route('admin.pengguna') }}" class="nav-link">
+            <li><a href="{{ route('admin.pengguna') }}" class="nav-link">
                 <i class="fa-solid fa-users"></i><span>Pengguna</span></a></li>
-            
             <li><a href="{{ route('admin.kelulusan') }}" class="nav-link">
                 <i class="fa-solid fa-circle-check"></i><span>Permohonan Baru</span></a></li>    
             <li>
@@ -448,15 +447,13 @@
 
         </main>
     </div>
-    <!-- POPUP MODAL BUTIRAN LENGKAP -->
+    <!-- popup details -->
 <div class="modal" id="modalButiranPenempatan" style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; width: 100vw; height: 100vh; background: rgba(0, 0, 0, 0.5); justify-content: center; align-items: center; z-index: 99999;">
     
     <div style="background: white; border-radius: 16px; width: 90%; max-width: 600px; padding: 30px; position: relative; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1);">
         
-        <!-- Butang Tutup (X) -->
         <span id="closePenempatanBtn" style="position: absolute; right: 25px; top: 20px; cursor: pointer; font-size: 22px; color: #94a3b8;"><i class="fa-solid fa-xmark"></i></span>
 
-        <!-- Tajuk -->
         <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 20px;">
             <div style="background: #1e0b75; color: white; padding: 10px 12px; border-radius: 10px; font-size: 18px;">
                 <i class="fa-solid fa-circle-info"></i>
@@ -579,6 +576,5 @@
         });
     });
 </script>
-
 </body>
 </html>

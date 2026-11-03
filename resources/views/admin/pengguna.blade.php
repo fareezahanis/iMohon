@@ -156,13 +156,13 @@
         }
         
         .sidebar.collapsed {
-            width: 80px !important;
+            width: 80px ;
             padding: 25px 10px;
         }
 
         .sidebar.collapsed .brand-name,
         .sidebar.collapsed .nav-link span {
-            display: none !important;
+            display: none ;
         }
 
         .sidebar.collapsed .nav-link {
