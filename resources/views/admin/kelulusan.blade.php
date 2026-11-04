@@ -581,6 +581,87 @@
             background-color: #fee2e2;
             color: #991b1b;
         }
+        
+    
+    @media print {
+    
+        body * {
+            visibility: hidden !important;
+        }
+
+   
+        #modalReport,
+        #modalReport * {
+            visibility: visible !important;
+        }
+
+        /* background putih */
+        #modalReport,
+        #modalReport .modal-report-content,
+        #modalReport .report-card,
+        #modalReport .justification-box,
+        #modalReport div,
+        #modalReport table,
+        #modalReport th,
+        #modalReport td {
+            background: #ffffff !important;
+            background-color: #ffffff !important;
+            color: #000000 !important;
+            box-shadow: none !important;
+            -webkit-print-color-adjust: economy !important;
+            print-color-adjust: economy !important;
+        }
+
+
+        #modalReport .report-card,
+        #modalReport .justification-box,
+        #modalReport table,
+        #modalReport th,
+        #modalReport td {
+            border: 1px solid #cbd5e1 !important;
+        }
+
+        /* kedudukan table */
+        #modalReport {
+            position: absolute !important;
+            left: 0 !important;
+            top: 0 !important;
+            width: 100% !important;
+            height: auto !important;
+            display: block !important;
+            background: transparent !important;
+        }
+
+        #modalReport .modal-report-content {
+            position: absolute !important;
+            left: 0 !important;
+            top: 0 !important;
+            width: 100% !important;
+            max-width: 100% !important;
+            padding: 0 !important;
+            margin: 0 !important;
+            border: none !important;
+        }
+
+        /* display semua jadual */
+        #modalReport div, 
+        #modalReport table {
+            max-height: none !important;
+            overflow: visible !important;
+        }
+
+        /*  buang button */
+        #modalReport .modal-actions,
+        #modalReport .close-btn,
+        #modalReport #closeReportBtn {
+            display: none !important;
+        }
+
+        @page {
+            size: A4 portrait;
+            margin: 12mm;
+        }
+}
     </style>
 </head>
 <body>
@@ -871,6 +952,11 @@
                 <h3 class="justification-title">Justifikasi</h3>
                 <div class="justification-box" id="repJustifikasi">-</div>
             </div>
+            <div class="modal-actions" style="margin-top: 20px; display: flex; justify-content: flex-end; gap: 8px;">
+        <button type="button" class="btn-print" onclick="printModalContent()" style="background: #312abd; color: white; border: none; padding: 10px 20px; border-radius: 8px; font-weight: 300; cursor: pointer; display: flex; align-items: center; gap: 8px;">
+        <i class="fa-solid fa-print"></i> CETAK LAPORAN
+        </button>
+    </div>
         </div>
     </div>
 
@@ -915,7 +1001,11 @@
     </div>
 
     <script>
-document.addEventListener('DOMContentLoaded', function () {
+
+    function printModalContent() {
+    window.print();
+}
+    document.addEventListener('DOMContentLoaded', function () {
     
     const sidebar = document.querySelector('.sidebar');
     const toggleBtn = document.getElementById('toggleSidebar');
@@ -1032,6 +1122,8 @@ document.addEventListener('DOMContentLoaded', function () {
     if (closeLulusBtn) {
         closeLulusBtn.onclick = () => modalLulus.style.display = 'none';
     }
+
+    
 
     // popup tolak
     const modalTolak = document.getElementById('modalTolak');

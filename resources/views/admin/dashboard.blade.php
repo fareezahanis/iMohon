@@ -392,7 +392,6 @@
           
             <div class="tables-grid">
 
-                
                 <div class="card-box">
                     <h2 class="card-box-title">Inventori</h2>
                     <table class="custom-table">

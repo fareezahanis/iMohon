@@ -790,11 +790,8 @@
                 const firstRow = vendorWrapper.querySelector('.vendor-row');
                 if (firstRow) {
                     const newRow = firstRow.cloneNode(true);
-                    
-                    
                     const selectElem = newRow.querySelector('select');
                     if (selectElem) selectElem.value = "";
-
                     vendorWrapper.appendChild(newRow);
                 }
             });
@@ -806,7 +803,7 @@
                     if (rows.length > 1) {
                         e.target.closest('.vendor-row').remove();
                     } else {
-                        alert('Sekurang-kurangnya satu pilihan vendor diperlukan.');
+                        alert('Pilih satu vendor.');
                     }
                 }
             });
