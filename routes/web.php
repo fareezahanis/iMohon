@@ -29,7 +29,6 @@ Route::middleware('auth')->group(function () {
 });
     Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
-
     Route::get('/inventori', [AdminController::class, 'inventori'])->name('inventori');
     Route::post('/inventori', [AdminController::class, 'storeInventori'])->name('inventori.store');
     Route::get('/vendor', [AdminController::class, 'vendor'])->name('vendor');
@@ -43,6 +42,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/inventori/{id}', [AdminController::class, 'destroyInventori'])->name('inventori.destroy');
     Route::get('/rekod-peminjaman', [AdminController::class, 'rekodPeminjaman'])->name('peminjaman');
     Route::post('/rekod-peminjaman/{id}/sahkan-pemulangan', [AdminController::class, 'sahkanPemulangan'])->name('peminjaman.sahkan');
+    Route::put('/rekod-peminjaman/{id}/update-status', [AdminController::class, 'updateStatusPenempatan'])->name('peminjaman.updateStatus');
 });
 
     Route::middleware(['auth'])->prefix('pelulus')->name('pelulus.')->group(function () {

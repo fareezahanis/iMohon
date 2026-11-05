@@ -299,155 +299,155 @@
 <body>
 
     <!-- SIDEBAR LEFT -->
-    <aside class="sidebar">
-        <div class="sidebar-header">
-            <div class="brand-logo">
-                <img src="{{ asset('images/rtmlogo.png') }}" alt="RTM Logo">
-                <span class="brand-name">iMohon</span>
-            </div>
-            <i class="fa-solid fa-angles-left" id="toggleSidebar" style="cursor: pointer; opacity: 0.8; font-size: 18px;"></i>
+<aside class="sidebar">
+    <div class="sidebar-header">
+        <div class="brand-logo">
+            <img src="{{ asset('images/rtmlogo.png') }}" alt="RTM Logo">
+            <span class="brand-name">iMohon</span>
+        </div>
+        <i class="fa-solid fa-angles-left" id="toggleSidebar" style="cursor: pointer; opacity: 0.8; font-size: 18px;"></i>
+    </div>
+
+    <ul class="nav-menu">
+        <li><a href="{{ route('admin.dashboard') }}" class="nav-link">
+            <i class="fa-solid fa-house"></i><span>Laman utama</span></a></li>
+        <li><a href="{{ route('admin.inventori') }}" class="nav-link">
+            <i class="fa-solid fa-boxes-stacked"></i><span>Inventori</span></a></li>
+        <li><a href="{{ route('admin.vendor') }}" class="nav-link">
+            <i class="fa-solid fa-clipboard-list"></i><span>Vendor</span></a></li>
+        <li><a href="#" class="nav-link active">
+            <i class="fa-solid fa-pen-to-square"></i><span>Rekod Penempatan</span></a></li>
+        <li><a href="{{ route('admin.pengguna') }}" class="nav-link">
+            <i class="fa-solid fa-users"></i><span>Pengguna</span></a></li>
+        <li><a href="{{ route('admin.kelulusan') }}" class="nav-link">
+            <i class="fa-solid fa-circle-check"></i><span>Permohonan Baru</span></a></li>    
+        <li>
+            <form method="POST" action="{{ route('logout') }}">
+                @csrf
+                <button type="submit" class="nav-link logout-btn">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                    <span>Log keluar</span>
+                </button>
+            </form>
+        </li>
+    </ul>
+</aside>
+
+<!-- MAIN WRAPPER RIGHT -->
+<div class="main-wrapper">
+
+    <!-- TOP HEADER -->
+    <header class="top-header">
+        <div class="user-profile">
+            <span>Admin</span>
+            <div class="user-avatar"><i class="fa-solid fa-user"></i></div>
+        </div>
+    </header>
+
+    <!-- CONTENT BODY -->
+    <main class="content-body">
+
+        <div class="page-header">
+            <h1 class="page-title">Rekod Penempatan</h1>
+            <p class="page-subtitle">Senarai peralatan yang telah dipinjam atau diagihkan kepada pengguna.</p>
         </div>
 
-        <ul class="nav-menu">
-            <li><a href="{{ route('admin.dashboard') }}" class="nav-link">
-                <i class="fa-solid fa-house"></i><span>Laman utama</span></a></li>
-            <li><a href="{{ route('admin.inventori') }}" class="nav-link">
-                <i class="fa-solid fa-boxes-stacked"></i><span>Inventori</span></a></li>
-            <li><a href="{{ route('admin.vendor') }}" class="nav-link">
-                <i class="fa-solid fa-clipboard-list"></i><span>Vendor</span></a></li>
-            <li><a href="#" class="nav-link active">
-                <i class="fa-solid fa-pen-to-square"></i><span>Rekod Penempatan</span></a></li>
-            <li><a href="{{ route('admin.pengguna') }}" class="nav-link">
-                <i class="fa-solid fa-users"></i><span>Pengguna</span></a></li>
-            <li><a href="{{ route('admin.kelulusan') }}" class="nav-link">
-                <i class="fa-solid fa-circle-check"></i><span>Permohonan Baru</span></a></li>    
-            <li>
-                <form method="POST" action="{{ route('logout') }}">
-                    @csrf
-                    <button type="submit" class="nav-link logout-btn">
-                        <i class="fa-solid fa-right-from-bracket"></i>
-                        <span>Log keluar</span>
-                    </button>
-                </form>
-            </li>
-        </ul>
-    </aside>
-
-    <!-- MAIN WRAPPER RIGHT -->
-    <div class="main-wrapper">
-
-        <!-- TOP HEADER -->
-        <header class="top-header">
-            <div class="user-profile">
-                <span>Admin</span>
-                <div class="user-avatar"><i class="fa-solid fa-user"></i></div>
-            </div>
-        </header>
-
-        <!-- CONTENT BODY -->
-        <main class="content-body">
-
-            <div class="page-header">
-                <h1 class="page-title">Rekod Penempatan</h1>
-                <p class="page-subtitle">Senarai peralatan yang telah dipinjam atau diagihkan kepada pengguna.</p>
+        <!-- FILTER BAR -->
+        <form action="{{ route('admin.peminjaman') }}" method="GET" class="filter-bar">
+            <div class="search-box">
+                <i class="fa-solid fa-magnifying-glass" style="color: #94a3b8;"></i>
+                <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari nama pemohon, peralatan, no. siri...">
             </div>
 
-            <!-- filter bar -->
-           <form action="{{ route('admin.peminjaman') }}" method="GET" class="filter-bar">
-        <div class="search-box">
-            <i class="fa-solid fa-magnifying-glass" style="color: #94a3b8;"></i>
-            <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari nama pemohon, peralatan, no. siri...">
+            <select name="status" class="filter-select" onchange="this.form.submit()">
+                <option value="">Semua status</option>
+                <option value="Permohonan" {{ request('status') == 'Permohonan' ? 'selected' : '' }}>Permohonan</option>
+                <option value="Diagih" {{ request('status') == 'Diagih' ? 'selected' : '' }}>Diagih</option>
+                <option value="Dihantar" {{ request('status') == 'Dihantar' ? 'selected' : '' }}>Dihantar</option>
+                <option value="Selesai" {{ request('status') == 'Selesai' ? 'selected' : '' }}>Penerimaan / Selesai</option>
+            </select>
+
+            <select name="kategori" class="filter-select" onchange="this.form.submit()">
+                <option value="">Semua kategori</option>
+                <option value="Laptop" {{ request('kategori') == 'Laptop' ? 'selected' : '' }}>Laptop</option>
+                <option value="Monitor" {{ request('kategori') == 'Monitor' ? 'selected' : '' }}>Monitor</option>
+                <option value="Projektor" {{ request('kategori') == 'Projektor' ? 'selected' : '' }}>Projektor</option>
+            </select>
+
+            <button type="submit" style="display: none;"></button>
+        </form>
+
+        <!-- TABLE REKOD PENEMPATAN -->
+        <div class="table-card" style="background: white; border-radius: 16px; padding: 25px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);">
+            <table class="custom-table" style="width: 100%; border-collapse: collapse; font-size: 13px;">
+                <thead>
+                    <tr style="background-color: #e0e7ff; color: #3730a3;">
+                        <th style="padding: 12px 14px; text-align: center; font-weight: 600; width: 50px;">No.</th>
+                        <th style="padding: 12px 14px; text-align: left; font-weight: 600;">Nama Pemohon</th>
+                        <th style="padding: 12px 14px; text-align: left; font-weight: 600;">Peralatan / Jenama</th>
+                        <th style="padding: 12px 14px; text-align: center; font-weight: 600;">Status Tracking</th>
+                        <th style="padding: 12px 14px; text-align: center; font-weight: 600; width: 80px;">Tindakan</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @forelse($peminjaman ?? [] as $index => $item)
+                        @php
+                            $st = strtolower($item->status ?? 'permohonan');
+                        @endphp
+                        <tr style="border-bottom: 1px solid #f1f5f9;">
+                            <td style="padding: 14px; text-align: center; color: #334155;">{{ $index + 1 }}</td>
+                            <td style="padding: 14px; font-weight: 600; color: #0f172a;">{{ $item->user?->name ?? $item->nama_pemohon ?? '-' }}</td>
+                            <td style="padding: 14px; color: #334155;">{{ $item->nama_peralatan ?? $item->nama_item ?? '-' }}</td>
+                            <td style="padding: 14px; text-align: center;">
+                                @if(in_array($st, ['selesai', 'penerimaan', 'diterima pemohon']))
+                                    <span style="background: #dcfce7; color: #166534; padding: 4px 12px; border-radius: 20px; font-weight: 600; font-size: 11px;">
+                                        <i class="fa-solid fa-circle-check"></i> Diterima
+                                    </span>
+                                @elseif(in_array($st, ['dihantar', 'penghantaran']))
+                                    <span style="background: #fef3c7; color: #92400e; padding: 4px 12px; border-radius: 20px; font-weight: 600; font-size: 11px;">
+                                        <i class="fa-solid fa-truck"></i> Dalam Penghantaran
+                                    </span>
+                                @elseif(in_array($st, ['diagih', 'pengagihan']))
+                                    <span style="background: #e0f2fe; color: #0369a1; padding: 4px 12px; border-radius: 20px; font-weight: 600; font-size: 11px;">
+                                        <i class="fa-solid fa-boxes-packing"></i> Diagih
+                                    </span>
+                                @else
+                                    <span style="background: #e0e7ff; color: #3730a3; padding: 4px 12px; border-radius: 20px; font-weight: 600; font-size: 11px;">
+                                        <i class="fa-solid fa-file-invoice"></i> Permohonan diterima
+                                    </span>
+                                @endif
+                            </td>
+                            <td style="padding: 14px; text-align: center;">
+                                <i class="fa-solid fa-eye btn-view-penempatan" 
+                                   style="cursor: pointer; font-size: 16px; color: #1e0b75;" 
+                                   title="Kemaskini Status & Lihat Butiran"
+                                   data-id="{{ $item->id }}"
+                                   data-pemohon="{{ $item->user?->name ?? $item->nama_pemohon ?? '-' }}"
+                                   data-jenama="{{ $item->nama_peralatan ?? $item->nama_item ?? '-' }}"
+                                   data-kategori="{{ $item->kategori ?? 'Laptop' }}"
+                                   data-nosiri="{{ $item->no_siri ?? '-' }}"
+                                   data-lokasi="{{ $item->lokasi ?? '-' }}"
+                                   data-agihan="{{ $item->created_at ? \Carbon\Carbon::parse($item->created_at)->format('d/m/Y') : '-' }}"
+                                   data-pulang="{{ $item->tarikh_pulang ? \Carbon\Carbon::parse($item->tarikh_pulang)->format('d/m/Y') : '-' }}"
+                                   data-status="{{ $item->status ?? 'Permohonan' }}">
+                                </i>
+                            </td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td colspan="5" style="text-align: center; color: #94a3b8; padding: 30px; font-style: italic;">
+                                Tiada rekod penempatan permohonan ditemui.
+                            </td>
+                        </tr>
+                    @endforelse
+                </tbody>
+            </table>
         </div>
 
-        <select name="status" class="filter-select" onchange="this.form.submit()">
-            <option value="">Semua status</option>
-            <option value="Dipinjam" {{ request('status') == 'Dipinjam' ? 'selected' : '' }}>Diagih</option>
-            <option value="Telah Dikembalikan" {{ request('status') == 'Telah Dikembalikan' ? 'selected' : '' }}>Telah Dikembalikan</option>
-        </select>
-
-        <select name="kategori" class="filter-select" onchange="this.form.submit()">
-            <option value="">Semua kategori</option>
-            <option value="Laptop" {{ request('kategori') == 'Laptop' ? 'selected' : '' }}>Laptop</option>
-            <option value="Monitor" {{ request('kategori') == 'Monitor' ? 'selected' : '' }}>Monitor</option>
-            <option value="Projektor" {{ request('kategori') == 'Projektor' ? 'selected' : '' }}>Projektor</option>
-        </select>
-
-        <button type="submit" style="display: none;"></button> <!-- Auto submit bila tekan Enter -->
-
-        
-    </form>
-
-            <!-- table record penempatan -->
-<div class="table-card" style="background: white; border-radius: 16px; padding: 25px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);">
-    <table class="custom-table" style="width: 100%; border-collapse: collapse; font-size: 13px;">
-        <thead>
-            <tr style="background-color: #e0e7ff; color: #3730a3;">
-                <th style="padding: 12px 14px; text-align: center; font-weight: 600; width: 50px;">No.</th>
-                <th style="padding: 12px 14px; text-align: left; font-weight: 600;">Nama Pemohon</th>
-                <th style="padding: 12px 14px; text-align: left; font-weight: 600;">Peralatan / Jenama</th>
-                <th style="padding: 12px 14px; text-align: center; font-weight: 600;">Status</th>
-                <th style="padding: 12px 14px; text-align: center; font-weight: 600; width: 80px;">Butiran</th>
-            </tr>
-        </thead>
-        <tbody>
-            @forelse($peminjaman ?? [] as $index => $item)
-                <tr style="border-bottom: 1px solid #f1f5f9;">
-                    <td style="padding: 14px; text-align: center; color: #334155;">{{ $index + 1 }}</td>
-                    <td style="padding: 14px; font-weight: 600; color: #0f172a;">{{ $item->user?->name ?? $item->nama_pemohon }}</td>
-                    <td style="padding: 14px; color: #334155;">{{ $item->nama_peralatan }}</td>
-                    <td style="padding: 14px; text-align: center;">
-                        @if(strtolower($item->status ?? 'diagih') == 'dipulangkan')
-                            <span style="background: #dcfce7; color: #166534; padding: 4px 10px; border-radius: 20px; font-weight: 600; font-size: 11px;">Dipulangkan</span>
-                        @else
-                            <span style="background: #e0f2fe; color: #0369a1; padding: 4px 10px; border-radius: 20px; font-weight: 600; font-size: 11px;">Diagih</span>
-                        @endif
-                    </td>
-                    <td style="padding: 14px; text-align: center;">
-                        <i class="fa-solid fa-eye btn-view-penempatan" 
-                           style="cursor: pointer; font-size: 16px; color: #1e0b75;" 
-                           title="Lihat Butiran Penuh"
-                           data-pemohon="{{ $item->user?->name ?? $item->nama_pemohon }}"
-                           data-jenama="{{ $item->nama_peralatan }}"
-                           data-kategori="{{ $item->kategori ?? 'Laptop' }}"
-                           data-nosiri="{{ $item->no_siri ?? '-' }}"
-                           data-lokasi="{{ $item->lokasi ?? '-' }}"
-                           data-agihan="{{ $item->created_at ? \Carbon\Carbon::parse($item->created_at)->format('d/m/Y') : '-' }}"
-                           data-pulang="{{ $item->tarikh_pulang ? \Carbon\Carbon::parse($item->tarikh_pulang)->format('d/m/Y') : '-' }}"
-                           data-status="{{ $item->status ?? 'Diagih' }}">
-                        </i>
-                    </td>
-                </tr>
-            @empty
-                <!-- dummy data -->
-                <tr style="border-bottom: 1px solid #f1f5f9;">
-                    <td style="padding: 14px; text-align: center;">1</td>
-                    <td style="padding: 14px; font-weight: 600; color: #0f172a;">Ali bin Rahman</td>
-                    <td style="padding: 14px; color: #334155;">Laptop Dell Latitude 5420</td>
-                    <td style="padding: 14px; text-align: center;">
-                        <span style="background: #e0f2fe; color: #0369a1; padding: 4px 10px; border-radius: 20px; font-weight: 600; font-size: 11px;">Diagih</span>
-                    </td>
-                    <td style="padding: 14px; text-align: center;">
-                        <i class="fa-solid fa-eye btn-view-penempatan" 
-                           style="cursor: pointer; font-size: 16px; color: #1e0b75;"
-                           data-pemohon="Ali bin Rahman"
-                           data-jenama="Laptop Dell Latitude 5420"
-                           data-kategori="Laptop"
-                           data-nosiri="DL-001"
-                           data-lokasi="STM"
-                           data-agihan="10/08/2026"
-                           data-pulang="-"
-                           data-status="Diagih">
-                        </i>
-                    </td>
-                </tr>
-            @endforelse
-        </tbody>
-    </table>
+    </main>
 </div>
 
-        </main>
-    </div>
-    <!-- popup details -->
+<!-- popup -->
 <div class="modal" id="modalButiranPenempatan" style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; width: 100vw; height: 100vh; background: rgba(0, 0, 0, 0.5); justify-content: center; align-items: center; z-index: 99999;">
     
     <div style="background: white; border-radius: 16px; width: 90%; max-width: 600px; padding: 30px; position: relative; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1);">
@@ -460,12 +460,12 @@
             </div>
             <div>
                 <h2 style="font-size: 18px; font-weight: bold; color: #0f172a; margin: 0;">Butiran Penempatan Peralatan</h2>
-                <p style="font-size: 12px; color: #94a3b8; margin: 2px 0 0 0;">Maklumat penuh penempatan aset pengguna</p>
+                <p style="font-size: 12px; color: #94a3b8; margin: 2px 0 0 0;">Maklumat penuh & penukaran status kemajuan penempatan</p>
             </div>
         </div>
 
-        <!-- semua info untuk penempatan -->
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; background: #eef2ff; padding: 20px; border-radius: 12px; font-size: 13px;">
+        <!-- information -->
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; background: #eef2ff; padding: 20px; border-radius: 12px; font-size: 13px; margin-bottom: 20px;">
             <div>
                 <span style="color: #64748b; font-weight: 500; display: block; font-size: 11px; text-transform: uppercase;">Nama Pemohon</span>
                 <strong id="detNama" style="color: #0f172a; font-size: 14px;">-</strong>
@@ -487,24 +487,38 @@
                 <strong id="detLokasi" style="color: #090909;">-</strong>
             </div>
             <div>
-                <span style="color: #64748b; font-weight: 500; display: block; font-size: 11px; text-transform: uppercase;">Status</span>
-                <strong id="detStatus" style="font-weight: 600;">-</strong>
-            </div>
-            <div>
-                <span style="color: #64748b; font-weight: 500; display: block; font-size: 11px; text-transform: uppercase;">Tarikh Agihan</span>
+                <span style="color: #64748b; font-weight: 500; display: block; font-size: 11px; text-transform: uppercase;">Tarikh Mohon</span>
                 <strong id="detTarikhAgihan" style="color: #334155;">-</strong>
-            </div>
-            <div>
-                <span style="color: #64748b; font-weight: 500; display: block; font-size: 11px; text-transform: uppercase;">Tarikh Pulang</span>
-                <strong id="detTarikhPulang" style="color: #334155;">-</strong>
             </div>
         </div>
 
+        <!-- update tracking -->
+        <form id="formUpdatePenempatanStatus" action="" method="POST" style="background: #f8fafc; padding: 15px; border-radius: 12px; border: 1px solid #e2e8f0;">
+            @csrf
+            @method('PUT')
+            <label style="display: block; font-size: 13px; font-weight: 700; color: #334155; margin-bottom: 8px;">
+                <i class="fa-solid fa-route" style="color: #4f46e5;"></i> Kemaskini Status Tracking:
+            </label>
+            <div style="display: flex; gap: 10px;">
+                <select name="status" id="selectPenempatanStatus" style="flex: 1; padding: 10px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 13px; outline: none; background: white;" required>
+                    <option value="Permohonan"> Permohonan diterima </option>
+                    <option value="Diagih"> Diagih</option>
+                    <option value="Dihantar">Dihantar</option>
+                    <option value="Selesai">Diterima</option>
+                </select>
+                <button type="submit" style="background: #1e0b75; color: white; border: none; padding: 10px 18px; border-radius: 8px; font-weight: 600; cursor: pointer; font-size: 13px;">
+                    Simpan
+                </button>
+            </div>
+        </form>
+
     </div>
 </div>
+
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         
+       
         const sidebar = document.querySelector('.sidebar');
         const toggleBtn = document.getElementById('toggleSidebar');
 
@@ -533,33 +547,39 @@
                     }
 
                     const textContent = row.textContent.toLowerCase();
-
-                    if (textContent.includes(query)) {
-                        row.style.display = '';
-                    } else {
-                        row.style.display = 'none';
-                    }
+                    row.style.display = textContent.includes(query) ? '' : 'none';
                 });
             });
         }
 
-       
+        // 3. Modal Penempatan & Kemaskini Status
         const modal = document.getElementById('modalButiranPenempatan');
         const closeBtn = document.getElementById('closePenempatanBtn');
         const btnsView = document.querySelectorAll('.btn-view-penempatan');
+        const formUpdate = document.getElementById('formUpdatePenempatanStatus');
 
         btnsView.forEach(btn => {
             btn.addEventListener('click', function () {
+                const itemId = this.getAttribute('data-id');
+
                 document.getElementById('detNama').innerText = this.getAttribute('data-pemohon') || '-';
                 document.getElementById('detJenama').innerText = this.getAttribute('data-jenama') || '-';
                 document.getElementById('detKategori').innerText = this.getAttribute('data-kategori') || '-';
                 document.getElementById('detNoSiri').innerText = this.getAttribute('data-nosiri') || '-';
                 document.getElementById('detLokasi').innerText = this.getAttribute('data-lokasi') || '-';
                 document.getElementById('detTarikhAgihan').innerText = this.getAttribute('data-agihan') || '-';
-                document.getElementById('detTarikhPulang').innerText = this.getAttribute('data-pulang') || '-';
 
-                const status = this.getAttribute('data-status') || '-';
-                document.getElementById('detStatus').innerText = status;
+                const status = this.getAttribute('data-status') || 'Permohonan';
+                const selectStatus = document.getElementById('selectPenempatanStatus');
+                if (selectStatus) {
+                    selectStatus.value = status;
+                }
+
+                // Tetapkan Action URL untuk penukaran status
+                if (formUpdate && itemId) {
+                    let actionUrl = "{{ route('admin.peminjaman.updateStatus', ':id') }}";
+                    formUpdate.action = actionUrl.replace(':id', itemId);
+                }
 
                 if (modal) modal.style.display = 'flex';
             });

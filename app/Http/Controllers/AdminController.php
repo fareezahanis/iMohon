@@ -271,25 +271,42 @@ public function updateStatus(Request $request, $id)
 }
 public function rekodPeminjaman(Request $request)
 {
-    $query = Peminjaman::with(['user', 'peralatan']);
+    $query = Permohonan::query();
 
-    // Jika ada carian
+    // Pastikan query mengambil semua permohonan ATAU permohonan yang telah diterima
+    if ($request->filled('status')) {
+        $query->where('status', $request->status);
+    }
+
     if ($request->filled('search')) {
         $search = $request->search;
         $query->where(function($q) use ($search) {
             $q->where('nama_pemohon', 'like', "%{$search}%")
-              ->orWhere('nama_peralatan', 'like', "%{$search}%")
-              ->orWhere('no_siri', 'like', "%{$search}%")
-              ->orWhere('lokasi', 'like', "%{$search}%")
-              ->orWhereHas('user', function($u) use ($search) {
-                  $u->where('name', 'like', "%{$search}%");
-              });
+              ->orWhere('nama_item', 'like', "%{$search}%");
         });
     }
 
     $peminjaman = $query->latest()->get();
 
     return view('admin.peminjaman', compact('peminjaman'));
+}
+
+public function updateStatusPenempatan(Request $request, $id)
+{
+    // 1. Semak input status dari modal
+    $request->validate([
+        'status' => 'required|string',
+    ]);
+
+    // 2. Cari rekod permohonan mengikut ID
+    $permohonan = Permohonan::findOrFail($id);
+
+    // 3. Kemaskini kolum status dalam database
+    $permohonan->status = $request->status;
+    $permohonan->save(); // Simpan terus ke MySQL
+
+    // 4. Kembali ke halaman rekod penempatan berserta mesej kejayaan
+    return redirect()->back()->with('success', 'Status penempatan berjaya dikemaskini!');
 }
 
 /**
