@@ -202,7 +202,7 @@ public function pengguna(Request $request)
     // Hantar sebagai 'users' ke Blade
     return view('admin.pengguna', compact('users'));
 }
-// 2. Simpan Data Pengguna Baharu
+//  Simpan Data Pengguna Baharu
 public function storePengguna(Request $request)
 {
     // Tukar 'unique:pengguna,email' kepada 'unique:users,email'
@@ -293,35 +293,33 @@ public function rekodPeminjaman(Request $request)
 
 public function updateStatusPenempatan(Request $request, $id)
 {
-    // 1. Semak input status dari modal
+   
     $request->validate([
         'status' => 'required|string',
     ]);
 
-    // 2. Cari rekod permohonan mengikut ID
+    
     $permohonan = Permohonan::findOrFail($id);
 
-    // 3. Kemaskini kolum status dalam database
+    
     $permohonan->status = $request->status;
-    $permohonan->save(); // Simpan terus ke MySQL
+    $permohonan->save(); // simpan kat sql
 
     // 4. Kembali ke halaman rekod penempatan berserta mesej kejayaan
     return redirect()->back()->with('success', 'Status penempatan berjaya dikemaskini!');
 }
 
-/**
- * Sahkan Pemulangan Peralatan
- */
+
 public function sahkanPemulangan($id)
 {
     $rekod = Peminjaman::findOrFail($id);
 
-    // 1. Kemaskini status & tarikh
+    //  kemaskini status & tarikh
     $rekod->status_peminjaman = 'Telah Dikembalikan';
     $rekod->tarikh_pulang = now();
     $rekod->save();
 
-    // 2. Kemaskini jumlah dalam stok Inventori
+    //  kemaskini jumlah dalam stok inventori
     if ($rekod->peralatan_id) {
         $peralatan = Peralatan::find($rekod->peralatan_id);
         if ($peralatan) {

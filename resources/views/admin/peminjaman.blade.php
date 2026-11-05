@@ -552,7 +552,7 @@
             });
         }
 
-        // 3. Modal Penempatan & Kemaskini Status
+        // modal penempatan & kemaskini status
         const modal = document.getElementById('modalButiranPenempatan');
         const closeBtn = document.getElementById('closePenempatanBtn');
         const btnsView = document.querySelectorAll('.btn-view-penempatan');
@@ -575,7 +575,7 @@
                     selectStatus.value = status;
                 }
 
-                // Tetapkan Action URL untuk penukaran status
+                
                 if (formUpdate && itemId) {
                     let actionUrl = "{{ route('admin.peminjaman.updateStatus', ':id') }}";
                     formUpdate.action = actionUrl.replace(':id', itemId);
