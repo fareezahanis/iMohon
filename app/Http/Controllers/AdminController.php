@@ -252,7 +252,7 @@ public function updateStatus(Request $request, $id)
 {
     $permohonan = Permohonan::findOrFail($id);
 
-    // Paksa simpan sebagai 'Diterima' atau 'Ditolak'
+    
     if ($request->status == 'Lulus' || $request->status == 'Diterima' || $request->status == 'Terima') {
         $permohonan->status = 'Diterima';
     } elseif ($request->status == 'Ditolak') {
