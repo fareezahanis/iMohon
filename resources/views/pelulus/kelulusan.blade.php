@@ -375,6 +375,164 @@
         }
 
         .close-modal-btn:hover { color: #334155; }
+        .modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(15, 23, 42, 0.6);
+    backdrop-filter: blur(4px);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 999999;
+}
+
+/* Kotak Modal Confirm (Putih & Rounded) */
+.modal-content-confirm {
+    background: #ffffff;
+    border-radius: 20px;
+    width: 90%;
+    max-width: 420px;
+    padding: 30px 25px;
+    text-align: center;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.15), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    position: relative;
+    animation: popupScale 0.2s ease-out;
+}
+
+@keyframes popupScale {
+    from { transform: scale(0.9); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+
+
+.icon-circle-success {
+    background-color: #d1fae5;
+    color: #10b981;
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px auto;
+    font-size: 32px;
+}
+
+.icon-circle-danger {
+    background-color: #fee2e2;
+    color: #ef4444;
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px auto;
+    font-size: 32px;
+}
+
+
+.modal-confirm-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: #0f172a;
+    margin-bottom: 20px;
+}
+
+
+.reason-box {
+    width: 100%;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            margin-bottom: 10px;
+            text-align: left;
+}
+
+.reason-label {
+    font-size: 11px;
+            color: #000;
+            font-weight: 600;
+            white-space: nowrap;
+            margin-top: 5px;
+}
+
+.reason-textarea {
+    width: 100%;
+            height: 70px;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            padding: 8px 10px;
+            font-size: 12px;
+            outline: none;
+            resize: none;
+            color: #334155;
+}
+
+.reason-textarea:focus {
+    border-color: #29158f;
+    box-shadow: 0 0 0 3px rgba(41, 21, 143, 0.1);
+}
+
+
+.modal-btn-confirm-lulus {
+    background-color: #48bb78;
+            color: white;
+            border: none;
+            padding: 10px;
+            width: 140px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 13px;
+            cursor: pointer;
+            margin-bottom: 10px;
+            transition: 0.2s;
+}
+
+.modal-btn-confirm-lulus:hover {
+    background-color: #059669;
+}
+
+
+.modal-btn-confirm-tolak {
+    background-color: #cc0000;
+            color: white;
+            border: none;
+            padding: 10px;
+            width: 140px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 13px;
+            cursor: pointer;
+            margin-top: 15px;
+            transition: 0.2s;
+}
+
+.modal-btn-confirm-tolak:hover {
+    background-color: #990000;
+}
+
+
+.modal-btn-batal {
+    background-color: white;
+    color: #718096;
+    border: 1px solid #cbd5e1;
+    padding: 8px;
+    width: 140px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 13px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.modal-btn-batal:hover {
+    background-color: #f8fafc;
+    
+}
     </style>
 </head>
 <body>
@@ -585,11 +743,60 @@
         </div>
     </div>
 </div>
+<!-- POPUP 2: PENGESAHAN LULUS/TERIMA (POPUP KEDUA BERTINGKAT) -->
+    <div class="modal" id="modalLulus" style="display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0, 0, 0, 0.6); justify-content: center; align-items: center; z-index: 999999;">
+        <div class="modal-content-confirm" style="max-width: 400px; background: white; padding: 25px; border-radius: 16px; text-align: center;">
+            <div class="icon-circle-success">
+                <i class="fa-solid fa-check"></i>
+            </div>
+            <p class="modal-confirm-title">Terima permohonan ini ?</p>
+            
+            <form id="formConfirmLulus" action="" method="POST" style="width: 100%; display: flex; flex-direction: column; align-items: center;">
+                @csrf
+                @method('PUT')
+                <input type="hidden" name="status" value="Lulus">
+                
+                <div class="reason-box" style="width: 100%; margin-bottom: 15px; text-align: left;">
+                    <span class="reason-label">Catatan kelulusan :</span>
+                    <textarea name="catatan_kelulusan" class="reason-textarea" ></textarea>
+                </div>
+
+                <button type="submit" class="modal-btn-confirm-lulus">Terima</button>
+            </form>
+            <button type="button" class="modal-btn-batal close-lulus-btn" style="margin-top: 10px;">Batal</button>
+        </div>
+    </div>
+
+    <!-- POPUP 3: PENGESAHAN TOLAK (POPUP KEDUA BERTINGKAT) -->
+    <div class="modal" id="modalTolak" style="display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0, 0, 0, 0.6); justify-content: center; align-items: center; z-index: 999999;">
+        <div class="modal-content-confirm" style="max-width: 400px; background: white; padding: 25px; border-radius: 16px; text-align: center;">
+            <div class="icon-circle-danger">
+                <i class="fa-solid fa-xmark"></i>
+            </div>
+            <p class="modal-confirm-title">Tolak permohonan ini ?</p>
+
+            <form id="formConfirmTolak" action="" method="POST" style="width: 100%; display: flex; flex-direction: column; align-items: center;">
+                @csrf
+                @method('PUT')
+                <input type="hidden" name="status" value="Ditolak">
+                
+                <div class="reason-box" style="width: 100%; margin-bottom: 15px; text-align: left;">
+                    <span class="reason-label">Sebab penolakan :</span>
+                    <textarea name="sebab_penolakan" class="reason-textarea" placeholder="Nyatakan sebab penolakan..." required></textarea>
+                </div>
+
+                <button type="submit" class="modal-btn-confirm-tolak">Ya, tolak</button>
+            </form>
+            <button type="button" class="modal-btn-batal close-tolak-btn" style="margin-top: 10px;">Batal</button>
+        </div>
+    </div>
+
+</main>
 
    <script>
     document.addEventListener('DOMContentLoaded', function () {
         
-        
+        // 1. Sidebar Toggle
         const sidebar = document.querySelector('.sidebar');
         const toggleBtn = document.getElementById('toggleSidebar');
 
@@ -604,31 +811,36 @@
             });
         }
 
-        
+        // 2. Pembolehubah Utama Modal
         const modalButiran = document.getElementById('modalButiran');
+        const modalLulus = document.getElementById('modalLulus');
+        const modalTolak = document.getElementById('modalTolak');
+        
         const btnCloseModal = document.getElementById('btnCloseModal');
         const modalActionsGroup = document.getElementById('modalActionsGroup');
+        
         let selectedPermohonanId = null;
         let selectedRowTarget = null;
 
+        // 3. Klik Butang Pensel -> Buka Modal Butiran (Popup 1)
         document.querySelectorAll('.btn-view-permohonan').forEach(btn => {
             btn.addEventListener('click', function () {
                 selectedPermohonanId = this.getAttribute('data-id');
                 selectedRowTarget = this.closest('tr');
 
-                // maklumat Pemohon
+                // Maklumat Pemohon
                 document.getElementById('modalNama').innerText = this.getAttribute('data-nama') || '-';
                 document.getElementById('modalIC').innerText = this.getAttribute('data-ic') || '-';
                 document.getElementById('modalTel').innerText = this.getAttribute('data-tel') || '-';
                 document.getElementById('modalEmail').innerText = this.getAttribute('data-email') || '-';
 
-                // maklumat Permohonan
+                // Maklumat Permohonan
                 document.getElementById('modalIDPermohonan').innerText = this.getAttribute('data-id-permohonan') || '-';
                 document.getElementById('modalTarikh').innerText = this.getAttribute('data-tarikh') || '-';
                 document.getElementById('modalJenis').innerText = this.getAttribute('data-jenis') || '-';
                 document.getElementById('modalJustifikasi').innerText = this.getAttribute('data-justifikasi') || 'Tiada justifikasi.';
 
-                // button invisible if dah diterima/tolak
+                // Sembunyikan Butang Terima/Tolak jika status dah selesai
                 const currentStatus = (this.getAttribute('data-status') || '').toLowerCase().trim();
                 if (['diterima', 'disokong', 'ditolak', 'lulus', 'terima'].includes(currentStatus)) {
                     if (modalActionsGroup) modalActionsGroup.style.display = 'none';
@@ -636,7 +848,7 @@
                     if (modalActionsGroup) modalActionsGroup.style.display = 'flex';
                 }
 
-                // ambil data
+                // Ambil & Pecahkan Data Penerima, Item, Lokasi
                 const strPenerima = this.getAttribute('data-namapenerima') || '';
                 const strItem     = this.getAttribute('data-item') || '';
                 const strLokasi   = this.getAttribute('data-lokasi') || '';
@@ -644,7 +856,6 @@
                 const listPenerima = strPenerima ? strPenerima.split(',').map(s => s.trim()) : [];
                 const listItem     = strItem ? strItem.split(',').map(s => s.trim()) : [];
 
-                // pecahkan locationn
                 let listLokasi = [];
                 if (strLokasi.includes('|')) {
                     listLokasi = strLokasi.split('|').map(s => s.trim());
@@ -663,7 +874,7 @@
                     listLokasi = [strLokasi.trim()];
                 }
 
-                // jadual penerima
+                // Bina Baris Jadual Penerima
                 const tbody = document.getElementById('tblBodyPenerima');
                 if (tbody) {
                     tbody.innerHTML = '';
@@ -698,22 +909,49 @@
             });
         });
 
+        // 4. Kawalan Butang Tutup Modal
         if (btnCloseModal) {
             btnCloseModal.addEventListener('click', () => modalButiran.style.display = 'none');
         }
 
-        window.addEventListener('click', (e) => {
-            if (e.target === modalButiran) modalButiran.style.display = 'none';
+        document.querySelectorAll('.close-lulus-btn').forEach(btn => {
+            btn.addEventListener('click', () => modalLulus.style.display = 'none');
         });
 
-        // AJAX for update
-        function updateStatusPermohonan(status) {
+        document.querySelectorAll('.close-tolak-btn').forEach(btn => {
+            btn.addEventListener('click', () => modalTolak.style.display = 'none');
+        });
+
+        window.addEventListener('click', (e) => {
+            if (e.target === modalButiran) modalButiran.style.display = 'none';
+            if (e.target === modalLulus) modalLulus.style.display = 'none';
+            if (e.target === modalTolak) modalTolak.style.display = 'none';
+        });
+
+        // 5. Aliran Modal Bertingkat (Terima / Tolak)
+        document.getElementById('btnProsesLulus').addEventListener('click', function () {
+            if (!selectedPermohonanId) return;
+            modalLulus.style.display = 'flex';
+        });
+
+        document.getElementById('btnProsesTolak').addEventListener('click', function () {
+            if (!selectedPermohonanId) return;
+            modalTolak.style.display = 'flex';
+        });
+
+        // 6. Fungsi AJAX untuk Hantar Keputusan ke Backend Server
+        function sendStatusUpdate(status, extraData = {}) {
             if (!selectedPermohonanId) return;
 
             const token = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
 
             let actionUrl = "{{ route('pelulus.kelulusan.update', ':id') }}";
             actionUrl = actionUrl.replace(':id', selectedPermohonanId);
+
+            const payload = {
+                status: status,
+                ...extraData
+            };
 
             fetch(actionUrl, {
                 method: 'POST',
@@ -722,7 +960,7 @@
                     'X-CSRF-TOKEN': token,
                     'Accept': 'application/json'
                 },
-                body: JSON.stringify({ status: status })
+                body: JSON.stringify(payload)
             })
             .then(async res => {
                 const data = await res.json();
@@ -733,14 +971,17 @@
             })
             .then(data => {
                 if (data.success) {
+                    // Tutup kedua-dua modal
+                    modalLulus.style.display = 'none';
+                    modalTolak.style.display = 'none';
                     modalButiran.style.display = 'none';
 
-                    
+                    // Kemaskini Badge & Atribut pada baris jadual secara langsung
                     if (selectedRowTarget) {
                         const statusTd = selectedRowTarget.children[6]; 
                         const actionBtn = selectedRowTarget.querySelector('.btn-view-permohonan');
                         
-                        if (data.status === 'Diterima' || data.status === 'Disokong') {
+                        if (data.status === 'Diterima' || data.status === 'Disokong' || data.status === 'Lulus') {
                             if (actionBtn) actionBtn.setAttribute('data-status', 'diterima');
                             statusTd.innerHTML = `
                                 <span class="badge badge-purple">
@@ -754,13 +995,6 @@
                                     <i class="fa-solid fa-user-xmark"></i> Ditolak Pelulus
                                 </span>
                             `;
-                        } else {
-                            if (actionBtn) actionBtn.setAttribute('data-status', 'dalam proses');
-                            statusTd.innerHTML = `
-                                <span class="badge badge-proses">
-                                    <i class="fa-solid fa-clock"></i> Menunggu Pelulus
-                                </span>
-                            `;
                         }
                     }
                 }
@@ -771,8 +1005,22 @@
             });
         }
 
-        document.getElementById('btnProsesLulus').addEventListener('click', () => updateStatusPermohonan('Diterima'));
-        document.getElementById('btnProsesTolak').addEventListener('click', () => updateStatusPermohonan('Ditolak'));
+        // 7. Pengendali Borang Pengesahan Modal (Submit Forms)
+        document.getElementById('formConfirmLulus').addEventListener('submit', function (e) {
+            e.preventDefault();
+            const catatan = this.querySelector('textarea[name="catatan_kelulusan"]')?.value || '';
+            sendStatusUpdate('Diterima', { catatan_kelulusan: catatan });
+        });
+
+        document.getElementById('formConfirmTolak').addEventListener('submit', function (e) {
+            e.preventDefault();
+            const sebab = this.querySelector('textarea[name="sebab_penolakan"]')?.value || '';
+            if (!sebab.trim()) {
+                alert('Sila nyatakan sebab penolakan.');
+                return;
+            }
+            sendStatusUpdate('Ditolak', { sebab_penolakan: sebab });
+        });
     });
 </script>
     

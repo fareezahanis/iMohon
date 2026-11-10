@@ -961,44 +961,51 @@
     </div>
 
     <!-- popup lulus -->
-    <div class="modal" id="modalLulus">
-        <div class="modal-content-confirm">
-            <div class="icon-circle-success">
-                <i class="fa-solid fa-check"></i>
-            </div>
-            <p class="modal-confirm-title">Terima permohonan ini ?</p>
+<div class="modal" id="modalLulus">
+    <div class="modal-content-confirm" style="max-width: 400px;">
+        <div class="icon-circle-success">
+            <i class="fa-solid fa-check"></i>
+        </div>
+        <p class="modal-confirm-title">Terima permohonan ini ?</p>
+        
+        <form id="formConfirmLulus" action="" method="POST" style="width: 100%; display: flex; flex-direction: column; align-items: center;">
+            @csrf
+            <input type="hidden" name="status" value="Lulus">
             
-            <form id="formConfirmLulus" action="" method="POST" style="width: 100%; display: flex; flex-direction: column; align-items: center;">
-                @csrf
-                <input type="hidden" name="status" value="Lulus">
-                <button type="submit" class="modal-btn-confirm-lulus">Terima</button>
-            </form>
-            <button type="button" class="modal-btn-batal close-lulus-btn">Batal</button>
-        </div>
-    </div>
-
-    <!-- popup tolak -->
-    <div class="modal" id="modalTolak">
-        <div class="modal-content-confirm" style="max-width: 400px;">
-            <div class="icon-circle-danger">
-                <i class="fa-solid fa-xmark"></i>
+            <!-- Tambahan Kotak Catatan Kelulusan -->
+            <div class="reason-box" style="width: 100%; margin-bottom: 15px;">
+                <span class="reason-label">Catatan kelulusan :</span>
+                <textarea name="catatan_kelulusan" class="reason-textarea"></textarea>
             </div>
-            <p class="modal-confirm-title">Tolak permohonan ini ?</p>
 
-            <form id="formConfirmTolak" action="" method="POST" style="width: 100%; display: flex; flex-direction: column; align-items: center;">
-                @csrf
-                <input type="hidden" name="status" value="Ditolak">
-                
-                <div class="reason-box">
-                    <span class="reason-label">Sebab penolakan :</span>
-                    <textarea name="sebab_penolakan" class="reason-textarea" placeholder="Nyatakan sebab penolakan..."></textarea>
-                </div>
-
-                <button type="submit" class="modal-btn-confirm-tolak">Ya, tolak</button>
-            </form>
-            <button type="button" class="modal-btn-batal close-tolak-btn" style="margin-top: 10px;">Batal</button>
-        </div>
+            <button type="submit" class="modal-btn-confirm-lulus">Terima</button>
+        </form>
+        <button type="button" class="modal-btn-batal close-lulus-btn" style="margin-top: 10px;">Batal</button>
     </div>
+</div>
+
+<!-- popup tolak -->
+<div class="modal" id="modalTolak">
+    <div class="modal-content-confirm" style="max-width: 400px;">
+        <div class="icon-circle-danger">
+            <i class="fa-solid fa-xmark"></i>
+        </div>
+        <p class="modal-confirm-title">Tolak permohonan ini ?</p>
+
+        <form id="formConfirmTolak" action="" method="POST" style="width: 100%; display: flex; flex-direction: column; align-items: center;">
+            @csrf
+            <input type="hidden" name="status" value="Ditolak">
+            
+            <div class="reason-box">
+                <span class="reason-label">Sebab penolakan :</span>
+                <textarea name="sebab_penolakan" class="reason-textarea" placeholder="Nyatakan sebab penolakan..."></textarea>
+            </div>
+
+            <button type="submit" class="modal-btn-confirm-tolak">Ya, tolak</button>
+        </form>
+        <button type="button" class="modal-btn-batal close-tolak-btn" style="margin-top: 10px;">Batal</button>
+    </div>
+</div>
 
     <script>
 

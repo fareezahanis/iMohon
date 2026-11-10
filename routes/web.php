@@ -45,6 +45,7 @@ Route::middleware('auth')->group(function () {
     Route::put('/rekod-peminjaman/{id}/update-status', [AdminController::class, 'updateStatusPenempatan'])->name('peminjaman.updateStatus');
 });
 
+
     Route::middleware(['auth'])->prefix('pelulus')->name('pelulus.')->group(function () {
     Route::get('/dashboard', [PelulusController::class, 'dashboard'])->name('dashboard');
     Route::get('/kelulusan', [PelulusController::class, 'kelulusan'])->name('kelulusan');

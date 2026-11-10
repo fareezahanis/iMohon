@@ -270,44 +270,57 @@ public function updateStatus(Request $request, $id)
     return redirect()->back()->with('success', 'Status permohonan berjaya dikemaskini!');
 }
 public function rekodPeminjaman(Request $request)
-{
-    $query = Permohonan::query();
+    {
+        // Hanya ambil permohonan yang telah Diterima / Lulus oleh pelulus/admin
+        $query = Permohonan::whereIn('status', ['Diterima', 'Lulus']);
 
-    // Pastikan query mengambil semua permohonan ATAU permohonan yang telah diterima
-    if ($request->filled('status')) {
-        $query->where('status', $request->status);
+        // Filter carian (search)
+        if ($request->filled('search')) {
+            $search = $request->search;
+            $query->where(function($q) use ($search) {
+                $q->where('nama_pemohon', 'like', "%{$search}%")
+                  ->orWhere('nama_item', 'like', "%{$search}%")
+                  ->orWhere('no_siri', 'like', "%{$search}%");
+            });
+        }
+
+        // Filter mengikut status_penempatan (Permohonan / Diagih / Dihantar / Selesai)
+        if ($request->filled('status')) {
+            $query->where(function($q) use ($request) {
+                if ($request->status == 'Permohonan') {
+                    // Masuk pertama kali (status_penempatan null atau 'Permohonan')
+                    $q->whereNull('status_penempatan')->orWhere('status_penempatan', 'Permohonan');
+                } else {
+                    $q->where('status_penempatan', $request->status);
+                }
+            });
+        }
+
+        $peminjaman = $query->latest()->get();
+
+        return view('admin.peminjaman', compact('peminjaman'));
     }
 
-    if ($request->filled('search')) {
-        $search = $request->search;
-        $query->where(function($q) use ($search) {
-            $q->where('nama_pemohon', 'like', "%{$search}%")
-              ->orWhere('nama_item', 'like', "%{$search}%");
-        });
-    }
-
-    $peminjaman = $query->latest()->get();
-
-    return view('admin.peminjaman', compact('peminjaman'));
-}
-
-public function updateStatusPenempatan(Request $request, $id)
+    // 2. Kemaskini Status Penempatan
+   public function updateStatusPenempatan(Request $request, $id)
 {
-   
+    // Terima status daripada select modal (status_penempatan atau status)
+    $statusInput = $request->input('status_penempatan') ?? $request->input('status');
+
     $request->validate([
-        'status' => 'required|string',
+        'status_penempatan' => 'nullable|string',
+        'status' => 'nullable|string',
     ]);
 
-    
-    $permohonan = Permohonan::findOrFail($id);
+    $permohonan = \App\Models\Permohonan::findOrFail($id);
 
-    
-    $permohonan->status = $request->status;
-    $permohonan->save(); // simpan kat sql
+    // Simpan nilai baru ke kolum status_penempatan
+    $permohonan->status_penempatan = $statusInput;
+    $permohonan->save();
 
-    // 4. Kembali ke halaman rekod penempatan berserta mesej kejayaan
-    return redirect()->back()->with('success', 'Status penempatan berjaya dikemaskini!');
+    return redirect()->back()->with('success', 'Status tracking penempatan berjaya dikemaskini!');
 }
+
 
 
 public function sahkanPemulangan($id)
