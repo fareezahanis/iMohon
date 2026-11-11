@@ -565,16 +565,19 @@
         .badge-pelulus-menunggu {
             background-color: #fef08a;
             color: #854d0e;
+            border: 1px solid #743e14;
         }
 
         .badge-pelulus-ditolak {
             background-color: #fee2e2;
             color: #991b1b;
+            border: 1px solid #c4100d;
         }
 
         .badge-diterima {
             background-color: #d1fae5;
             color: #065f46;
+           
         }
 
         .badge-ditolak {
@@ -757,7 +760,7 @@
                 <select class="status-select">
                     <option value="">Semua status</option>
                     <option value="Dalam proses">Dalam proses</option>
-                    <option value="Diterima">Terima</option>
+                    <option value="Diterima">Diterima</option>
                     <option value="Ditolak">Ditolak</option>
                 </select>
             </div>
@@ -972,7 +975,7 @@
             @csrf
             <input type="hidden" name="status" value="Lulus">
             
-            <!-- Tambahan Kotak Catatan Kelulusan -->
+            
             <div class="reason-box" style="width: 100%; margin-bottom: 15px;">
                 <span class="reason-label">Catatan kelulusan :</span>
                 <textarea name="catatan_kelulusan" class="reason-textarea"></textarea>
