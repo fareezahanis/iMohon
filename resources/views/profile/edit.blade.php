@@ -10,8 +10,20 @@
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
+    <!DOCTYPE html>
+<html lang="ms">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Profil - iMohon</title>
+
+    <!-- FontAwesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+
     <style>
-         {
+        * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
@@ -96,7 +108,8 @@
             transition: all 0.2s ease;
         }
 
-        .nav-link:hover, .nav-link.active {
+        .nav-link:hover,
+        .nav-link.active {
             background-color: rgba(255, 255, 255, 0.2);
             color: #ffffff;
             font-weight: 600;
@@ -159,114 +172,120 @@
             width: 100%;
         }
 
+        .header-row {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
         .page-title {
             font-size: 28px;
             font-weight: bold;
-            color: #111;
+            color: #0f172a;
+            margin-bottom: 4px;
         }
 
         .page-sub {
-            color: #666;
-            font-size: 14px;
-            margin-bottom: 25px;
+            color: #64748b;
+            font-size: 13.5px;
+        }
+
+        .btn-back {
+            background-color: white;
+            color: #334155;
+            border: 1px solid #cbd5e1;
+            padding: 9px 16px;
+            border-radius: 10px;
+            font-size: 13px;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s;
+        }
+
+        .btn-back:hover {
+            background-color: #f8fafc;
+            border-color: #94a3b8;
+            color: #0f172a;
+        }
+
+        /* ALERT BANNER */
+        .alert-success {
+            background-color: #dcfce7;
+            border: 1px solid #86efac;
+            color: #166534;
+            padding: 12px 18px;
+            border-radius: 12px;
+            font-size: 13.5px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
         /* FORM LAYOUT (2 COLUMNS) */
         .edit-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 25px;
+            gap: 24px;
             align-items: start;
+        }
+
+        @media (max-width: 900px) {
+            .edit-grid {
+                grid-template-columns: 1fr;
+            }
         }
 
         .edit-card {
             background: white;
             border-radius: 16px;
-            border: 1px solid #d1d5db;
-            padding: 25px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+            padding: 28px 30px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+            border-top: 4px solid #29158f;
         }
 
-        .card-header-title {
+        .card-header-box {
             display: flex;
             align-items: center;
             gap: 12px;
-            margin-bottom: 20px;
+            margin-bottom: 22px;
+            padding-bottom: 14px;
+            border-bottom: 1px solid #f1f5f9;
+        }
+
+        .card-header-icon {
+            width: 38px;
+            height: 38px;
+            border-radius: 10px;
+            background-color: #eef2ff;
+            color: #29158f;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             font-size: 16px;
+        }
+
+        .card-header-title {
+            font-size: 17px;
             font-weight: 700;
-            color: #29158f;
+            color: #0f172a;
         }
 
-        .card-header-title i {
-            font-size: 18px;
-        }
-
-        /* AVATAR UPLOAD SECTION */
-        .avatar-section {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-            margin-bottom: 25px;
-        }
-
-        .avatar-container {
-            position: relative;
-            width: 90px;
-            height: 90px;
-        }
-
-        .avatar-img {
-            width: 100%;
-            height: 100%;
-            background-color: #9392e2;
-            color: white;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 45px;
-        }
-
-        .camera-icon {
-            position: absolute;
-            bottom: 0;
-            right: 0;
-            background-color: #29158f;
-            color: white;
-            width: 28px;
-            height: 28px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 12px;
-            border: 2px solid white;
-            cursor: pointer;
-        }
-
-        .upload-info-btn {
-            border: 1px solid #29158f;
-            background: transparent;
-            color: #29158f;
-            padding: 8px 16px;
-            border-radius: 8px;
-            font-size: 13px;
-            font-weight: 600;
-            cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            margin-bottom: 6px;
-        }
-
-        .upload-hint {
-            font-size: 11px;
-            color: #888;
-            line-height: 1.4;
-        }
-
-        /* INPUT FIELD STYLES */
         .form-group {
+            margin-bottom: 16px;
+        }
+
+        .form-row-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
             margin-bottom: 16px;
         }
 
@@ -274,78 +293,114 @@
             display: block;
             font-size: 13px;
             font-weight: 600;
-            color: #333;
+            color: #334155;
             margin-bottom: 6px;
         }
 
         .form-label span {
-            color: #e11d48; /* Red asterisk */
+            color: #e11d48;
         }
 
-        .form-input, .form-select, .form-textarea {
+        .form-input {
             width: 100%;
-            padding: 10px 14px;
-            border: 1px solid #cbd5e1;
-            border-radius: 8px;
-            font-size: 13px;
-            color: #333;
-            outline: none;
+            padding: 10px 14px !important;
+            border: 1px solid #cbd5e1 !important;
+            border-radius: 10px !important;
+            font-size: 13.5px;
+            color: #0f172a;
+            outline: none !important;
+            box-shadow: none !important;
             background-color: #f8fafc;
-            transition: border-color 0.2s, background-color 0.2s;
+            transition: border-color 0.2s, background-color 0.2s, box-shadow 0.2s;
         }
 
-        .form-input:focus, .form-select:focus, .form-textarea:focus {
-            border-color: #29158f;
+        .form-input:focus {
+            border-color: #29158f !important;
             background-color: #ffffff;
+            box-shadow: 0 0 0 3px rgba(41, 21, 143, 0.12) !important;
         }
 
-        /* PASSWORD SECTION */
+        .error-text {
+            color: #dc2626;
+            font-size: 12px;
+            margin-top: 4px;
+            display: block;
+        }
+
+        
         .password-divider {
             border-top: 1px dashed #e2e8f0;
-            margin: 25px 0;
+            margin-top: 22px;
             padding-top: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
         }
 
         .password-btn {
             border: 1px solid #29158f;
-            background: transparent;
+            background: #eef2ff;
             color: #29158f;
-            padding: 10px 20px;
-            border-radius: 8px;
+            padding: 9px 16px;
+            border-radius: 9px;
             font-size: 13px;
             font-weight: 600;
             cursor: pointer;
             display: inline-flex;
             align-items: center;
             gap: 8px;
+            transition: all 0.2s;
         }
 
-        /* BOTTOM ACTION BUTTONS */
-        .bottom-actions {
-            display: flex;
-            justify-content: flex-end;
-            gap: 15px;
-            margin-top: 25px;
+        .password-btn:hover {
+            background: #29158f;
+            color: white;
         }
 
         
+        .bottom-actions {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            gap: 12px;
+            margin-top: 24px;
+        }
 
         .btn-save {
             background-color: #29158f;
             color: white;
             border: none;
-            padding: 10px 24px;
-            border-radius: 8px;
+            padding: 11px 24px;
+            border-radius: 10px;
             font-weight: 600;
-            font-size: 13px;
+            font-size: 13.5px;
             cursor: pointer;
             display: inline-flex;
             align-items: center;
             gap: 8px;
+            box-shadow: 0 4px 12px rgba(41, 21, 143, 0.2);
+            transition: background 0.2s, transform 0.2s;
         }
 
         .btn-save:hover {
-            background-color: #1e0e6e;
+            background-color: #1e0b75;
+            transform: translateY(-1px);
+        }
+
+        /* MODAL OVERLAY */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(15, 23, 42, 0.55);
+            backdrop-filter: blur(3px);
+            justify-content: center;
+            align-items: center;
+            z-index: 99999;
         }
     </style>
 </head>
@@ -411,11 +466,26 @@
             </div>
         </header>
 
-        <!-- content -->
+        <!-- CONTENT BODY -->
         <main class="content-body">
 
-            <h1 class="page-title">Edit Profil</h1>
-            <p class="page-sub">Kemaskini maklumat peribadi anda di sini.</p>
+            <div class="header-row">
+                <div>
+                    <h1 class="page-title">Edit Profil</h1>
+                    <p class="page-sub">Kemaskini maklumat peribadi serta maklumat penempatan tugas anda di sini</p>
+                </div>
+
+                <a href="{{ route('profile.user') }}" class="btn-back">
+                    <i class="fa-solid fa-arrow-left"></i> Kembali ke Profil
+                </a>
+            </div>
+
+            @if(session('status') === 'profile-updated' || session('status') === 'password-updated' || session('success'))
+                <div class="alert-success">
+                    <i class="fa-solid fa-circle-check"></i>
+                    <span>{{ session('success') ?? 'Maklumat akaun anda telah berjaya dikemaskini.' }}</span>
+                </div>
+            @endif
 
             <form action="{{ route('profile.update') }}" method="POST" enctype="multipart/form-data">
                 @csrf
@@ -423,81 +493,97 @@
 
                 <div class="edit-grid">
 
-                    <!-- maklumat akaun -->
+                    <!-- MAKLUMAT AKAUN -->
                     <div class="edit-card">
-                        <div class="card-header-title">
-                            <i class="fa-regular fa-user"></i>
-                            <span>Maklumat Akaun</span>
+                        <div class="card-header-box">
+                            <div class="card-header-icon">
+                                <i class="fa-solid fa-id-card"></i>
+                            </div>
+                            <span class="card-header-title">Maklumat Akaun</span>
                         </div>
-
 
                         <div class="form-group">
                             <label class="form-label">Nama Penuh <span>*</span></label>
-                            <input type="text" name="name" class="form-input" value="{{ old('name', Auth::user()->name) }}">
+                            <input type="text" name="name" class="form-input" required value="{{ old('name', Auth::user()->name) }}">
+                            @error('name') <span class="error-text">{{ $message }}</span> @enderror
                         </div>
 
                         <div class="form-group">
                             <label class="form-label">No. Kad Pengenalan <span>*</span></label>
-                            <input type="text" name="ic" class="form-input" value="{{ old('ic', Auth::user()->ic) }}">
+                            <input type="text" name="ic" class="form-input" required value="{{ old('ic', Auth::user()->ic) }}">
+                            @error('ic') <span class="error-text">{{ $message }}</span> @enderror
                         </div>
 
                         <div class="form-group">
                             <label class="form-label">Emel <span>*</span></label>
-                            <input type="email" name="email" class="form-input" value="{{ old('email', Auth::user()->email) }}">
+                            <input type="email" name="email" class="form-input" required value="{{ old('email', Auth::user()->email) }}">
+                            @error('email') <span class="error-text">{{ $message }}</span> @enderror
                         </div>
 
-                        <div class="form-group">
-                            <label class="form-label">No. Telefon <span>*</span></label>
-                            <input type="text" name="phone" class="form-input" value="{{ old('phone', Auth::user()->phone) }}">
+                        <div class="form-group" style="margin-bottom: 0;">
+                            <label class="form-label">No. Telefon Bimbit <span>*</span></label>
+                            <input type="text" name="phone" class="form-input" required value="{{ old('phone', Auth::user()->phone) }}">
+                            @error('phone') <span class="error-text">{{ $message }}</span> @enderror
                         </div>
                     </div>
 
-                    <!-- maklumat pekerjaan -->
-                    <div class="edit-card">
-                        <div class="card-header-title">
-                            <i class="fa-solid fa-briefcase"></i>
-                            <span>Maklumat Pekerjaan</span>
+                    <!-- MAKLUMAT PEKERJAAN -->
+                    <div class="edit-card" style="border-top-color: #10b981;">
+                        <div class="card-header-box">
+                            <div class="card-header-icon" style="background-color: #ecfdf5; color: #10b981;">
+                                <i class="fa-solid fa-briefcase"></i>
+                            </div>
+                            <span class="card-header-title">Maklumat Pekerjaan</span>
                         </div>
 
                         <div class="form-group">
                             <label class="form-label">Jawatan <span>*</span></label>
-                            <input name="jawatan" class="form-input" value="{{ old('jawatan', Auth::user()->jawatan) }}">
+                            <input type="text" name="jawatan" class="form-input" required value="{{ old('jawatan', Auth::user()->jawatan) }}">
+                            @error('jawatan') <span class="error-text">{{ $message }}</span> @enderror
                         </div>
 
                         <div class="form-group">
                             <label class="form-label">Bahagian <span>*</span></label>
-                            <input name="bahagian" class="form-input" value="{{ old('bahagian', Auth::user()->bahagian) }}">
+                            <input type="text" name="bahagian" class="form-input" required value="{{ old('bahagian', Auth::user()->bahagian) }}">
+                            @error('bahagian') <span class="error-text">{{ $message }}</span> @enderror
                         </div>
 
-                        <div class="form-group">
-                            <label class="form-label">Unit <span>*</span></label>
-                            <input name="unit" class="form-input" value="{{ old('unit', Auth::user()->unit) }}">
-                               
-                            
-                        </div>
-
-                        <div class="form-group">
-                            <label class="form-label">Alamat Pejabat <span>*</span></label>
-                            <input name="address" class="form-input" value="{{ old('address', Auth::user()->address) }}">
-                        </div>
-
-                        <!-- tukar password -->
-                        <div class="password-divider">
-                            <div class="card-header-title" style="margin-bottom: 12px;">
-                                <i class="fa-solid fa-lock"></i>
-                                <span>Tukar Kata Laluan</span>
+                        <div class="form-row-2">
+                            <div>
+                                <label class="form-label">Unit <span>*</span></label>
+                                <input type="text" name="unit" class="form-input" required value="{{ old('unit', Auth::user()->unit) }}">
+                                @error('unit') <span class="error-text">{{ $message }}</span> @enderror
                             </div>
-                            <button type="button" class="password-btn">
-                                <i class="fa-solid fa-lock"></i> Kemaskini Kata Laluan
+
+                            <div>
+                                <label class="form-label">No. Tel Pejabat <span>*</span></label>
+                                <input type="text" name="no_tel_pejabat" class="form-input" required placeholder="Contoh: 03-2282 5333" value="{{ old('no_tel_pejabat', Auth::user()->no_tel_pejabat) }}">
+                                @error('no_tel_pejabat') <span class="error-text">{{ $message }}</span> @enderror
+                            </div>
+                        </div>
+
+                        <div class="form-group" style="margin-bottom: 0;">
+                            <label class="form-label">Alamat Pejabat <span>*</span></label>
+                            <input type="text" name="address" class="form-input" required value="{{ old('address', Auth::user()->address) }}">
+                            @error('address') <span class="error-text">{{ $message }}</span> @enderror
+                        </div>
+
+                        <!-- TUKAR PASSWORD -->
+                        <div class="password-divider">
+                            <div>
+                                <div style="font-size: 13.5px; font-weight: 700; color: #0f172a;">Keselamatan Akaun</div>
+                                <div style="font-size: 12px; color: #64748b;">Tukar kata laluan log masuk anda secara berkala</div>
+                            </div>
+                            <button type="button" class="password-btn" id="openPasswordModalBtn">
+                                <i class="fa-solid fa-key"></i> Kemaskini Kata Laluan
                             </button>
                         </div>
                     </div>
 
                 </div>
 
-                
                 <div class="bottom-actions">
-                    
+                    <a href="{{ route('profile.user') }}" class="btn-back">Batal</a>
                     <button type="submit" class="btn-save">
                         <i class="fa-solid fa-floppy-disk"></i> Simpan Perubahan
                     </button>
@@ -509,6 +595,51 @@
 
     </div>
 
+    <!-- MODAL POPUP: TUKAR KATA LALUAN -->
+    <div id="passwordModal" class="modal-overlay">
+        <div style="background: white; border-radius: 18px; width: 92%; max-width: 440px; padding: 28px 30px; position: relative; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.15);">
+
+            <span id="closePasswordModalBtn" style="position: absolute; right: 22px; top: 18px; cursor: pointer; font-size: 20px; color: #94a3b8;">
+                <i class="fa-solid fa-xmark"></i>
+            </span>
+
+            <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 20px;">
+                <div style="background: #eef2ff; color: #29158f; width: 42px; height: 42px; border-radius: 11px; display: flex; align-items: center; justify-content: center; font-size: 18px;">
+                    <i class="fa-solid fa-lock"></i>
+                </div>
+                <div>
+                    <h2 style="font-size: 17px; font-weight: bold; color: #0f172a; margin: 0;">Kemaskini Kata Laluan</h2>
+                    <p style="font-size: 12px; color: #64748b; margin: 2px 0 0 0;">Masukkan kata laluan semasa dan kata laluan baharu</p>
+                </div>
+            </div>
+
+            <form method="POST" action="{{ route('password.update') }}">
+                @csrf
+                @method('put')
+
+                <div class="form-group">
+                    <label class="form-label">Kata Laluan Semasa <span>*</span></label>
+                    <input type="password" name="current_password" class="form-input" required placeholder="Masukkan kata laluan semasa">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Kata Laluan Baharu <span>*</span></label>
+                    <input type="password" name="password" class="form-input" required placeholder="Minimum 8 aksara">
+                </div>
+
+                <div class="form-group" style="margin-bottom: 20px;">
+                    <label class="form-label">Sahkan Kata Laluan Baharu <span>*</span></label>
+                    <input type="password" name="password_confirmation" class="form-input" required placeholder="Ulang kata laluan baharu">
+                </div>
+
+                <div style="display: flex; justify-content: flex-end; gap: 10px;">
+                    <button type="button" id="cancelPasswordModalBtn" class="btn-back">Batal</button>
+                    <button type="submit" class="btn-save">Simpan Kata Laluan</button>
+                </div>
+            </form>
+
+        </div>
+    </div>
     
     <script>
         document.addEventListener('DOMContentLoaded', function () {

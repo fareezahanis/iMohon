@@ -11,7 +11,7 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
     <style>
-         {
+        * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
@@ -24,7 +24,7 @@
             min-height: 100vh;
         }
 
-        
+        /* SIDEBAR */
         .sidebar {
             width: 260px;
             background-color: #29158f;
@@ -53,8 +53,8 @@
         }
 
         .sidebar.collapsed .nav-link {
-         justify-content: center;
-         padding: 12px 0;
+            justify-content: center;
+            padding: 12px 0;
         }
 
         .brand-logo {
@@ -112,7 +112,7 @@
             font-family: inherit;
         }
 
-        
+        /* MAIN WRAPPER */
         .main-wrapper {
             flex-grow: 1;
             display: flex;
@@ -154,40 +154,36 @@
             width: 100%;
         }
 
-        .page-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 25px;
-        }
-
         .page-title {
             font-size: 28px;
             font-weight: bold;
-            color: #111;
+            color: #0f172a;
+            margin-bottom: 4px;
         }
+
         .page-subtitle {
             font-size: 13px;
             color: #64748b;
+            margin-bottom: 22px;
         }
-        
 
+        
         .stats-grid {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 20px;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 18px;
             margin-bottom: 25px;
-            max-width: 700px;
         }
 
         .stat-card {
             background: white;
-            border-radius: 16px;
-            padding: 18px 24px;
+            border-radius: 14px;
+            padding: 18px 20px;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
             display: flex;
             align-items: center;
-            gap: 18px;
+            gap: 15px;
+            border-left: 4px solid #29158f;
         }
 
         .stat-icon {
@@ -197,62 +193,84 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 20px;
+            font-size: 19px;
+            flex-shrink: 0;
         }
-
-        .bg-purple { background-color: #e0e7ff; color: #4338ca; }
-        .bg-green { background-color: #dcfce7; color: #15803d; }
-        .bg-orange { background-color: #fef3c7; color: #d97706; }
 
         .stat-info .title {
             font-size: 12px;
             color: #64748b;
             font-weight: 600;
             display: block;
-            margin-bottom: 4px;
+            margin-bottom: 3px;
         }
 
         .stat-info .value {
-            font-size: 24px;
-            font-weight: bold;
-            color: #1e293b;
+            font-size: 22px;
+            font-weight: 700;
+            color: #0f172a;
         }
 
-        /* search bar & button add */
-       
+        
         .action-bar {
             display: flex;
+            flex-wrap: wrap;
             align-items: center;
-            gap: 15px;
-            margin-bottom: 25px;
+            gap: 12px;
+            margin-bottom: 22px;
         }
 
         .search-box {
-            background: white;
+            background: #ffffff;
             border: 1px solid #cbd5e1;
-            border-radius: 8px;
-            padding: 2px 12px;
+            border-radius: 10px;
+            padding: 0 14px;
+            height: 40px;
             width: 100%;
-            max-width: 400px;
+            max-width: 360px;
             display: flex;
             align-items: center;
-            gap: 14px;
+            gap: 10px;
+            transition: border-color 0.2s, box-shadow 0.2s;
         }
 
+
+        .search-box:focus-within {
+            border-color: #29158f;
+            box-shadow: 0 0 0 3px rgba(41, 21, 143, 0.12);
+        }
+
+
         .search-box input {
-            border: none;
-            outline: none;
+            border: none !important;
+            outline: none !important;
+            box-shadow: none !important;
+            background: transparent !important;
+            padding: 0 !important;
+            margin: 0 !important;
             width: 100%;
+            height: 100%;
             font-size: 13px;
             color: #334155;
+        }
+
+        .filter-select {
+            background: white;
+            border: 1px solid #cbd5e1;
+            border-radius: 10px;
+            padding: 0 14px;
+            height: 40px;
+            font-size: 13px;
+            color: #334155;
+            outline: none;
+            cursor: pointer;
         }
 
         .btn-add {
             background-color: #29158f;
             color: white;
-            padding: 9px 18px;
+            padding: 0 18px;
             border-radius: 10px;
-            text-decoration: none;
             font-weight: 600;
             font-size: 13px;
             display: inline-flex;
@@ -261,20 +279,20 @@
             border: none;
             cursor: pointer;
             transition: background 0.2s;
-            height: 37px; 
+            height: 40px;
             white-space: nowrap;
         }
 
         .btn-add:hover {
-            background-color: #2b12a3;
+            background-color: #1e0b75;
         }
 
-        /* inventori table */
+        
         .table-card {
             background: white;
             border-radius: 16px;
             padding: 25px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
             overflow-x: auto;
         }
 
@@ -287,13 +305,9 @@
         .custom-table th {
             background-color: #e0e7ff;
             color: #3730a3;
-            padding: 12px 14px;
+            padding: 13px 14px;
             text-align: left;
             font-weight: 600;
-        }
-
-        .custom-table th.center, .custom-table td.center {
-            text-align: center;
         }
 
         .custom-table td {
@@ -302,100 +316,96 @@
             border-bottom: 1px solid #f1f5f9;
         }
 
-        .action-icons i {
+        .custom-table tbody tr:hover {
+            background-color: #f8fafc;
+        }
+
+        
+        .badge-kategori {
+            background: #f1f5f9;
+            color: #334155;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            display: inline-block;
+        }
+
+        .pill-tersedia {
+            background: #dcfce7;
+            color: #166534;
+            padding: 4px 12px;
+            border-radius: 14px;
+            font-weight: 700;
+            font-size: 12px;
+            display: inline-block;
+            min-width: 45px;
+        }
+
+        .pill-diagih {
+            background: #f3e8ff;
+            color: #6b21a8;
+            padding: 4px 12px;
+            border-radius: 14px;
+            font-weight: 700;
+            font-size: 12px;
+            display: inline-block;
+            min-width: 45px;
+        }
+
+        .btn-icon-soft {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border: none;
             cursor: pointer;
-            margin: 0 6px;
-            font-size: 16px;
-            color: #475569;
-            transition: color 0.2s;
+            transition: all 0.2s;
+            font-size: 14px;
         }
 
-        .action-icons i:hover {
-            color: #1e0b75;
+        .btn-icon-view {
+            background: #eef2ff;
+            color: #29158f;
+            margin-right: 4px;
         }
 
-        .action-icons i.delete-btn:hover {
+        .btn-icon-view:hover {
+            background: #29158f;
+            color: white;
+        }
+
+        .btn-icon-delete {
+            background: #fef2f2;
             color: #ef4444;
         }
 
-        /* popup tambah alatan */
+        .btn-icon-delete:hover {
+            background: #ef4444;
+            color: white;
+        }
+
+        
         .modal {
             display: none;
             position: fixed;
-            z-index: 1000;
-            left: 0;
             top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            align-items: center;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(15, 23, 42, 0.55);
+            backdrop-filter: blur(3px);
             justify-content: center;
-        }
-
-        .modal-content {
-            background-color: white;
-            border-radius: 16px;
-            padding: 30px;
-            width: 100%;
-            max-width: 500px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-        }
-
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
             align-items: center;
-            margin-bottom: 20px;
-        }
-
-        .modal-header h3 {
-            font-size: 20px;
-            color: #1e0b75;
-        }
-
-        .close-btn {
-            font-size: 24px;
-            cursor: pointer;
-            color: #888;
-        }
-
-        .form-group {
-            margin-bottom: 15px;
-        }
-
-        .form-group label {
-            display: block;
-            font-size: 13px;
-            font-weight: 600;
-            color: #475569;
-            margin-bottom: 6px;
-        }
-
-        .form-group input, .form-group select {
-            width: 100%;
-            padding: 10px 14px;
-            border: 1px solid #cbd5e1;
-            border-radius: 8px;
-            font-size: 14px;
-            outline: none;
-        }
-
-        .form-submit {
-            width: 100%;
-            background-color: #1e0b75;
-            color: white;
-            border: none;
-            padding: 12px;
-            border-radius: 8px;
-            font-weight: 600;
-            cursor: pointer;
-            margin-top: 10px;
+            z-index: 99999;
         }
     </style>
 </head>
 <body>
 
-    <!-- sidebar -->
+    <!-- SIDEBAR -->
     <aside class="sidebar">
         <div class="sidebar-header">
             <div class="brand-logo">
@@ -442,7 +452,6 @@
                     <span>Permohonan Baru</span>
                 </a>
             </li>
-            
             <li>
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
@@ -455,10 +464,10 @@
         </ul>
     </aside>
 
-    <!-- content right -->
+    
     <div class="main-wrapper">
 
-        <!-- TOP HEADER -->
+        
         <header class="top-header">
             <div class="user-profile">
                 <span>Admin</span>
@@ -468,149 +477,64 @@
             </div>
         </header>
 
-        <!-- CONTENT BODY -->
+        
         <main class="content-body">
 
-                <h1 style="font-size: 28px; font-weight: bold; color: #0f172a; margin-bottom: 25px;">Inventori Peralatan</h1>
-    
-         <!-- search bar & button add  -->
-        <div class="action-bar" style="display: flex; justify-content: flex-start; align-items: center; gap: 12px; margin-top: 20px; margin-bottom: 25px;">
-   
-        <form action="{{ route('admin.inventori') }}" method="GET" style="width: 350px; display: flex; align-items: center; margin: 0;">
-            <div class="search-box" style="width: 100%;">
-                <i class="fa-solid fa-magnifying-glass" style="color: #94a3b8;"></i>
-                <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari peralatan.." style="width: 100%; border: none; outline: none;">
-            </div>
-            <button type="submit" style="display: none;"></button>
-        </form>
-            <button type="button" class="btn-add" id="openModalBtn">
-                <i class="fa-solid fa-plus"></i> Tambah Peralatan
-            </button>
-        </div>
+            <h1 class="page-title">Inventori Peralatan</h1>
+            <p class="page-subtitle">Pengurusan stok peralatan, kontrak vendor dan nombor siri unit</p>
 
-        <div class="table-card" style="background: white; border-radius: 16px; padding: 25px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);">
-            <table class="custom-table" style="width: 100%; border-collapse: collapse; font-size: 13px;">
-        <thead>
-            <tr style="background-color: #e0e7ff; color: #3730a3;">
-                <th style="padding: 12px 14px; text-align: center; font-weight: 600; width: 50px;">No.</th>
-                <th style="padding: 12px 14px; text-align: left; font-weight: 600;">Nama peralatan</th>
-                <th style="padding: 12px 14px; text-align: center; font-weight: 600;">Kategori</th>
-                <th style="padding: 12px 14px; text-align: center; font-weight: 600;">Jumlah</th>
-                <th style="padding: 12px 14px; text-align: center; font-weight: 600;">Tersedia</th>
-                <th style="padding: 12px 14px; text-align: center; font-weight: 600;">Diagih</th>
-                <th style="padding: 12px 14px; text-align: center; font-weight: 600; width: 100px;">Butiran</th>
-            </tr>
-        </thead>
-        <tbody>
-            @forelse($inventori as $index => $item)
-                <tr style="border-bottom: 1px solid #f1f5f9;">
-                    <td style="padding: 14px; text-align: center; color: #334155;">{{ $loop->iteration }}</td>
-                    <td style="padding: 14px; font-weight: 600; color: #0f172a;">{{ $item->nama_peralatan }}</td>
-                    <td style="padding: 14px; text-align: center; color: #475569;">{{ $item->kategori }}</td>
-                    <td style="padding: 14px; text-align: center; font-weight: bold; color: #0f172a;">{{ $item->jumlah }}</td>
-                    <td style="padding: 14px; text-align: center; font-weight: bold; color: #262d29;">{{ $item->tersedia }}</td>
-                    <td style="padding: 14px; text-align: center; font-weight: bold; color: #322f2b;">{{ $item->diagih }}</td>
-                    <td style="padding: 14px; text-align: center;" class="action-icons">
-                        
-                        <i class="fa-solid fa-eye btn-view-kontrak" 
-                            style="cursor: pointer; font-size: 16px; color: #0f172a; margin-right: 10px;" title="Lihat Kontrak & Vendor"
-                            data-kontrak="{{ json_encode($item->vendors->map(function($v) {
-                            return ['no_kontrak'  => $v->no_kontrak ?? '-',
-                                    'vendor'      => $v->nama_vendor ?? '-',
-                                    'tarikh'      => $v->created_at ? $v->created_at->format('d/m/Y') : '-',
-                                    'jumlah_unit' => $v->pivot->jumlah_unit ?? 0];})) }}">
-                        </i>
+            
+            <div class="stats-grid">
+                <div class="stat-card" style="border-left-color: #29158f;">
+                    <div class="stat-icon" style="background: #eef2ff; color: #29158f;">
+                        <i class="fa-solid fa-boxes-stacked"></i>
+                    </div>
+                    <div class="stat-info">
+                        <span class="title">Model Peralatan</span>
+                        <span class="value">{{ $inventori->count() }}</span>
+                    </div>
+                </div>
 
-                        <!-- delete -->
-                        <form action="{{ route('admin.inventori.destroy', $item->id) }}" method="POST" style="display: inline;" onsubmit="return confirm('Adakah anda pasti ingin memadam peralatan ini?');">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" style="background: none; border: none; padding: 0; cursor: pointer;">
-                                <i class="fa-solid fa-trash-can" style="font-size: 16px; color: #131111;" title="Padam"></i>
-                            </button>
-                        </form>
-                    </td>
-                </tr>
-            @empty
-                <tr>
-                    <td colspan="7" style="padding: 20px; text-align: center; color: #64748b;">
-                        Tiada rekod peralatan dijumpai.
-                    </td>
-                </tr>
-            @endforelse
-        </tbody>
-    </table>
-</div>
+                <div class="stat-card" style="border-left-color: #3b82f6;">
+                    <div class="stat-icon" style="background: #eff6ff; color: #3b82f6;">
+                        <i class="fa-solid fa-layer-group"></i>
+                    </div>
+                    <div class="stat-info">
+                        <span class="title">Jumlah Keseluruhan</span>
+                        <span class="value">{{ number_format($inventori->sum('jumlah')) }}</span>
+                    </div>
+                </div>
 
-</main>
-</div>
+                <div class="stat-card" style="border-left-color: #10b981;">
+                    <div class="stat-icon" style="background: #ecfdf5; color: #10b981;">
+                        <i class="fa-solid fa-circle-check"></i>
+                    </div>
+                    <div class="stat-info">
+                        <span class="title">Unit Tersedia</span>
+                        <span class="value" style="color: #10b981;">{{ number_format($inventori->sum('tersedia')) }}</span>
+                    </div>
+                </div>
 
-        <!-- popup kontrak & vendor -->
-        <div class="modal" id="modalKontrakVendor" style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; width: 100vw; height: 100vh; background: rgba(0, 0, 0, 0.5); justify-content: center; align-items: center; z-index: 99999;">
-    
-            <div style="background: white; border-radius: 16px; width: 90%; max-width: 750px; padding: 30px; position: relative; margin: auto; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1);">
-            <span id="closeKontrakModalBtn" style="position: absolute; right: 25px; top: 20px; cursor: pointer; font-size: 22px; color: #94a3b8;"><i class="fa-solid fa-xmark"></i></span>
-
-        <!-- title -->
-        <div style="display: flex; align-items: flex-start; gap: 12px; margin-bottom: 20px;">
-            <div style="background: #1e0b75; color: white; padding: 10px 12px; border-radius: 10px; font-size: 18px; display: flex; align-items: center; justify-content: center;">
-                <i class="fa-solid fa-clipboard-list"></i>
-            </div>
-            <div>
-                <h2 style="font-size: 20px; font-weight: bold; color: #0f172a; margin: 0;">Kontrak & vendor</h2>
-                <p style="font-size: 13px; color: #94a3b8; margin: 3px 0 0 0;">Jumlah unit bagi setiap kontrak</p>
-            </div>
-        </div>
-
-        <!-- jadual kontrak & vendor -->
-        <div style="overflow-x: auto; margin-top: 15px;">
-            <table style="width: 100%; border-collapse: collapse; font-size: 13px; text-align: left;">
-                <thead>
-                    <tr style="background: #eef2ff; color: #334155;">
-                        <th style="padding: 12px 15px; width: 50px;">No.</th>
-                        <th style="padding: 12px 15px;">No. Kontrak</th>
-                        <th style="padding: 12px 15px;">Vendor</th>
-                        <th style="padding: 12px 15px; text-align: center;">Jumlah unit</th>
-                    </tr>
-                </thead>
-                <tbody id="tblBodyKontrak">
-                    <!-- js -->
-                </tbody>
-            </table>
-        </div>
-
-    </div>
-</div>
-
-
-
-  <!-- popup add item -->
-<div class="modal" id="addModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); justify-content: center; align-items: center; z-index: 9999; box-sizing: border-box;">
-    <div style="background: white; border-radius: 16px; width: 100%; max-width: 600px; padding: 25px; position: relative; max-height: 90vh; overflow-y: auto; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1); box-sizing: border-box; margin: 20px;">
-        
-        <!-- header -->
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-            <h2 style="font-size: 18px; font-weight: bold; color: #1e0b75; margin: 0;">
-                <i class="fa-solid fa-boxes-packing" style="margin-right: 8px;"></i> Tambah Peralatan
-            </h2>
-            <span id="closeModalBtn" style="cursor: pointer; font-size: 24px; color: #94a3b8; font-weight: bold; line-height: 1;">&times;</span>
-        </div>
-
-        <form action="{{ route('admin.inventori.store') }}" method="POST">
-            @csrf
-
-            <!-- nama item -->
-            <div style="margin-bottom: 15px;">
-                <label style="display: block; font-size: 12px; font-weight: 600; color: #475569; margin-bottom: 5px;">Nama Peralatan</label>
-                <input type="text" name="nama_peralatan" required 
-                       style="width: 100%; padding: 10px 12px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 13px; box-sizing: border-box;">
+                <div class="stat-card" style="border-left-color: #8b5cf6;">
+                    <div class="stat-icon" style="background: #f5f3ff; color: #8b5cf6;">
+                        <i class="fa-solid fa-hand-holding-hand"></i>
+                    </div>
+                    <div class="stat-info">
+                        <span class="title">Unit Diagih</span>
+                        <span class="value" style="color: #8b5cf6;">{{ number_format($inventori->sum('diagih')) }}</span>
+                    </div>
+                </div>
             </div>
 
-            <!-- kategori -->
-            <div style="margin-bottom: 15px;">
-                <label style="display: block; font-size: 12px; font-weight: 600; color: #475569; margin-bottom: 5px;">Kategori</label>
-                <select name="kategori" required style="width: 100%; padding: 10px 12px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 13px; background: white; box-sizing: border-box; outline: none;">
-                    <option value="">-- Pilih Kategori --</option>
+           
+            <div class="action-bar">
+                <div class="search-box">
+                    <i class="fa-solid fa-magnifying-glass" style="color: #94a3b8;"></i>
+                    <input type="text" id="liveSearchInput" value="{{ request('search') }}" placeholder="Cari nama peralatan...">
+                </div>
+
+                <select id="filterKategoriSelect" class="filter-select">
+                    <option value="">Semua Kategori</option>
                     <option value="Notebook Highend">Notebook Highend</option>
                     <option value="Notebook">Notebook</option>
                     <option value="PC Highend">PC Highend</option>
@@ -620,78 +544,263 @@
                     <option value="Printer Color A3">Printer Color A3</option>
                     <option value="Projektor">Projektor</option>
                 </select>
+
+                <button type="button" class="btn-add" id="openModalBtn">
+                    <i class="fa-solid fa-plus"></i> Tambah Peralatan
+                </button>
             </div>
 
-            <!-- kontrak & vendor -->
-            <div style="margin-bottom: 15px; background: #f8fafc; padding: 12px; border-radius: 8px; border: 1px solid #e2e8f0; box-sizing: border-box;">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-                    <label style="font-size: 12px; font-weight: 600; color: #475569;">No. Kontrak, Vendor, Unit & Tarikh</label>
-                    <button type="button" id="btn-tambah-vendor" style="background: #3730a3; color: white; border: none; padding: 5px 10px; border-radius: 6px; font-size: 11px; cursor: pointer; display: flex; align-items: center; gap: 4px;">
-                        <i class="fa-solid fa-plus"></i> Tambah Vendor
-                    </button>
+            
+            <div class="table-card">
+                <table class="custom-table" id="inventoriTable">
+                    <thead>
+                        <tr>
+                            <th style="text-align: center; width: 55px;">No.</th>
+                            <th>Nama peralatan</th>
+                            <th style="text-align: center;">Kategori</th>
+                            <th style="text-align: center;">Jumlah</th>
+                            <th style="text-align: center;">Tersedia</th>
+                            <th style="text-align: center;">Diagih</th>
+                            <th style="text-align: center; width: 110px;">Butiran</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @forelse($inventori as $index => $item)
+                            <tr data-kategori="{{ strtolower($item->kategori) }}">
+                                <td style="text-align: center; color: #64748b; font-weight: 600;">{{ $loop->iteration }}</td>
+                                <td style="font-weight: 700; color: #0f172a;">{{ $item->nama_peralatan }}</td>
+                                <td style="text-align: center;">
+                                    <span class="badge-kategori">{{ $item->kategori }}</span>
+                                </td>
+                                <td style="text-align: center; font-weight: 700; color: #0f172a; font-size: 14px;">{{ $item->jumlah }}</td>
+                                <td style="text-align: center;">
+                                    <span class="pill-tersedia">{{ $item->tersedia }}</span>
+                                </td>
+                                <td style="text-align: center;">
+                                    <span class="pill-diagih">{{ $item->diagih }}</span>
+                                </td>
+                                <td style="text-align: center;">
+                                    
+                                    <button type="button" class="btn-icon-soft btn-icon-view btn-view-kontrak"
+                                        title="Lihat Kontrak, Vendor & No. Siri"
+                                        data-nama="{{ $item->nama_peralatan }}"
+                                        data-kontrak="{{ json_encode($item->vendors->map(function($v) {
+                                            return [
+                                                'no_kontrak'  => $v->no_kontrak ?? '-',
+                                                'vendor'      => $v->nama_vendor ?? '-',
+                                                'tarikh'      => $v->created_at ? $v->created_at->format('d/m/Y') : '-',
+                                                'jumlah_unit' => $v->pivot->jumlah_unit ?? 0
+                                            ];
+                                        })) }}"
+                                        data-units="{{ json_encode($item->units ?? []) }}">
+                                        <i class="fa-solid fa-eye"></i>
+                                    </button>
+
+                                    
+                                    <form action="{{ route('admin.inventori.destroy', $item->id) }}" method="POST" style="display: inline;" onsubmit="return confirm('Adakah anda pasti ingin memadam peralatan ini?');">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn-icon-soft btn-icon-delete" title="Padam Peralatan">
+                                            <i class="fa-solid fa-trash-can"></i>
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="7" style="padding: 30px; text-align: center; color: #94a3b8; font-style: italic;">
+                                    Tiada rekod peralatan dijumpai.
+                                </td>
+                            </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+            </div>
+
+        </main>
+    </div>
+
+    <!-- popup -->
+    <div class="modal" id="modalKontrakVendor">
+        <div style="background: white; border-radius: 18px; width: 92%; max-width: 780px; padding: 30px; position: relative; max-height: 90vh; overflow-y: auto; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.15);">
+            <span id="closeKontrakModalBtn" style="position: absolute; right: 25px; top: 20px; cursor: pointer; font-size: 22px; color: #94a3b8;">
+                <i class="fa-solid fa-xmark"></i>
+            </span>
+
+            
+            <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 20px;">
+                <div style="background: #1e0b75; color: white; width: 46px; height: 46px; border-radius: 12px; font-size: 18px; display: flex; align-items: center; justify-content: center;">
+                    <i class="fa-solid fa-clipboard-list"></i>
+                </div>
+                <div>
+                    <h2 id="modalTitlePeralatan" style="font-size: 19px; font-weight: bold; color: #0f172a; margin: 0;">Kontrak & vendor</h2>
+                    <p style="font-size: 13px; color: #64748b; margin: 2px 0 0 0;">Maklumat kontrak vendor dan senarai nombor siri unit</p>
+                </div>
+            </div>
+
+            <!-- table kontrak&vendor -->
+            <div style="overflow-x: auto; margin-bottom: 24px;">
+                <table style="width: 100%; border-collapse: collapse; font-size: 13px; text-align: left;">
+                    <thead>
+                        <tr style="background: #eef2ff; color: #3730a3;">
+                            <th style="padding: 11px 14px; width: 50px; text-align: center;">No.</th>
+                            <th style="padding: 11px 14px;">No. Kontrak</th>
+                            <th style="padding: 11px 14px;">Vendor</th>
+                            <th style="padding: 11px 14px; text-align: center;">Jumlah unit</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tblBodyKontrak">
+                        <!-- js -->
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- nombor siri -->
+            <div style="border-top: 1px solid #e2e8f0; padding-top: 18px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                    <h4 style="font-size: 14px; font-weight: 700; color: #1e0b75; margin: 0;">
+                        <i class="fa-solid fa-barcode" style="margin-right: 6px;"></i> Senarai Nombor Siri Unit
+                    </h4>
+                    <input type="text" id="searchSerialModalInput" placeholder="Cari no. siri..."
+                        style="padding: 6px 12px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 12px; width: 210px; outline: none;">
                 </div>
 
-                <div id="vendor-wrapper">
-                    <div class="vendor-row" style="display: flex; gap: 6px; margin-bottom: 8px; align-items: center;">
-                        <select name="vendors[0][id]" required style="flex: 2; padding: 8px 10px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 12px; background: white; box-sizing: border-box;">
-                            <option value="">-- Pilih Vendor --</option>
-                            @foreach($vendors as $vendor)
-                                <option value="{{ $vendor->id }}">{{ $vendor->no_kontrak }} - {{ $vendor->nama_vendor }}</option>
-                            @endforeach
-                        </select>
-                        
-                        <input type="number" name="vendors[0][jumlah_unit]" placeholder="Unit" min="1" required style="width: 65px; padding: 8px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 12px; box-sizing: border-box;">
+                <div style="max-height: 230px; overflow-y: auto; border: 1px solid #e2e8f0; border-radius: 10px;">
+                    <table style="width: 100%; border-collapse: collapse; font-size: 12px; text-align: left;">
+                        <thead style="position: sticky; top: 0; background: #f8fafc; z-index: 2;">
+                            <tr style="color: #475569; border-bottom: 1px solid #e2e8f0;">
+                                <th style="padding: 10px 12px; width: 50px; text-align: center;">No.</th>
+                                <th style="padding: 10px 12px;">No. Siri (Serial Number)</th>
+                                <th style="padding: 10px 12px;">No. Kontrak</th>
+                                <th style="padding: 10px 12px; text-align: center;">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tblBodySerialUnits">
+                            <!-- js -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
 
-                        <button type="button" class="btn-remove-vendor" style="background: #ef4444; color: white; border: none; width: 32px; height: 32px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
-                            <i class="fa-solid fa-xmark"></i>
+    <!-- popup 2 -->
+    <div class="modal" id="addModal">
+        <div style="background: white; border-radius: 18px; width: 92%; max-width: 620px; padding: 28px; position: relative; max-height: 92vh; overflow-y: auto; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.15);">
+            
+            
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <h2 style="font-size: 19px; font-weight: bold; color: #1e0b75; margin: 0;">
+                    <i class="fa-solid fa-boxes-packing" style="margin-right: 8px;"></i> Tambah Peralatan
+                </h2>
+                <span id="closeModalBtn" style="cursor: pointer; font-size: 24px; color: #94a3b8; font-weight: bold; line-height: 1;">&times;</span>
+            </div>
+
+            <form action="{{ route('admin.inventori.store') }}" method="POST">
+                @csrf
+
+                
+                <div style="margin-bottom: 14px;">
+                    <label style="display: block; font-size: 12px; font-weight: 600; color: #475569; margin-bottom: 5px;">Nama Peralatan</label>
+                    <input type="text" name="nama_peralatan" required placeholder="Contoh: DELL LATITUDE 3440 i5"
+                           style="width: 100%; padding: 10px 12px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 13px;">
+                </div>
+
+                
+                <div style="margin-bottom: 14px;">
+                    <label style="display: block; font-size: 12px; font-weight: 600; color: #475569; margin-bottom: 5px;">Kategori</label>
+                    <select name="kategori" required style="width: 100%; padding: 10px 12px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 13px; background: white; outline: none;">
+                        <option value="">-- Pilih Kategori --</option>
+                        <option value="Notebook Highend">Notebook Highend</option>
+                        <option value="Notebook">Notebook</option>
+                        <option value="PC Highend">PC Highend</option>
+                        <option value="PC">PC</option>
+                        <option value="Printer Mono A4">Printer Mono A4</option>
+                        <option value="Printer Color A4">Printer Color A4</option>
+                        <option value="Printer Color A3">Printer Color A3</option>
+                        <option value="Projektor">Projektor</option>
+                    </select>
+                </div>
+
+                
+                <div style="margin-bottom: 14px; background: #f8fafc; padding: 12px; border-radius: 10px; border: 1px solid #e2e8f0;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                        <label style="font-size: 12px; font-weight: 600; color: #475569;">No. Kontrak, Vendor & Unit</label>
+                        <button type="button" id="btn-tambah-vendor" style="background: #3730a3; color: white; border: none; padding: 5px 10px; border-radius: 6px; font-size: 11px; cursor: pointer; display: flex; align-items: center; gap: 4px;">
+                            <i class="fa-solid fa-plus"></i> Tambah Vendor
                         </button>
                     </div>
-                </div>
-            </div>
 
-            <!-- kuantiti (semua) -->
-            <div style="margin-bottom: 15px;">
-                <label style="display: block; font-size: 12px; font-weight: 600; color: #475569; margin-bottom: 5px;">Jumlah Kuantiti</label>
-                <input type="number" name="jumlah" min="1" required 
-                       style="width: 100%; padding: 10px 12px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 13px; box-sizing: border-box;">
-            </div>
+                    <div id="vendor-wrapper">
+                        <div class="vendor-row" style="display: flex; gap: 8px; margin-bottom: 8px; align-items: center;">
+                            <select name="vendors[0][id]" required style="flex: 2; padding: 8px 10px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 12px; background: white;">
+                                <option value="">-- Pilih Vendor --</option>
+                                @foreach($vendors as $vendor)
+                                    <option value="{{ $vendor->id }}">{{ $vendor->no_kontrak }} - {{ $vendor->nama_vendor }}</option>
+                                @endforeach
+                            </select>
+                            
+                            <input type="number" name="vendors[0][jumlah_unit]" placeholder="Unit" min="1" required style="width: 75px; padding: 8px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 12px;">
 
-            <!-- status agih -->
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px;">
-                <div>
-                    <label style="display: block; font-size: 12px; font-weight: 600; color: #475569; margin-bottom: 5px;">Kuantiti Tersedia</label>
-                    <input type="number" name="tersedia" min="0" required
-                           style="width: 100%; padding: 10px 12px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 13px; box-sizing: border-box;">
+                            <button type="button" class="btn-remove-vendor" style="background: #ef4444; color: white; border: none; width: 32px; height: 32px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                                <i class="fa-solid fa-xmark"></i>
+                            </button>
+                        </div>
+                    </div>
                 </div>
-                <div>
-                    <label style="display: block; font-size: 12px; font-weight: 600; color: #475569; margin-bottom: 5px;">Kuantiti Diagih</label>
-                    <input type="number" name="diagih" min="0" required
-                           style="width: 100%; padding: 10px 12px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 13px; box-sizing: border-box;">
-                </div>
-            </div>
 
-           
-            <button type="submit" style="width: 100%; background: #1e0b75; color: white; border: none; padding: 12px; border-radius: 10px; font-weight: bold; font-size: 14px; cursor: pointer;">
-                Simpan Peralatan
-            </button>
-        </form>
+                <!-- senarai no. siri -->
+                <div style="margin-bottom: 14px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px;">
+                        <label style="font-size: 12px; font-weight: 600; color: #475569;">
+                            Senarai No. Siri (Paste dari Excel — 1 baris = 1 unit)
+                        </label>
+                        <span id="badgeKiraanSN" style="background: #e0e7ff; color: #1e0b75; padding: 2px 10px; border-radius: 12px; font-size: 11px; font-weight: 700;">
+                            0 No. Siri
+                        </span>
+                    </div>
+                    <textarea name="senarai_no_siri" id="inputSenaraiNoSiri" rows="4" required
+                        placeholder="CND2026001&#10;CND2026002&#10;CND2026003"
+                        style="width: 100%; padding: 10px 12px; border: 1px solid #cbd5e1; border-radius: 8px; font-family: monospace; font-size: 13px; outline: none;"></textarea>
+                </div>
+
+                
+                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 20px;">
+                    <div>
+                        <label style="display: block; font-size: 12px; font-weight: 600; color: #475569; margin-bottom: 5px;">Jumlah Kuantiti</label>
+                        <input type="number" name="jumlah" id="inputJumlahKuantiti" min="1" required 
+                               style="width: 100%; padding: 10px 12px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 13px;">
+                    </div>
+                    <div>
+                        <label style="display: block; font-size: 12px; font-weight: 600; color: #475569; margin-bottom: 5px;">Kuantiti Tersedia</label>
+                        <input type="number" name="tersedia" id="inputKuantitiTersedia" min="0" required
+                               style="width: 100%; padding: 10px 12px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 13px;">
+                    </div>
+                    <div>
+                        <label style="display: block; font-size: 12px; font-weight: 600; color: #475569; margin-bottom: 5px;">Kuantiti Diagih</label>
+                        <input type="number" name="diagih" value="0" min="0" required
+                               style="width: 100%; padding: 10px 12px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 13px;">
+                    </div>
+                </div>
+
+                <button type="submit" style="width: 100%; background: #1e0b75; color: white; border: none; padding: 12px; border-radius: 10px; font-weight: bold; font-size: 14px; cursor: pointer;">
+                    Simpan Peralatan
+                </button>
+            </form>
+        </div>
     </div>
-</div>
 
     <script>
     document.addEventListener('DOMContentLoaded', function () {
-       
+        
+        
         const sidebar = document.querySelector('.sidebar');
         const toggleBtn = document.getElementById('toggleSidebar');
 
         if (toggleBtn && sidebar) {
             toggleBtn.addEventListener('click', function () {
                 sidebar.classList.toggle('collapsed');
-                if (sidebar.classList.contains('collapsed')) {
-                    toggleBtn.style.transform = 'rotate(180deg)';
-                } else {
-                    toggleBtn.style.transform = 'rotate(0deg)';
-                }
+                toggleBtn.style.transform = sidebar.classList.contains('collapsed') ? 'rotate(180deg)' : 'rotate(0deg)';
             });
         }
 
@@ -700,115 +809,208 @@
         const openBtn = document.getElementById('openModalBtn');
         const closeBtn = document.getElementById('closeModalBtn');
 
-        if (openBtn && modal) {
-            openBtn.onclick = () => modal.style.display = 'flex';
-        }
-        if (closeBtn && modal) {
-            closeBtn.onclick = () => modal.style.display = 'none';
+        if (openBtn && modal) openBtn.onclick = () => modal.style.display = 'flex';
+        if (closeBtn && modal) closeBtn.onclick = () => modal.style.display = 'none';
+
+       
+        const textareaSN = document.getElementById('inputSenaraiNoSiri');
+        const badgeKiraanSN = document.getElementById('badgeKiraanSN');
+        const inputJumlah = document.getElementById('inputJumlahKuantiti');
+        const inputTersedia = document.getElementById('inputKuantitiTersedia');
+
+        if (textareaSN) {
+            textareaSN.addEventListener('input', function () {
+                const lines = this.value.split(/\r?\n/).map(s => s.trim()).filter(s => s !== '');
+                const uniqueCount = new Set(lines).size;
+
+                if (badgeKiraanSN) badgeKiraanSN.innerText = `${uniqueCount} No. Siri`;
+                if (uniqueCount > 0) {
+                    if (inputJumlah) inputJumlah.value = uniqueCount;
+                    if (inputTersedia) inputTersedia.value = uniqueCount;
+                }
+            });
         }
 
         
         const modalKontrak = document.getElementById('modalKontrakVendor');
         const closeKontrakBtn = document.getElementById('closeKontrakModalBtn');
-        const btnsViewKontrak = document.querySelectorAll('.btn-view-kontrak');
+        let currentModalUnits = [];
 
-        btnsViewKontrak.forEach(button => {
+        function renderSerialUnitsTable(units) {
+            const tbodySerial = document.getElementById('tblBodySerialUnits');
+            if (!tbodySerial) return;
+
+            tbodySerial.innerHTML = '';
+
+            if (!units || units.length === 0) {
+                tbodySerial.innerHTML = `
+                    <tr>
+                        <td colspan="4" style="padding: 18px; text-align: center; color: #94a3b8; font-style: italic;">
+                            Tiada rekod nombor siri didaftarkan untuk peralatan ini.
+                        </td>
+                    </tr>`;
+                return;
+            }
+
+            units.forEach((u, idx) => {
+                const isTersedia = (u.status || '').toLowerCase() === 'tersedia';
+                const statusBadge = isTersedia
+                    ? `<span style="background: #dcfce7; color: #166534; padding: 3px 10px; border-radius: 12px; font-weight: 600;">Tersedia</span>`
+                    : `<span style="background: #e0f2fe; color: #0369a1; padding: 3px 10px; border-radius: 12px; font-weight: 600;">${u.status || 'Diagih'}</span>`;
+
+                tbodySerial.insertAdjacentHTML('beforeend', `
+                    <tr style="border-bottom: 1px solid #f1f5f9;">
+                        <td style="padding: 10px 12px; text-align: center; color: #64748b;">${idx + 1}</td>
+                        <td style="padding: 10px 12px; font-family: monospace; font-weight: 700; color: #0f172a;">${u.no_siri}</td>
+                        <td style="padding: 10px 12px; color: #475569;">${u.no_kontrak || '-'}</td>
+                        <td style="padding: 10px 12px; text-align: center;">${statusBadge}</td>
+                    </tr>
+                `);
+            });
+        }
+
+        document.querySelectorAll('.btn-view-kontrak').forEach(button => {
             button.addEventListener('click', function () {
+                const namaPeralatan = this.getAttribute('data-nama') || 'Kontrak & vendor';
+                const modalTitle = document.getElementById('modalTitlePeralatan');
+                if (modalTitle) modalTitle.innerText = namaPeralatan;
+
+                
                 const tbody = document.getElementById('tblBodyKontrak');
                 if (tbody) {
-                    tbody.innerHTML = ''; // Kosongkan jadual lama
-
+                    tbody.innerHTML = '';
                     try {
                         const rawKontrak = this.getAttribute('data-kontrak');
                         const senaraiKontrak = rawKontrak ? JSON.parse(rawKontrak) : [];
 
                         if (senaraiKontrak.length > 0) {
                             senaraiKontrak.forEach((k, index) => {
-                                const row = `
+                                tbody.insertAdjacentHTML('beforeend', `
                                     <tr style="border-bottom: 1px solid #f1f5f9;">
-                                        <td style="padding: 12px 15px; color: #0f172a;">${index + 1}</td>
-                                        <td style="padding: 12px 15px; font-weight: 600; color: #0f172a;">${k.no_kontrak || '-'}</td>
-                                        <td style="padding: 12px 15px; color: #334155;">${k.vendor || '-'}</td>
-                                        <td style="padding: 12px 15px; text-align: center; font-weight: 600; color: #0f172a;">${k.jumlah_unit || 0}</td>
+                                        <td style="padding: 12px 14px; text-align: center; color: #0f172a;">${index + 1}</td>
+                                        <td style="padding: 12px 14px; font-weight: 600; color: #0f172a;">${k.no_kontrak || '-'}</td>
+                                        <td style="padding: 12px 14px; color: #334155;">${k.vendor || '-'}</td>
+                                        <td style="padding: 12px 14px; text-align: center; font-weight: 700; color: #1e0b75;">${k.jumlah_unit || 0}</td>
                                     </tr>
-                                `;
-                                tbody.insertAdjacentHTML('beforeend', row);
+                                `);
                             });
                         } else {
                             tbody.innerHTML = `
                                 <tr>
-                                    <td colspan="5" style="padding: 20px; text-align: center; color: #94a3b8; font-style: italic;">
+                                    <td colspan="4" style="padding: 18px; text-align: center; color: #94a3b8; font-style: italic;">
                                         Tiada rekod kontrak & vendor dijumpai.
                                     </td>
-                                </tr>
-                            `;
+                                </tr>`;
                         }
                     } catch (e) {
-                        console.error("Ralat ", e);
+                        console.error("Ralat parsing kontrak:", e);
                     }
                 }
+
+                
+                try {
+                    const rawUnits = this.getAttribute('data-units');
+                    currentModalUnits = rawUnits ? JSON.parse(rawUnits) : [];
+                } catch (e) {
+                    currentModalUnits = [];
+                }
+
+                const searchSNInput = document.getElementById('searchSerialModalInput');
+                if (searchSNInput) searchSNInput.value = '';
+                renderSerialUnitsTable(currentModalUnits);
 
                 if (modalKontrak) modalKontrak.style.display = 'flex';
             });
         });
 
+        
+        const searchSNModal = document.getElementById('searchSerialModalInput');
+        if (searchSNModal) {
+            searchSNModal.addEventListener('input', function () {
+                const keyword = this.value.toLowerCase().trim();
+                const filtered = currentModalUnits.filter(u =>
+                    (u.no_siri || '').toLowerCase().includes(keyword) ||
+                    (u.no_kontrak || '').toLowerCase().includes(keyword)
+                );
+                renderSerialUnitsTable(filtered);
+            });
+        }
+
         if (closeKontrakBtn && modalKontrak) {
             closeKontrakBtn.onclick = () => modalKontrak.style.display = 'none';
         }
 
-       
         window.addEventListener('click', function (e) {
             if (modal && e.target === modal) modal.style.display = 'none';
             if (modalKontrak && e.target === modalKontrak) modalKontrak.style.display = 'none';
         });
 
-       
-        const searchInput = document.querySelector('.search-box input');
-        const tableRows = document.querySelectorAll('.custom-table tbody tr');
+        
+        const searchInput = document.getElementById('liveSearchInput');
+        const categorySelect = document.getElementById('filterKategoriSelect');
+        const tableRows = document.querySelectorAll('#inventoriTable tbody tr');
 
-        if (searchInput) {
-            searchInput.addEventListener('input', function () {
-                const query = this.value.toLowerCase().trim();
+        function filterInventoriTable() {
+            const query = (searchInput?.value || '').toLowerCase().trim();
+            const selectedKat = (categorySelect?.value || '').toLowerCase().trim();
 
-                tableRows.forEach(row => {
-                    if (row.children.length === 1 && row.children[0].hasAttribute('colspan')) {
-                        return;
-                    }
+            tableRows.forEach(row => {
+                if (row.children.length === 1 && row.children[0].hasAttribute('colspan')) return;
 
-                    const textContent = row.textContent.toLowerCase();
-                    row.style.display = textContent.includes(query) ? '' : 'none';
-                });
+                const textContent = row.textContent.toLowerCase();
+                const rowKategori = (row.getAttribute('data-kategori') || '').toLowerCase();
+
+                const matchSearch = textContent.includes(query);
+                const matchKategori = selectedKat === '' || rowKategori === selectedKat;
+
+                row.style.display = (matchSearch && matchKategori) ? '' : 'none';
             });
         }
 
+        if (searchInput) searchInput.addEventListener('input', filterInventoriTable);
+        if (categorySelect) categorySelect.addEventListener('change', filterInventoriTable);
+
+        
         const vendorWrapper = document.getElementById('vendor-wrapper');
         const btnTambahVendor = document.getElementById('btn-tambah-vendor');
 
+        function reindexVendorRows() {
+            const rows = vendorWrapper.querySelectorAll('.vendor-row');
+            rows.forEach((row, index) => {
+                const select = row.querySelector('select');
+                const input = row.querySelector('input[type="number"]');
+                if (select) select.name = `vendors[${index}][id]`;
+                if (input) input.name = `vendors[${index}][jumlah_unit]`;
+            });
+        }
+
         if (btnTambahVendor && vendorWrapper) {
-            
             btnTambahVendor.addEventListener('click', function () {
                 const firstRow = vendorWrapper.querySelector('.vendor-row');
                 if (firstRow) {
                     const newRow = firstRow.cloneNode(true);
                     const selectElem = newRow.querySelector('select');
+                    const inputElem = newRow.querySelector('input[type="number"]');
                     if (selectElem) selectElem.value = "";
+                    if (inputElem) inputElem.value = "";
                     vendorWrapper.appendChild(newRow);
+                    reindexVendorRows();
                 }
             });
 
-            
             vendorWrapper.addEventListener('click', function (e) {
                 if (e.target.closest('.btn-remove-vendor')) {
                     const rows = vendorWrapper.querySelectorAll('.vendor-row');
                     if (rows.length > 1) {
                         e.target.closest('.vendor-row').remove();
+                        reindexVendorRows();
                     } else {
-                        alert('Pilih satu vendor.');
+                        alert('Sekurang-kurangnya satu vendor diperlukan.');
                     }
                 }
             });
         }
     });
-</script>
+    </script>
 </body>
 </html>

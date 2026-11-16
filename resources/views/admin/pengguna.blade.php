@@ -11,7 +11,7 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
     <style>
-         {
+        * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
@@ -33,7 +33,7 @@
             flex-direction: column;
             padding: 25px 20px;
             flex-shrink: 0;
-            transition: all 0.3s ease;
+            transition: width 0.3s ease;
         }
 
         .sidebar-header {
@@ -41,6 +41,20 @@
             align-items: center;
             justify-content: space-between;
             margin-bottom: 40px;
+        }
+
+        .sidebar.collapsed {
+            width: 80px;
+        }
+
+        .sidebar.collapsed .brand-name,
+        .sidebar.collapsed .nav-link span {
+            display: none;
+        }
+
+        .sidebar.collapsed .nav-link {
+            justify-content: center;
+            padding: 12px 0;
         }
 
         .brand-logo {
@@ -77,7 +91,8 @@
             transition: all 0.2s ease;
         }
 
-        .nav-link:hover, .nav-link.active {
+        .nav-link:hover,
+        .nav-link.active {
             background-color: rgba(255, 255, 255, 0.2);
             color: #ffffff;
             font-weight: 600;
@@ -87,6 +102,15 @@
             font-size: 18px;
             width: 20px;
             text-align: center;
+        }
+
+        .logout-btn {
+            background: none;
+            border: none;
+            width: 100%;
+            cursor: pointer;
+            text-align: left;
+            font-family: inherit;
         }
 
         /* MAIN WRAPPER RIGHT */
@@ -131,124 +155,106 @@
             width: 100%;
         }
 
-        .page-header {
-            margin-bottom: 20px;
-        }
-
         .page-title {
             font-size: 28px;
             font-weight: bold;
-            color: #111;
+            color: #0f172a;
             margin-bottom: 4px;
         }
 
         .page-subtitle {
             font-size: 13px;
             color: #64748b;
+            margin-bottom: 24px;
         }
-         .logout-btn {
-            background: none;
-            border: none;
-            width: 100%;
-            cursor: pointer;
-            text-align: left;
-            font-family: inherit;
-        }
+
         
-        .sidebar.collapsed {
-            width: 80px ;
-            padding: 25px 10px;
-        }
-
-        .sidebar.collapsed .brand-name,
-        .sidebar.collapsed .nav-link span {
-            display: none ;
-        }
-
-        .sidebar.collapsed .nav-link {
-            justify-content: center;
-            padding: 12px 0;
-        }
-
-        .sidebar.collapsed .sidebar-header {
-            justify-content: center;
-            margin-bottom: 30px;
-        }
-
-        /* STATS CARDS */
         .stats-grid {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 20px;
-            margin-bottom: 25px;
-            max-width: 900px;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 18px;
+            margin-bottom: 26px;
         }
 
         .stat-card {
             background: white;
-            padding: 20px 24px;
-            border-radius: 16px;
+            border-radius: 14px;
+            padding: 18px 20px;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
             display: flex;
             align-items: center;
-            gap: 20px;
+            gap: 15px;
+            border-left: 4px solid #29158f;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
 
-        .stat-info .title {
-            font-size: 13px;
-            color: #64748b;
-            font-weight: 600;
-            display: block;
-            margin-bottom: 6px;
-        }
-        
-
-        .stat-info .value {
-            font-size: 28px;
-            font-weight: bold;
-            color: #1e293b;
+        .stat-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 18px rgba(0, 0, 0, 0.06);
         }
 
         .stat-icon {
-            width: 50px;
-            height: 50px;
+            width: 45px;
+            height: 45px;
             border-radius: 12px;
-            background-color: #e0e7ff;
-            color: #1e0b75;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 20px;
+            font-size: 19px;
+            flex-shrink: 0;
         }
 
-        .bg-purple-light { background-color: #e9d5ff; color: #7e22ce; }
-        .bg-pink-light { background-color: #fbcfe8; color: #be185d; }
-        .bg-green-light { background-color: #bbf7d0; color: #15803d; }
+        .stat-info .title {
+            font-size: 12px;
+            color: #64748b;
+            font-weight: 600;
+            display: block;
+            margin-bottom: 3px;
+        }
 
-        /* FILTER & SEARCH BAR */
+        .stat-info .value {
+            font-size: 22px;
+            font-weight: 700;
+            color: #0f172a;
+        }
+
+        
         .filter-bar {
             display: flex;
+            flex-wrap: wrap;
             align-items: center;
-            justify-content: space-between;
-            margin-bottom: 20px;
+            gap: 12px;
+            margin-bottom: 22px;
         }
 
         .search-box {
-            background: white;
+            background: #ffffff;
             border: 1px solid #cbd5e1;
             border-radius: 10px;
-            padding: 8px 14px;
+            padding: 0 14px;
+            height: 40px;
             width: 100%;
-            max-width: 400px;
+            max-width: 360px;
             display: flex;
             align-items: center;
             gap: 10px;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .search-box:focus-within {
+            border-color: #29158f;
+            box-shadow: 0 0 0 3px rgba(41, 21, 143, 0.12);
         }
 
         .search-box input {
-            border: none;
-            outline: none;
+            border: none !important;
+            outline: none !important;
+            box-shadow: none !important;
+            background: transparent !important;
+            padding: 0 !important;
+            margin: 0 !important;
             width: 100%;
+            height: 100%;
             font-size: 13px;
             color: #334155;
         }
@@ -257,7 +263,8 @@
             background-color: #29158f;
             color: white;
             border: none;
-            padding: 9px 18px;
+            padding: 0 18px;
+            height: 40px;
             border-radius: 10px;
             font-size: 13px;
             font-weight: 600;
@@ -265,58 +272,20 @@
             display: inline-flex;
             align-items: center;
             gap: 8px;
-            transition: 0.2s;
+            transition: background 0.2s;
+            white-space: nowrap;
         }
 
-        .btn-addhover {
-            background-color: #2e10b3;
-        }
-
-        .close-btn {
-            font-size: 24px;
-            cursor: pointer;
-            color: #888;
-        }
-
-        .form-group {
-            margin-bottom: 15px;
-        }
-
-        .form-group label {
-            display: block;
-            font-size: 13px;
-            font-weight: 600;
-            color: #475569;
-            margin-bottom: 6px;
-        }
-
-        .form-group input {
-            width: 100%;
-            padding: 10px 14px;
-            border: 1px solid #cbd5e1;
-            border-radius: 8px;
-            font-size: 14px;
-            outline: none;
-        }
-
-        .form-submit {
-            width: 100%;
+        .btn-add:hover {
             background-color: #1e0b75;
-            color: white;
-            border: none;
-            padding: 12px;
-            border-radius: 8px;
-            font-weight: 600;
-            cursor: pointer;
-            margin-top: 10px;
         }
 
-        /* TABLE PENGGUNA */
+        
         .table-card {
             background: white;
             border-radius: 16px;
             padding: 25px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
             overflow-x: auto;
         }
 
@@ -329,12 +298,13 @@
         .custom-table th {
             background-color: #e0e7ff;
             color: #3730a3;
-            padding: 12px 14px;
+            padding: 13px 14px;
             text-align: left;
             font-weight: 600;
         }
 
-        .custom-table th.center, .custom-table td.center {
+        .custom-table th.center,
+        .custom-table td.center {
             text-align: center;
         }
 
@@ -344,159 +314,69 @@
             border-bottom: 1px solid #f1f5f9;
         }
 
-        /* ROLE BADGES */
+        .custom-table tbody tr:hover {
+            background-color: #f8fafc;
+        }
+
+        
         .role-badge {
-            padding: 4px 10px;
+            padding: 4px 12px;
             border-radius: 20px;
             font-size: 11px;
             font-weight: 600;
             display: inline-block;
         }
 
-        .role-admin { background-color: #f3e8ff; color: #6b21a8; }
-        .role-pelulus { background-color: #dcfce7; color: #15803d; }
+        .role-admin    { background-color: #f3e8ff; color: #6b21a8; }
+        .role-pelulus  { background-color: #dcfce7; color: #166534; }
         .role-pengguna { background-color: #f1f5f9; color: #475569; }
 
-        .action-icons i {
+        .btn-icon-soft {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border: none;
             cursor: pointer;
-            font-size: 15px;
-            color: #475569;
-            margin: 0 4px;
-            transition: color 0.2s;
+            transition: all 0.2s;
+            font-size: 14px;
         }
 
-        .action-icons i:hover {
-            color: #1e0b75;
+        .btn-icon-view {
+            background: #eef2ff;
+            color: #29158f;
+            margin-right: 4px;
         }
-       
 
-        /* popup detail */
+        .btn-icon-view:hover {
+            background: #29158f;
+            color: white;
+        }
+
+        .btn-icon-edit {
+            background: #fef3c7;
+            color: #d97706;
+        }
+
+        .btn-icon-edit:hover {
+            background: #d97706;
+            color: white;
+        }
+
+        /* MODAL OVERLAY */
         .modal-overlay {
             display: none;
             position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
+            inset: 0;
             width: 100vw;
             height: 100vh;
-            background: rgba(15, 23, 42, 0.55); 
-            backdrop-filter: blur(4px);
+            background: rgba(15, 23, 42, 0.55);
+            backdrop-filter: blur(3px);
             justify-content: center;
             align-items: center;
             z-index: 99999;
-            animation: fadeIn 0.2s ease-in-out;
-        }
-
-
-        .modal-card-view {
-            background: #ffffff;
-            border-radius: 16px;
-            width: 90%;
-            max-width: 480px;
-            padding: 24px 28px;
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
-            position: relative;
-            margin: auto;
-            animation: slideUp 0.25s ease-out;
-        }
-
-
-        .modal-header-view {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            border-bottom: 1px solid #f1f5f9;
-            padding-bottom: 14px;
-        }
-
-        .modal-title-view {
-            font-size: 16px;
-            font-weight: 700;
-            color: #29158f; 
-            margin: 0;
-            display: flex;
-            align-items: center;
-                gap: 10px;
-        }
-
-        .modal-close-btn {
-            cursor: pointer;
-            font-size: 10px;
-            color: #94a3b8;
-            transition: color 0.2s ease;
-        }
-
-        
-
-
-        .user-details-list {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            font-size: 13px;
-        }
-
-        .user-detail-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding-bottom: 10px;
-            border-bottom: 1px dashed #e2e8f0;
-        }
-
-        .user-detail-item:last-child {
-            border-bottom: none;
-            padding-bottom: 0;
-        }
-
-        .detail-label {
-            color: #64748b;
-            font-weight: 500;
-        }
-
-        .detail-value {
-            font-weight: 600;
-            color: #0f172a;
-            text-align: right;
-        }
-
-
-        .modal-footer-view {
-            display: flex;
-            justify-content: flex-end;
-            margin-top: 22px;
-            padding-top: 14px;
-            border-top: 1px solid #f1f5f9;
-        }
-
-        .btn-close-modal {
-            padding: 9px 14px;
-            background: #f1f5f9;
-            color: #475569;
-            border: none;
-            border-radius: 8px;
-            font-weight: 600;
-            font-size: 13px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-
-        .btn-close-modal:hover {
-            background: #e2e8f0;
-            color: #1e293b;
-        }
-
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        @keyframes slideUp {
-            from { transform: translateY(15px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
         }
     </style>
 </head>
@@ -509,35 +389,46 @@
                 <img src="{{ asset('images/rtmlogo.png') }}" alt="RTM Logo">
                 <span class="brand-name">iMohon</span>
             </div>
-            <i class="fa-solid fa-angles-left" id="toggleSidebar" style="cursor: pointer; opacity: 0.8; font-size: 18px;"></i>
+            <i class="fa-solid fa-angles-left" id="toggleSidebar" style="cursor: pointer; opacity: 0.8; font-size: 18px; transition: transform 0.3s ease;"></i>
         </div>
 
         <ul class="nav-menu">
             <li>
                 <a href="{{ route('admin.dashboard') }}" class="nav-link">
-                <i class="fa-solid fa-house"></i><span>Laman utama</span></a>
+                    <i class="fa-solid fa-house"></i>
+                    <span>Laman utama</span>
+                </a>
             </li>
             <li>
                 <a href="{{ route('admin.inventori') }}" class="nav-link">
-                <i class="fa-solid fa-boxes-stacked"></i><span>Inventori peralatan</span></a>
+                    <i class="fa-solid fa-boxes-stacked"></i>
+                    <span>Inventori peralatan</span>
+                </a>
             </li>
             <li>
                 <a href="{{ route('admin.vendor') }}" class="nav-link">
-                <i class="fa-solid fa-clipboard-list"></i><span>Vendor</span></a>
+                    <i class="fa-solid fa-clipboard-list"></i>
+                    <span>Vendor</span>
+                </a>
             </li>
             <li>
-                <a href="{{ route('admin.peminjaman') }}" class="nav-link"><i class="fa-solid fa-pen-to-square">
-                </i><span>Rekod Penempatan</span></a>
+                <a href="{{ route('admin.peminjaman') }}" class="nav-link">
+                    <i class="fa-solid fa-pen-to-square"></i>
+                    <span>Rekod Penempatan</span>
+                </a>
             </li>
             <li>
                 <a href="{{ route('admin.pengguna') }}" class="nav-link active">
-                <i class="fa-solid fa-users"></i><span>Pengguna</span></a>
+                    <i class="fa-solid fa-users"></i>
+                    <span>Pengguna</span>
+                </a>
             </li>
             <li>
                 <a href="{{ route('admin.kelulusan') }}" class="nav-link">
-                <i class="fa-solid fa-circle-check"></i><span>Permohonan Baru</span></a>
+                    <i class="fa-solid fa-circle-check"></i>
+                    <span>Permohonan Baru</span>
+                </a>
             </li>
-           
             <li>
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
@@ -564,315 +455,327 @@
         <!-- CONTENT BODY -->
         <main class="content-body">
 
-            <div class="page-header">
-                <h1 class="page-title">Pengguna</h1>
-                <p class="page-subtitle">Senarai pengguna yang berdaftar dalam sistem iMohon</p>
+            <h1 class="page-title">Pengguna</h1>
+            <p class="page-subtitle">Senarai pengguna berdaftar serta pengurusan peranan akses dalam sistem iMohon</p>
+
+            
+            <div class="stats-grid">
+                <div class="stat-card" style="border-left-color: #29158f;">
+                    <div class="stat-icon" style="background: #eef2ff; color: #29158f;">
+                        <i class="fa-solid fa-users"></i>
+                    </div>
+                    <div class="stat-info">
+                        <span class="title">Jumlah pengguna</span>
+                        <span class="value">{{ $users->count() }}</span>
+                    </div>
+                </div>
+
+                <div class="stat-card" style="border-left-color: #8b5cf6;">
+                    <div class="stat-icon" style="background: #f5f3ff; color: #7c3aed;">
+                        <i class="fa-solid fa-user-shield"></i>
+                    </div>
+                    <div class="stat-info">
+                        <span class="title">Admin</span>
+                        <span class="value" style="color: #7c3aed;">{{ $users->where('role', 'admin')->count() }}</span>
+                    </div>
+                </div>
+
+                <div class="stat-card" style="border-left-color: #10b981;">
+                    <div class="stat-icon" style="background: #ecfdf5; color: #10b981;">
+                        <i class="fa-solid fa-user-check"></i>
+                    </div>
+                    <div class="stat-info">
+                        <span class="title">Pelulus</span>
+                        <span class="value" style="color: #10b981;">{{ $users->where('role', 'pelulus')->count() }}</span>
+                    </div>
+                </div>
+
+                <div class="stat-card" style="border-left-color: #0284c7;">
+                    <div class="stat-icon" style="background: #e0f2fe; color: #0284c7;">
+                        <i class="fa-solid fa-user"></i>
+                    </div>
+                    <div class="stat-info">
+                        <span class="title">Pemohon</span>
+                        <span class="value" style="color: #0284c7;">{{ $users->where('role', 'pengguna')->count() }}</span>
+                    </div>
+                </div>
             </div>
 
-            <!-- STATS CARDS (RINGKASAN) -->
-            <div class="stats-grid">
-    <!-- KAD 1: JUMLAH PENGGUNA -->
-    <div class="stat-card">
-        <div class="stat-icon bg-purple-light">
-            <i class="fa-solid fa-users"></i>
-        </div>
-        <div class="stat-info">
-            <span class="title">Jumlah pengguna</span>
-            <span class="value">{{ $users->count()  }}</span>
-        </div>
-    </div>
+            
+            <div class="filter-bar">
+                <div class="search-box">
+                    <i class="fa-solid fa-magnifying-glass" style="color: #94a3b8;"></i>
+                    <input type="text" id="liveSearchPengguna" value="{{ request('search') }}" placeholder="Cari nama, emel, unit atau peranan...">
+                </div>
 
-    <!-- card (admin) -->
-    <div class="stat-card">
-        <div class="stat-icon bg-pink-light">
-            <i class="fa-solid fa-user-shield"></i>
-        </div>
-        <div class="stat-info">
-            <span class="title">Admin</span>
-            <span class="value">{{ $users->where('role', 'admin')->count()  }}</span>
-        </div>
-    </div>
+                <button type="button" class="btn-add" id="openAddModalBtn">
+                    <i class="fa-solid fa-user-plus"></i> Tambah Pengguna
+                </button>
+            </div>
 
-    <!-- card (pelulus) -->
-    <div class="stat-card">
-        <div class="stat-icon bg-green-light">
-            <i class="fa-solid fa-user-check"></i>
-        </div>
-        <div class="stat-info">
-            <span class="title">Pelulus</span>
-            <span class="value">{{ $users->where('role', 'pelulus')->count()  }}</span>
-        </div>
-    </div>
-</div>
-    <!-- search bar -->
-        <div class="filter-bar" style="display: flex; justify-content: flex-start; align-items: center; gap: 12px; margin-bottom: 20px;">
-    
- 
-    <form action="{{ route('admin.pengguna') }}" method="GET" style="width: 350px; display: flex; align-items: center;">
-        <div class="search-box" style="width: 100%;">
-            <i class="fa-solid fa-magnifying-glass" style="color: #94a3b8;"></i>
-            <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari nama, emel, IC atau unit..." style="width: 100%; border: none; outline: none;">
-        </div>
-
-        <button type="submit" style="display: none;"></button>
-    </form>
-
-    <!--button add -->
-    <button type="button" class="btn-add" id="openAddModalBtn">
-        <i class="fa-solid fa-user-plus"></i> Tambah Pengguna
-    </button>
-
-</div>
-
-            <!-- table -->
+            
             <div class="table-card">
-                <table class="custom-table">
+                <table class="custom-table" id="penggunaTable">
                     <thead>
                         <tr>
-                            <th class="center" style="width: 50px;">No</th>
+                            <th class="center" style="width: 55px;">No</th>
                             <th>Nama</th>
                             <th>Emel</th>
                             <th>Unit</th>
                             <th class="center">Peranan</th>
-                            <th class="center" style="width: 100px;">Butiran</th>
+                            <th class="center" style="width: 110px;">Butiran</th>
                         </tr>
                     </thead>
                     <tbody>
                         @forelse($users ?? [] as $index => $u)
+                            @php
+                                $roleLower = strtolower($u->role ?? 'pengguna');
+                            @endphp
                             <tr>
-                                <td class="center">{{ $index + 1 }}</td>
-                                <td style="font-weight: 600;">{{ $u->name }}</td>
-                                <td>{{ $u->email }}</td>
+                                <td class="center" style="color: #64748b; font-weight: 600;">{{ $index + 1 }}</td>
+                                <td style="font-weight: 700; color: #0f172a;">{{ $u->name }}</td>
+                                <td style="color: #475569;">{{ $u->email }}</td>
                                 <td>{{ $u->unit ?? 'Seksyen Teknologi Maklumat' }}</td>
                                 <td class="center">
-                                    <span class="role-badge {{ strtolower($u->role ?? '') == 'admin' ? 'role-admin' : (strtolower($u->role ?? '') == 'pelulus' ? 'role-pelulus' : 'role-pengguna') }}">
-                                        {{ ucfirst($u->role ?? 'Pengguna') }}
+                                    <span class="role-badge {{ $roleLower == 'admin' ? 'role-admin' : ($roleLower == 'pelulus' ? 'role-pelulus' : 'role-pengguna') }}">
+                                        {{ $roleLower == 'pengguna' ? 'Pemohon' : ucfirst($u->role) }}
                                     </span>
                                 </td>
-                                <td class="action-icons center">
-                                    <i class="fa-solid fa-eye btn-view-user" 
-                                    title="Lihat Profil"
-                                    style="cursor: pointer;"
-                                    data-name="{{ $u->name }}"
-                                    data-ic="{{  $u->ic }}"
-                                    data-phone="{{ $u->phone  }}"
-                                    data-email="{{ $u->email }}"
-                                    data-jawatan="{{ $u->jawatan  }}"
-                                    data-unit="{{ $u->unit  }}"
-                                    data-bahagian="{{ $u->bahagian  }}"
-                                    data-alamat="{{ $u->address }}">
-                                    </i>
-                                <i class="fa-solid fa-pen-to-square btn-edit-role" 
-                                    title="Kemaskini Peranan" 
-                                    style="cursor: pointer; margin-left: 10px;"
-                                    data-id="{{ $u->id }}"
-                                    data-name="{{ $u->name }}"
-                                    data-email="{{ $u->email }}"
-                                    data-role="{{ strtolower($u->role ?? 'pengguna') }}">
-                                </i>
+                                <td class="center">
+                                    <button type="button" class="btn-icon-soft btn-icon-view btn-view-user"
+                                        title="Lihat Profil Pengguna"
+                                        data-name="{{ $u->name }}"
+                                        data-ic="{{ $u->ic ?? '-' }}"
+                                        data-phone="{{ $u->phone ?? '-' }}"
+                                        data-email="{{ $u->email }}"
+                                        data-jawatan="{{ $u->jawatan ?? '-' }}"
+                                        data-unit="{{ $u->unit ?? '-' }}"
+                                        data-bahagian="{{ $u->bahagian ?? '-' }}"
+                                        data-alamat="{{ $u->address ?? '-' }}">
+                                        <i class="fa-solid fa-eye"></i>
+                                    </button>
+
+                                    <button type="button" class="btn-icon-soft btn-icon-edit btn-edit-role"
+                                        title="Kemaskini Peranan"
+                                        data-id="{{ $u->id }}"
+                                        data-name="{{ $u->name }}"
+                                        data-email="{{ $u->email }}"
+                                        data-role="{{ $roleLower }}"
+                                        data-update-url="{{ route('admin.pengguna.updateRole', $u->id) }}">
+                                        <i class="fa-solid fa-pen-to-square"></i>
+                                    </button>
                                 </td>
-                                </tr>
-                            @empty
-                    <tr>
-                        <td colspan="7" class="center" style="padding: 30px; color: #94a3b8; font-style: italic;">
-                            <i class="fa-solid fa-folder-open" style="font-size: 24px; margin-bottom: 8px; display: block;"></i>
-                            Tiada rekod dijumpai.
-                        </td>
-                     </tr>
-                    @endforelse
-                </tbody>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="6" class="center" style="padding: 35px; color: #94a3b8; font-style: italic;">
+                                    <i class="fa-solid fa-folder-open" style="font-size: 24px; margin-bottom: 8px; display: block;"></i>
+                                    Tiada rekod pengguna dijumpai.
+                                </td>
+                            </tr>
+                        @endforelse
+                    </tbody>
                 </table>
             </div>
 
-            </main>
-            </div>
-
-        <!-- popup details -->
-        <div id="viewUserModal" style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; width: 100vw; height: 100vh; 
-        background: rgba(0, 0, 0, 0.5); justify-content: center; align-items: center; z-index: 99999;">
-            <div style="background: white; border-radius: 16px; width: 90%; max-width: 600px; padding: 25px 30px; position: relative; margin: auto; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1); max-height: 90vh; overflow-y: auto;">
-        
-        <!-- Butang Tutup (X) -->
-        <span id="closeViewModalBtn" style="position: absolute; right: 20px; top: 20px; cursor: pointer; font-size: 16px; color: #94a3b8;"><i class="fa-solid fa-xmark"></i></span>
-
-        <!-- information peribadi -->
-        <div style="background: #eef2ff; border-radius: 12px; padding: 20px; margin-bottom: 20px;">
-            <h3 style="font-size: 16px; font-weight: bold; color: #0f172a; margin-top: 0; margin-bottom: 15px;">Maklumat peribadi</h3>
-            
-            <div style="display: flex; flex-direction: column; gap: 10px; font-size: 13px;">
-                <div style="display: flex; align-items: center;">
-                    <span style="width: 170px; color: #64748b;">Nama penuh</span>
-                    <span style="margin-right: 12px;">:</span>
-                    <span id="viewUserName" style="font-weight: 600; color: #0f172a;">-</span>
-                </div>
-                <div style="display: flex; align-items: center;">
-                    <span style="width: 170px; color: #64748b;">No. kad pengenalan</span>
-                    <span style="margin-right: 12px;">:</span>
-                    <span id="viewUserIC" style="font-weight: 600; color: #0f172a;">-</span>
-                </div>
-                <div style="display: flex; align-items: center;">
-                    <span style="width: 170px; color: #64748b;">No. Tel</span>
-                    <span style="margin-right: 12px;">:</span>
-                    <span id="viewUserPhone" style="font-weight: 600; color: #0f172a;">-</span>
-                </div>
-                <div style="display: flex; align-items: center;">
-                    <span style="width: 170px; color: #64748b;">Email</span>
-                    <span style="margin-right: 12px;">:</span>
-                    <span id="viewUserEmail" style="font-weight: 600; color: #0f172a;">-</span>
-                </div>
-            </div>
-        </div>
-
-        <!-- information pekerjaan -->
-        <div style="background: #eef2ff; border-radius: 12px; padding: 20px;">
-            <h3 style="font-size: 16px; font-weight: bold; color: #0f172a; margin-top: 0; margin-bottom: 15px;">Maklumat pekerjaan</h3>
-            
-            <div style="display: flex; flex-direction: column; gap: 10px; font-size: 13px;">
-                <div style="display: flex; align-items: center;">
-                    <span style="width: 170px; color: #64748b;">Jawatan</span>
-                    <span style="margin-right: 12px;">:</span>
-                    <span id="viewUserJawatan" style="font-weight: 600; color: #0f172a;">-</span>
-                </div>
-                <div style="display: flex; align-items: center;">
-                    <span style="width: 170px; color: #64748b;">Unit</span>
-                    <span style="margin-right: 12px;">:</span>
-                    <span id="viewUserUnit" style="font-weight: 600; color: #0f172a;">-</span>
-                </div>
-                <div style="display: flex; align-items: center;">
-                    <span style="width: 170px; color: #64748b;">Bahagian</span>
-                    <span style="margin-right: 12px;">:</span>
-                    <span id="viewUserBahagian" style="font-weight: 600; color: #0f172a;">-</span>
-                </div>
-                <div style="display: flex; align-items: center;">
-                    <span style="width: 170px; color: #64748b;">Alamat Pejabat</span>
-                    <span style="margin-right: 12px;">:</span>
-                    <span id="viewUserAlamat" style="font-weight: 600; color: #0f172a;">-</span>
-                </div>
-            </div>
-        </div>
-
+        </main>
     </div>
-</div>
 
-<!-- Modal Kemaskini Peranan Pengguna -->
-<div class="modal" id="editRoleModal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); align-items: center; justify-content: center; z-index: 99999;">
-    <div class="modal-content" style="background: white; border-radius: 16px; padding: 30px; width: 90%; max-width: 450px; position: relative;">
-        
-        <span class="close-btn" id="closeEditRoleModalBtn" style="position: absolute; right: 20px; top: 15px; font-size: 24px; cursor: pointer;">&times;</span>
+    <!-- profile -->
+    <div id="viewUserModal" class="modal-overlay">
+        <div style="background: white; border-radius: 18px; width: 92%; max-width: 560px; padding: 28px 30px; position: relative; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.15); max-height: 90vh; overflow-y: auto;">
 
-        <h3 style="color: #1d2d7f; margin-bottom: 20px; font-size: 18px; font-weight: bold;">
-            <i class="fa-solid fa-user-gear"></i> Kemaskini Peranan Pengguna
-        </h3>
+            <span id="closeViewModalBtn" style="position: absolute; right: 22px; top: 20px; cursor: pointer; font-size: 20px; color: #94a3b8;">
+                <i class="fa-solid fa-xmark"></i>
+            </span>
 
-        <form id="editRoleForm" action="" method="POST">
-            @csrf
-            @method('PUT')
-
-            <!-- maklumat user -->
-            <div style="background: #eef2ff; padding: 12px 15px; border-radius: 8px; margin-bottom: 20px; font-size: 13px;">
-                <p style="margin-bottom: 5px;"><strong>Nama:</strong> <span id="role_user_name">-</span></p>
-                <p style="margin: 0;"><strong>Emel:</strong> <span id="role_user_email">-</span></p>
+            <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 20px;">
+                <div style="background: #1e0b75; color: white; width: 42px; height: 42px; border-radius: 11px; display: flex; align-items: center; justify-content: center; font-size: 18px;">
+                    <i class="fa-solid fa-id-card"></i>
+                </div>
+                <div>
+                    <h2 style="font-size: 18px; font-weight: bold; color: #0f172a; margin: 0;">Profil Lengkap Pengguna</h2>
+                    <p style="font-size: 12px; color: #64748b; margin: 2px 0 0 0;">Maklumat peribadi & penempatan tugas semasa</p>
+                </div>
             </div>
 
-            <!-- Pilih Role / Peranan Baharu -->
-            <div class="form-group" style="margin-bottom: 20px;">
-                <label style="display: block; font-size: 13px; font-weight: 600; color: #475569; margin-bottom: 8px;">Pilih Peranan Baharu</label>
-                <select name="role" id="role_select" style="width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 14px; outline: none;" required>
-                    <option value="pengguna">Pemohon (Customer)</option>
-                    <option value="pelulus">Pelulus</option>
-                    <option value="admin">Admin</option>
-                </select>
+            <!-- details peribadi -->
+            <div style="background: #eef2ff; border-radius: 14px; padding: 18px 20px; margin-bottom: 16px;">
+                <h3 style="font-size: 14px; font-weight: 700; color: #1e0b75; margin-bottom: 12px;">
+                    <i class="fa-solid fa-user" style="margin-right: 6px;"></i> Maklumat Peribadi
+                </h3>
+
+                <div style="display: flex; flex-direction: column; gap: 9px; font-size: 13px;">
+                    <div style="display: flex; align-items: center;">
+                        <span style="width: 160px; color: #64748b;">Nama penuh</span>
+                        <span style="margin-right: 12px; font-weight: bold;">:</span>
+                        <span id="viewUserName" style="font-weight: 600; color: #0f172a;">-</span>
+                    </div>
+                    <div style="display: flex; align-items: center;">
+                        <span style="width: 160px; color: #64748b;">No. kad pengenalan</span>
+                        <span style="margin-right: 12px; font-weight: bold;">:</span>
+                        <span id="viewUserIC" style="font-weight: 600; color: #0f172a; font-family: monospace;">-</span>
+                    </div>
+                    <div style="display: flex; align-items: center;">
+                        <span style="width: 160px; color: #64748b;">No. Telefon</span>
+                        <span style="margin-right: 12px; font-weight: bold;">:</span>
+                        <span id="viewUserPhone" style="font-weight: 600; color: #0f172a;">-</span>
+                    </div>
+                    <div style="display: flex; align-items: center;">
+                        <span style="width: 160px; color: #64748b;">Emel</span>
+                        <span style="margin-right: 12px; font-weight: bold;">:</span>
+                        <span id="viewUserEmail" style="font-weight: 600; color: #0f172a;">-</span>
+                    </div>
+                </div>
             </div>
 
-            <button type="submit" class="form-submit" style="width: 100%; background: #1e0b75; color: white; border: none; padding: 12px; border-radius: 8px; font-weight: 600; cursor: pointer;">
-                Simpan Peranan
-            </button>
-        </form>
-    </div>
-</div>
+            <!-- details pekerjaan -->
+            <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 14px; padding: 18px 20px;">
+                <h3 style="font-size: 14px; font-weight: 700; color: #1e0b75; margin-bottom: 12px;">
+                    <i class="fa-solid fa-briefcase" style="margin-right: 6px;"></i> Maklumat Pekerjaan
+                </h3>
 
-<!-- tambah user  -->
-<div id="addModal" style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; width: 100vw; height: 100vh; background: rgba(0, 0, 0, 0.5); justify-content: center; align-items: center; z-index: 99999;">
-    <div style="background: white; border-radius: 16px; width: 90%; max-width: 600px; padding: 25px 30px; position: relative; margin: auto; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1); max-height: 90vh; overflow-y: auto;">
-        
-        <!-- Header Modal -->
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 1px solid #f1f5f9; padding-bottom: 12px;">
-            <h2 style="font-size: 18px; font-weight: bold; color: #1e0b75; margin: 0;">
-                <i class="fa-solid fa-user-plus"></i> Tambah Pengguna Baharu
-            </h2>
-            <span id="closeAddModalBtn" style="cursor: pointer; font-size: 20px; color: #94a3b8;"><i class="fa-solid fa-xmark"></i></span>
+                <div style="display: flex; flex-direction: column; gap: 9px; font-size: 13px;">
+                    <div style="display: flex; align-items: center;">
+                        <span style="width: 160px; color: #64748b;">Jawatan</span>
+                        <span style="margin-right: 12px; font-weight: bold;">:</span>
+                        <span id="viewUserJawatan" style="font-weight: 600; color: #0f172a;">-</span>
+                    </div>
+                    <div style="display: flex; align-items: center;">
+                        <span style="width: 160px; color: #64748b;">Unit</span>
+                        <span style="margin-right: 12px; font-weight: bold;">:</span>
+                        <span id="viewUserUnit" style="font-weight: 600; color: #0f172a;">-</span>
+                    </div>
+                    <div style="display: flex; align-items: center;">
+                        <span style="width: 160px; color: #64748b;">Bahagian</span>
+                        <span style="margin-right: 12px; font-weight: bold;">:</span>
+                        <span id="viewUserBahagian" style="font-weight: 600; color: #0f172a;">-</span>
+                    </div>
+                    <div style="display: flex; align-items: flex-start;">
+                        <span style="width: 160px; color: #64748b; flex-shrink: 0;">Alamat Pejabat</span>
+                        <span style="margin-right: 12px; font-weight: bold;">:</span>
+                        <span id="viewUserAlamat" style="font-weight: 600; color: #0f172a;">-</span>
+                    </div>
+                </div>
+            </div>
+
         </div>
+    </div>
 
-        <form action="{{ route('admin.pengguna.store') }}" method="POST">
-            @csrf
+    <!-- kemaskini -->
+    <div id="editRoleModal" class="modal-overlay">
+        <div style="background: white; border-radius: 18px; padding: 28px 30px; width: 92%; max-width: 450px; position: relative; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.15);">
 
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px;">
-                <div>
-                    <label style="display: block; font-size: 12px; font-weight: 600; color: #334155; margin-bottom: 5px;">Nama Penuh <span style="color: red;">*</span></label>
-                    <input type="text" name="name" required placeholder="Nama Penuh" style="width: 100%; padding: 8px 12px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 13px; box-sizing: border-box;">
-                </div>
-                <div>
-                    <label style="display: block; font-size: 12px; font-weight: 600; color: #334155; margin-bottom: 5px;">No. Kad Pengenalan <span style="color: red;">*</span></label>
-                    <input type="text" name="ic" required placeholder="Contoh: 900101145521" style="width: 100%; padding: 8px 12px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 13px; box-sizing: border-box;">
-                </div>
-            </div>
+            <span id="closeEditRoleModalBtn" style="position: absolute; right: 22px; top: 18px; font-size: 22px; cursor: pointer; color: #94a3b8;">&times;</span>
 
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px;">
-                <div>
-                    <label style="display: block; font-size: 12px; font-weight: 600; color: #334155; margin-bottom: 5px;">Emel <span style="color: red;">*</span></label>
-                    <input type="email" name="email" required placeholder="user@rtm.gov.my" style="width: 100%; padding: 8px 12px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 13px; box-sizing: border-box;">
-                </div>
-                <div>
-                    <label style="display: block; font-size: 12px; font-weight: 600; color: #334155; margin-bottom: 5px;">No. Telefon <span style="color: red;">*</span></label>
-                    <input type="text" name="phone" required placeholder="Contoh: 0123456789" style="width: 100%; padding: 8px 12px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 13px; box-sizing: border-box;">
-                </div>
-            </div>
+            <h3 style="color: #1e0b75; margin-bottom: 18px; font-size: 18px; font-weight: bold; display: flex; align-items: center; gap: 8px;">
+                <i class="fa-solid fa-user-gear"></i> Kemaskini Peranan Pengguna
+            </h3>
 
-  
-            <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 12px;">
-                <div>
-                    <label style="display: block; font-size: 12px; font-weight: 600; color: #334155; margin-bottom: 5px;">Jawatan <span style="color: red;">*</span></label>
-                    <input type="text" name="jawatan" required placeholder="Jawatan" style="width: 100%; padding: 8px 12px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 13px; box-sizing: border-box;">
-                </div>
-                <div>
-                    <label style="display: block; font-size: 12px; font-weight: 600; color: #334155; margin-bottom: 5px;">Bahagian <span style="color: red;">*</span></label>
-                    <input type="text" name="bahagian" required placeholder="Bahagian" style="width: 100%; padding: 8px 12px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 13px; box-sizing: border-box;">
-                </div>
-                <div>
-                    <label style="display: block; font-size: 12px; font-weight: 600; color: #334155; margin-bottom: 5px;">Unit <span style="color: red;">*</span></label>
-                    <input type="text" name="unit" required placeholder="Unit" style="width: 100%; padding: 8px 12px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 13px; box-sizing: border-box;">
-                </div>
-            </div>
+            <form id="editRoleForm" action="" method="POST">
+                @csrf
+                @method('PUT')
 
-            <div style="margin-bottom: 12px;">
-                <label style="display: block; font-size: 12px; font-weight: 600; color: #334155; margin-bottom: 5px;">Alamat Pejabat <span style="color: red;">*</span></label>
-                <textarea name="address" required rows="2" placeholder="Alamat Penuh Pejabat" style="width: 100%; padding: 8px 12px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 13px; box-sizing: border-box;"></textarea>
-            </div>
+                <div style="background: #eef2ff; padding: 14px 16px; border-radius: 12px; margin-bottom: 18px; font-size: 13px;">
+                    <p style="margin-bottom: 5px; color: #334155;"><strong>Nama:</strong> <span id="role_user_name" style="color: #0f172a;">-</span></p>
+                    <p style="margin: 0; color: #334155;"><strong>Emel:</strong> <span id="role_user_email" style="color: #0f172a;">-</span></p>
+                </div>
 
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px;">
-                <div>
-                    <label style="display: block; font-size: 12px; font-weight: 600; color: #334155; margin-bottom: 5px;">Peranan <span style="color: red;">*</span></label>
-                    <select name="role" required style="width: 100%; padding: 8px 12px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 13px; background: white; box-sizing: border-box;">
-                        <option value="pengguna">Pemohon</option>
+                <div style="margin-bottom: 20px;">
+                    <label style="display: block; font-size: 13px; font-weight: 600; color: #475569; margin-bottom: 7px;">Pilih Peranan Baharu</label>
+                    <select name="role" id="role_select" style="width: 100%; padding: 10px 12px; border: 1px solid #cbd5e1; border-radius: 9px; font-size: 13px; outline: none; background: white;" required>
+                        <option value="pengguna">Pemohon (Pengguna Biasa)</option>
                         <option value="pelulus">Pelulus</option>
                         <option value="admin">Admin</option>
                     </select>
                 </div>
-                <div>
-                    <label style="display: block; font-size: 12px; font-weight: 600; color: #334155; margin-bottom: 5px;">Kata Laluan <span style="color: red;">*</span></label>
-                    <input type="password" name="password" required placeholder="Kata Laluan" style="width: 100%; padding: 8px 12px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 13px; box-sizing: border-box;">
-                </div>
-            </div>
 
-          
-            <div style="display: flex; justify-content: flex-end; gap: 10px; border-top: 1px solid #f1f5f9; padding-top: 15px;">
-                <button type="button" onclick="document.getElementById('addModal').style.display='none'" style="padding: 9px 16px; background: #f1f5f9; color: #475569; border: none; border-radius: 8px; font-weight: 600; font-size: 13px; cursor: pointer;">Batal</button>
-                <button type="submit" style="padding: 9px 18px; background: #1e0b75; color: white; border: none; border-radius: 8px; font-weight: 600; font-size: 13px; cursor: pointer;">Simpan Pengguna</button>
-            </div>
-        </form>
-
+                <button type="submit" style="width: 100%; background: #1e0b75; color: white; border: none; padding: 12px; border-radius: 10px; font-weight: 700; font-size: 14px; cursor: pointer;">
+                    Simpan Peranan
+                </button>
+            </form>
+        </div>
     </div>
-</div>
+
+    <!-- popup tambah user baru -->
+    <div id="addModal" class="modal-overlay">
+        <div style="background: white; border-radius: 18px; width: 92%; max-width: 600px; padding: 28px 30px; position: relative; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.15); max-height: 90vh; overflow-y: auto;">
+
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 1px solid #f1f5f9; padding-bottom: 14px;">
+                <h2 style="font-size: 18px; font-weight: bold; color: #1e0b75; margin: 0; display: flex; align-items: center; gap: 8px;">
+                    <i class="fa-solid fa-user-plus"></i> Tambah Pengguna Baharu
+                </h2>
+                <span id="closeAddModalBtn" style="cursor: pointer; font-size: 20px; color: #94a3b8;"><i class="fa-solid fa-xmark"></i></span>
+            </div>
+
+            <form action="{{ route('admin.pengguna.store') }}" method="POST">
+                @csrf
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px;">
+                    <div>
+                        <label style="display: block; font-size: 12px; font-weight: 600; color: #334155; margin-bottom: 5px;">Nama Penuh <span style="color: red;">*</span></label>
+                        <input type="text" name="name" required placeholder="Nama Penuh" style="width: 100%; padding: 9px 12px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 13px;">
+                    </div>
+                    <div>
+                        <label style="display: block; font-size: 12px; font-weight: 600; color: #334155; margin-bottom: 5px;">No. Kad Pengenalan <span style="color: red;">*</span></label>
+                        <input type="text" name="ic" required placeholder="Contoh: 900101145521" style="width: 100%; padding: 9px 12px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 13px;">
+                    </div>
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px;">
+                    <div>
+                        <label style="display: block; font-size: 12px; font-weight: 600; color: #334155; margin-bottom: 5px;">Emel <span style="color: red;">*</span></label>
+                        <input type="email" name="email" required placeholder="user@rtm.gov.my" style="width: 100%; padding: 9px 12px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 13px;">
+                    </div>
+                    <div>
+                        <label style="display: block; font-size: 12px; font-weight: 600; color: #334155; margin-bottom: 5px;">No. Telefon <span style="color: red;">*</span></label>
+                        <input type="text" name="phone" required placeholder="Contoh: 0123456789" style="width: 100%; padding: 9px 12px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 13px;">
+                    </div>
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 12px;">
+                    <div>
+                        <label style="display: block; font-size: 12px; font-weight: 600; color: #334155; margin-bottom: 5px;">Jawatan <span style="color: red;">*</span></label>
+                        <input type="text" name="jawatan" required placeholder="Jawatan" style="width: 100%; padding: 9px 12px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 13px;">
+                    </div>
+                    <div>
+                        <label style="display: block; font-size: 12px; font-weight: 600; color: #334155; margin-bottom: 5px;">Bahagian <span style="color: red;">*</span></label>
+                        <input type="text" name="bahagian" required placeholder="Bahagian" style="width: 100%; padding: 9px 12px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 13px;">
+                    </div>
+                    <div>
+                        <label style="display: block; font-size: 12px; font-weight: 600; color: #334155; margin-bottom: 5px;">Unit <span style="color: red;">*</span></label>
+                        <input type="text" name="unit" required placeholder="Unit" style="width: 100%; padding: 9px 12px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 13px;">
+                    </div>
+                </div>
+
+                <div style="margin-bottom: 12px;">
+                    <label style="display: block; font-size: 12px; font-weight: 600; color: #334155; margin-bottom: 5px;">Alamat Pejabat <span style="color: red;">*</span></label>
+                    <textarea name="address" required rows="2" placeholder="Alamat Penuh Pejabat" style="width: 100%; padding: 9px 12px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 13px;"></textarea>
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px;">
+                    <div>
+                        <label style="display: block; font-size: 12px; font-weight: 600; color: #334155; margin-bottom: 5px;">Peranan <span style="color: red;">*</span></label>
+                        <select name="role" required style="width: 100%; padding: 9px 12px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 13px; background: white;">
+                            <option value="pengguna">Pemohon</option>
+                            <option value="pelulus">Pelulus</option>
+                            <option value="admin">Admin</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label style="display: block; font-size: 12px; font-weight: 600; color: #334155; margin-bottom: 5px;">Kata Laluan <span style="color: red;">*</span></label>
+                        <input type="password" name="password" required placeholder="Kata Laluan" style="width: 100%; padding: 9px 12px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 13px;">
+                    </div>
+                </div>
+
+                <div style="display: flex; justify-content: flex-end; gap: 10px; border-top: 1px solid #f1f5f9; padding-top: 15px;">
+                    <button type="button" id="cancelAddModalBtn" style="padding: 9px 16px; background: #f1f5f9; color: #475569; border: none; border-radius: 9px; font-weight: 600; font-size: 13px; cursor: pointer;">Batal</button>
+                    <button type="submit" style="padding: 9px 20px; background: #1e0b75; color: white; border: none; border-radius: 9px; font-weight: 600; font-size: 13px; cursor: pointer;">Simpan Pengguna</button>
+                </div>
+            </form>
+
+        </div>
+    </div>
     
 <script>
     document.addEventListener('DOMContentLoaded', function () {
@@ -888,7 +791,7 @@
             });
         }
 
-        // 2. Modal Tambah Pengguna
+        
         const addModal = document.getElementById('addModal');
         const openAddBtn = document.getElementById('openAddModalBtn');
         const closeAddBtn = document.getElementById('closeAddModalBtn');

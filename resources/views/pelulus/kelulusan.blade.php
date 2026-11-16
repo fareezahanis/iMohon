@@ -9,8 +9,20 @@
     <!-- FontAwesome Icon & Fonts -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
+    <!DOCTYPE html>
+<html lang="ms">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kelulusan Permohonan - iMohon</title>
+
+    <!-- FontAwesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+
     <style>
-        *{
+        * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
@@ -44,6 +56,7 @@
 
         .sidebar.collapsed {
             width: 80px;
+            padding: 25px 12px;
         }
 
         .sidebar.collapsed .brand-name,
@@ -54,6 +67,10 @@
         .sidebar.collapsed .nav-link {
             justify-content: center;
             padding: 12px 0;
+        }
+
+        .sidebar.collapsed .sidebar-header {
+            justify-content: center;
         }
 
         .brand-logo {
@@ -90,7 +107,8 @@
             transition: all 0.2s ease;
         }
 
-        .nav-link:hover, .nav-link.active {
+        .nav-link:hover,
+        .nav-link.active {
             background-color: rgba(255, 255, 255, 0.2);
             color: #ffffff;
             font-weight: 600;
@@ -149,96 +167,125 @@
         }
 
         .content-body {
-            padding: 35px 40px 40px;
+            padding: 30px 40px 40px;
             width: 100%;
         }
 
         .page-header {
-            margin-bottom: 25px;
+            margin-bottom: 24px;
         }
 
         .page-title {
             font-size: 28px;
             font-weight: bold;
-            color: #111827;
+            color: #0f172a;
             margin-bottom: 4px;
         }
 
         .page-subtitle {
-            font-size: 14px;
-            color: #6b7280;
+            font-size: 13.5px;
+            color: #64748b;
         }
 
+        
+        .alert-success {
+            background-color: #dcfce7;
+            border: 1px solid #86efac;
+            color: #166534;
+            padding: 14px 18px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            font-size: 13.5px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        
         .card-box {
             background: white;
             border-radius: 16px;
             padding: 25px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
             overflow-x: auto;
         }
 
         .custom-table {
             width: 100%;
             border-collapse: collapse;
-            font-size: 13px;
+            font-size: 13.5px;
         }
 
         .custom-table th {
             background-color: #e0e7ff;
             color: #3730a3;
-            padding: 12px 16px;
+            padding: 13px 16px;
             text-align: center;
             font-weight: 600;
+        }
+
+        .custom-table th:first-child { border-radius: 10px 0 0 10px; }
+        .custom-table th:last-child  { border-radius: 0 10px 10px 0; }
+
+        .custom-table tbody tr {
+            border-bottom: 1px solid #f1f5f9;
+            transition: background 0.15s;
+        }
+
+        .custom-table tbody tr:hover {
+            background-color: #f8fafc;
         }
 
         .custom-table td {
             padding: 14px 16px;
             color: #334155;
             text-align: center;
-            border-bottom: 1px solid #f1f5f9;
         }
 
-        /* BADGES */
+        
         .badge {
             padding: 6px 14px;
-            border-radius: 18px;
-            font-size: 11px;
+            border-radius: 50px;
+            font-size: 11.5px;
             font-weight: 600;
             display: inline-flex;
             align-items: center;
-            gap: 5px;
+            gap: 6px;
         }
-        
-        .badge-proses { background-color: #fef08a; color: #854d0e; }
-        .badge-purple { background-color: #f3e8ff; color: #6b21a8; border: 1px solid #d8b4fe; }
+
+        .badge-proses { background-color: #fef3c7; color: #92400e; }
+        .badge-purple { background-color: #dcfce7; color: #166534; }
         .badge-tolak  { background-color: #fee2e2; color: #991b1b; }
 
         .btn-action-edit {
-            color: #111;
-            text-decoration: none;
-            font-size: 16px;
+            width: 34px;
+            height: 34px;
+            border-radius: 8px;
+            background-color: #eef2ff;
+            color: #29158f;
+            font-size: 14px;
             cursor: pointer;
-            background: none;
             border: none;
-            padding: 4px 8px;
-            border-radius: 6px;
-            transition: background 0.2s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
         }
 
         .btn-action-edit:hover {
-            background-color: #f1f5f9;
-            color: #29158f;
+            background-color: #29158f;
+            color: #ffffff;
         }
 
-        /* popup */
+        
         .modal-overlay {
             position: fixed;
-            top: 0;
-            left: 0;
+            inset: 0;
             width: 100%;
             height: 100%;
-            background: rgba(15, 23, 42, 0.5);
-            backdrop-filter: blur(4px);
+            background: rgba(15, 23, 42, 0.55);
+            backdrop-filter: blur(3px);
             display: none;
             align-items: center;
             justify-content: center;
@@ -248,45 +295,56 @@
         .modal-card {
             background: #ffffff;
             border-radius: 20px;
-            width: 90%;
+            width: 92%;
             max-width: 820px;
-            padding: 30px 35px;
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            max-height: 90vh;
+            overflow-y: auto;
+            padding: 30px 34px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.15);
             position: relative;
             animation: modalSlide 0.25s ease-out;
         }
 
         @keyframes modalSlide {
-            from { transform: translateY(-20px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
+            from { transform: translateY(-16px); opacity: 0; }
+            to   { transform: translateY(0); opacity: 1; }
         }
 
         .modal-header-title {
             font-size: 20px;
             font-weight: 700;
             color: #0f172a;
-            margin-bottom: 20px;
+            margin-bottom: 18px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
         .modal-info-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 20px;
-            margin-bottom: 20px;
+            gap: 18px;
+            margin-bottom: 18px;
+        }
+
+        @media (max-width: 720px) {
+            .modal-info-grid {
+                grid-template-columns: 1fr;
+            }
         }
 
         .info-box-card {
-            background: #eef2ff;
+            background: #f8fafc;
             border: 1px solid #e2e8f0;
-            border-radius: 16px;
-            padding: 20px;
+            border-radius: 14px;
+            padding: 18px 20px;
         }
 
         .info-box-title {
             font-size: 14px;
             font-weight: 700;
-            color: #1e293b;
-            margin-bottom: 15px;
+            color: #29158f;
+            margin-bottom: 12px;
         }
 
         .info-table {
@@ -295,7 +353,7 @@
         }
 
         .info-table td {
-            padding: 6px 0;
+            padding: 5px 0;
             font-size: 13px;
             vertical-align: top;
             text-align: left;
@@ -303,7 +361,7 @@
 
         .info-table td.label {
             color: #64748b;
-            width: 40%;
+            width: 42%;
         }
 
         .info-table td.colon {
@@ -314,41 +372,44 @@
         .info-table td.value {
             color: #0f172a;
             font-weight: 600;
-            width: 55%;
+            width: 53%;
         }
 
         .justifikasi-section {
-            margin-bottom: 25px;
+            margin-top: 16px;
             text-align: left;
         }
 
         .justifikasi-title {
             font-size: 14px;
             font-weight: 700;
-            color: #1e293b;
+            color: #29158f;
             margin-bottom: 8px;
         }
 
         .justifikasi-box {
-            background: #eef2ff;
+            background: #f8fafc;
             border: 1px solid #e2e8f0;
             border-radius: 12px;
             padding: 12px 16px;
             font-size: 13px;
             color: #334155;
-            min-height: 45px;
+            min-height: 44px;
         }
 
         .modal-actions {
             display: flex;
             justify-content: flex-end;
-            gap: 15px;
+            gap: 12px;
+            margin-top: 22px;
+            padding-top: 16px;
+            border-top: 1px solid #f1f5f9;
         }
 
         .btn-modal {
-            padding: 10px 28px;
+            padding: 10px 26px;
             border-radius: 10px;
-            font-size: 14px;
+            font-size: 13.5px;
             font-weight: 700;
             border: none;
             cursor: pointer;
@@ -358,15 +419,16 @@
             transition: all 0.2s ease;
         }
 
-        .btn-lulus { background-color: #48bb78;color: white; }
-        .btn-lulus:hover {background-color: #38a169;}
-        .btn-tolak { background-color: #e53e3e;color: white; }
-        .btn-tolak:hover { background-color: #c53030;}
+        .btn-lulus { background-color: #16a34a; color: white; }
+        .btn-lulus:hover { background-color: #15803d; }
+
+        .btn-tolak { background-color: #dc2626; color: white; }
+        .btn-tolak:hover { background-color: #b91c1c; }
 
         .close-modal-btn {
             position: absolute;
-            top: 20px;
-            right: 25px;
+            top: 18px;
+            right: 24px;
             background: none;
             border: none;
             font-size: 24px;
@@ -374,170 +436,166 @@
             cursor: pointer;
         }
 
-        .close-modal-btn:hover { color: #334155; }
+        .close-modal-btn:hover { color: #0f172a; }
+
+       
         .modal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background: rgba(15, 23, 42, 0.6);
-    backdrop-filter: blur(4px);
-    display: none;
-    align-items: center;
-    justify-content: center;
-    z-index: 999999;
-}
+            position: fixed;
+            inset: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(4px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 999999;
+        }
 
-/* Kotak Modal Confirm (Putih & Rounded) */
-.modal-content-confirm {
-    background: #ffffff;
-    border-radius: 20px;
-    width: 90%;
-    max-width: 420px;
-    padding: 30px 25px;
-    text-align: center;
-    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.15), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-    position: relative;
-    animation: popupScale 0.2s ease-out;
-}
+        .modal-content-confirm {
+            background: #ffffff;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 420px;
+            padding: 30px 26px;
+            text-align: center;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.15);
+            position: relative;
+            animation: popupScale 0.2s ease-out;
+        }
 
-@keyframes popupScale {
-    from { transform: scale(0.9); opacity: 0; }
-    to { transform: scale(1); opacity: 1; }
-}
+        @keyframes popupScale {
+            from { transform: scale(0.92); opacity: 0; }
+            to   { transform: scale(1); opacity: 1; }
+        }
 
-
-.icon-circle-success {
-    background-color: #d1fae5;
-    color: #10b981;
-    width: 70px;
-    height: 70px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 0 auto 20px auto;
-    font-size: 32px;
-}
-
-.icon-circle-danger {
-    background-color: #fee2e2;
-    color: #ef4444;
-    width: 70px;
-    height: 70px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 0 auto 20px auto;
-    font-size: 32px;
-}
-
-
-.modal-confirm-title {
-    font-size: 18px;
-    font-weight: 700;
-    color: #0f172a;
-    margin-bottom: 20px;
-}
-
-
-.reason-box {
-    width: 100%;
+        .icon-circle-success {
+            background-color: #dcfce7;
+            color: #16a34a;
+            width: 68px;
+            height: 68px;
+            border-radius: 50%;
             display: flex;
-            align-items: flex-start;
-            gap: 10px;
-            margin-bottom: 10px;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 18px auto;
+            font-size: 30px;
+        }
+
+        .icon-circle-danger {
+            background-color: #fee2e2;
+            color: #dc2626;
+            width: 68px;
+            height: 68px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 18px auto;
+            font-size: 30px;
+        }
+
+        .modal-confirm-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #0f172a;
+            margin-bottom: 18px;
+        }
+
+        .reason-box {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            margin-bottom: 16px;
             text-align: left;
-}
+        }
 
-.reason-label {
-    font-size: 11px;
-            color: #000;
+        .reason-label {
+            font-size: 12.5px;
+            color: #334155;
             font-weight: 600;
-            white-space: nowrap;
-            margin-top: 5px;
-}
+        }
 
-.reason-textarea {
-    width: 100%;
-            height: 70px;
+        .reason-textarea {
+            width: 100%;
+            height: 76px;
             border: 1px solid #cbd5e1;
-            border-radius: 8px;
-            padding: 8px 10px;
-            font-size: 12px;
+            border-radius: 10px;
+            padding: 10px 12px;
+            font-size: 13px;
             outline: none;
             resize: none;
-            color: #334155;
-}
+            color: #0f172a;
+        }
 
-.reason-textarea:focus {
-    border-color: #29158f;
-    box-shadow: 0 0 0 3px rgba(41, 21, 143, 0.1);
-}
+        .reason-textarea:focus {
+            border-color: #29158f;
+            box-shadow: 0 0 0 3px rgba(41, 21, 143, 0.12);
+        }
 
+        .confirm-btn-row {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            width: 100%;
+        }
 
-.modal-btn-confirm-lulus {
-    background-color: #48bb78;
+        .modal-btn-confirm-lulus {
+            background-color: #16a34a;
             color: white;
             border: none;
-            padding: 10px;
-            width: 140px;
-            border-radius: 8px;
+            padding: 10px 20px;
+            min-width: 130px;
+            border-radius: 10px;
             font-weight: 600;
-            font-size: 13px;
+            font-size: 13.5px;
             cursor: pointer;
-            margin-bottom: 10px;
             transition: 0.2s;
-}
+        }
 
-.modal-btn-confirm-lulus:hover {
-    background-color: #059669;
-}
+        .modal-btn-confirm-lulus:hover {
+            background-color: #15803d;
+        }
 
-
-.modal-btn-confirm-tolak {
-    background-color: #cc0000;
+        .modal-btn-confirm-tolak {
+            background-color: #dc2626;
             color: white;
             border: none;
-            padding: 10px;
-            width: 140px;
-            border-radius: 8px;
+            padding: 10px 20px;
+            min-width: 130px;
+            border-radius: 10px;
             font-weight: 600;
-            font-size: 13px;
+            font-size: 13.5px;
             cursor: pointer;
-            margin-top: 15px;
             transition: 0.2s;
-}
+        }
 
-.modal-btn-confirm-tolak:hover {
-    background-color: #990000;
-}
+        .modal-btn-confirm-tolak:hover {
+            background-color: #b91c1c;
+        }
 
+        .modal-btn-batal {
+            background-color: #f1f5f9;
+            color: #475569;
+            border: 1px solid #cbd5e1;
+            padding: 10px 20px;
+            min-width: 110px;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 13.5px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
 
-.modal-btn-batal {
-    background-color: white;
-    color: #718096;
-    border: 1px solid #cbd5e1;
-    padding: 8px;
-    width: 140px;
-    border-radius: 8px;
-    font-weight: 600;
-    font-size: 13px;
-    cursor: pointer;
-    transition: 0.2s;
-}
-
-.modal-btn-batal:hover {
-    background-color: #f8fafc;
-    
-}
+        .modal-btn-batal:hover {
+            background-color: #e2e8f0;
+        }
     </style>
 </head>
 <body>
 
-    
+    <!-- SIDEBAR -->
     <aside class="sidebar">
         <div class="sidebar-header">
             <div class="brand-logo">
@@ -566,7 +624,6 @@
                     <span>Profil</span>
                 </a>
             </li>
-            
             <li>
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
@@ -579,224 +636,241 @@
         </ul>
     </aside>
 
-         <div class="main-wrapper">
+    <!-- MAIN WRAPPER -->
+    <div class="main-wrapper">
 
-             <!-- TOP HEADER -->
-            <header class="top-header">
-                <div class="user-profile">
-                    <span>Pelulus</span>
+        <!-- TOP HEADER -->
+        <header class="top-header">
+            <div class="user-profile">
+                <span>{{ Auth::user()->name ?? 'Pelulus' }}</span>
                 <div class="user-avatar">
                     <i class="fa-solid fa-user"></i>
                 </div>
             </div>
-            </header>
+        </header>
 
+        <!-- CONTENT BODY -->
         <main class="content-body">
             <div class="page-header">
-                <h1 class="page-title">Permohonan</h1>
-                <p class="page-subtitle">Senarai permohonan yang memerlukan kelulusan</p>
+                <h1 class="page-title">Kelulusan Permohonan</h1>
+                <p class="page-subtitle">Semak butiran dan sahkan kelulusan permohonan peralatan ICT</p>
             </div>
+
+            @if(session('success'))
+                <div class="alert-success">
+                    <i class="fa-solid fa-circle-check"></i>
+                    <span>{{ session('success') }}</span>
+                </div>
+            @endif
 
             <div class="card-box">
                 <table class="custom-table">
-                <thead>
-                    <tr>
-                        <th>ID Permohonan</th>
-                        <th>Tarikh mohon</th>
-                        <th>Pemohon</th>
-                        <th>Jabatan/Unit</th>
-                        <th>Item</th>
-                        <th>Jenis</th>
-                        <th>Status Pelulus</th>
-                        <th>Tindakan</th>
-                    </tr>
-                </thead>
-            <tbody>
-                @forelse($senaraiPermohonan ?? [] as $item)
-                    @php
-                        $statusPelulus = strtolower($item->status_pelulus ?? $item->status ?? '');
-                    @endphp
-                    <tr>
-                        <td>{{ $item->id_permohonan ?? 'REQ'.str_pad($item->id, 3, '0', STR_PAD_LEFT) }}</td>
-                        <td>{{ \Carbon\Carbon::parse($item->created_at)->format('j M Y') }}</td>
-                        <td>{{ $item->user->name ?? $item->nama_pemohon ?? '-' }}</td>
-                        <td>{{ $item->jabatan ?? $item->unit ?? 'STM' }}</td>
-                        <td>{{ $item->nama_item ?? '-' }}</td>
-                        <td>{{ $item->jenis_permohonan ?? 'Baru' }}</td>
-                        
-                       
-                        <td>
-                            @if(in_array($statusPelulus, ['diterima', 'disokong', 'lulus', 'terima']))
-                                <span class="badge badge-purple">
-                                    <i class="fa-solid fa-user-check"></i> Diterima Pelulus
-                                </span>
-                            @elseif($statusPelulus == 'ditolak')
-                                <span class="badge badge-tolak">
-                                    <i class="fa-solid fa-user-xmark"></i> Ditolak Pelulus
-                                </span>
-                            @else
-                                <span class="badge badge-proses">
-                                    <i class="fa-solid fa-clock"></i> Menunggu Pelulus
-                                </span>
-                            @endif
-                        </td>
-
-                        <td>
-                            <button class="btn-action-edit btn-view-permohonan"
-                                title="Kemaskini Kelulusan"
-                                data-id="{{ $item->id }}"
-                                data-id-permohonan="{{ $item->id_permohonan ?? 'REQ'.str_pad($item->id, 3, '0', STR_PAD_LEFT) }}"
-                                data-nama="{{ $item->user->name ?? $item->nama_pemohon ?? '-' }}"
-                                data-ic="{{ $item->user->ic ?? '-' }}"
-                                data-tel="{{ $item->user->phone ?? '-' }}"
-                                data-email="{{ $item->user->email ?? '-' }}"
-                                data-tarikh="{{ \Carbon\Carbon::parse($item->created_at)->format('d/m/Y') }}"
-                                data-jenis="{{ $item->jenis_permohonan ?? 'Baru' }}"
-                                data-namapenerima="{{ $item->nama_penerima }}"
-                                data-lokasi="{{ $item->lokasi ?? '-' }}"
-                                data-item="{{ $item->nama_item ?? '-' }}"
-                                data-justifikasi="{{ $item->tujuan ?? 'Tiada justifikasi.' }}"
-                                data-status="{{ $statusPelulus }}"> 
-                                <i class="fa-solid fa-pen-to-square"></i>
-                            </button>
-                        </td>
-                    </tr>
-                @empty
-                    <tr>
-                        <td colspan="8" style="text-align: center; color: #888; padding: 25px;">
-                            Tiada permohonan memerlukan kelulusan buat masa ini.
-                        </td>
-                    </tr>
-                @endforelse
-            </tbody>
-        </table>
-    </div>
-
-</main>
-
-<!-- popup detail -->
-<div class="modal-overlay" id="modalButiran" style="display: none;">
-    <div class="modal-card" style="max-width: 800px; width: 90%; background: white; border-radius: 20px; padding: 30px;">
-        <button class="close-modal-btn" id="btnCloseModal">&times;</button>
-        <h2 class="modal-header-title">Butiran permohonan</h2>
-
-        <div class="modal-info-grid">
-            <!-- maklumat Pemohon -->
-            <div class="info-box-card" style="background: #eef2ff; border-radius: 14px; padding: 18px; border: none;">
-                <div class="info-box-title" style="color: #1e1b4b; font-weight: 700;">Maklumat pemohon</div>
-                <table class="info-table">
-                    <tr><td class="label">Nama penuh</td><td class="colon">:</td><td class="value" id="modalNama">-</td></tr>
-                    <tr><td class="label">No. kad pengenalan</td><td class="colon">:</td><td class="value" id="modalIC">-</td></tr>
-                    <tr><td class="label">No. Tel</td><td class="colon">:</td><td class="value" id="modalTel">-</td></tr>
-                    <tr><td class="label">Email</td><td class="colon">:</td><td class="value" id="modalEmail">-</td></tr>
-                </table>
-            </div>
-
-            <!-- maklumat Permohonan -->
-            <div class="info-box-card" style="background: #eef2ff; border-radius: 14px; padding: 18px; border: none;">
-                <div class="info-box-title" style="color: #1e1b4b; font-weight: 700;">Maklumat permohonan</div>
-                <table class="info-table">
-                    <tr><td class="label">ID permohonan</td><td class="colon">:</td><td class="value" id="modalIDPermohonan">-</td></tr>
-                    <tr><td class="label">Tarikh mohon</td><td class="colon">:</td><td class="value" id="modalTarikh">-</td></tr>
-                    <tr><td class="label">Jenis permohonan</td><td class="colon">:</td><td class="value" id="modalJenis">-</td></tr>
-                </table>
-            </div>
-        </div>
-
-        <!-- table senarai permohonan -->
-        <div style="margin-top: 20px; background: #eef2ff; border-radius: 14px; padding: 18px; border: none;">
-            <div style="font-size: 14px; font-weight: 700; color: #1e1b4b; margin-bottom: 12px;">
-                Senarai Penerima Permohonan
-            </div>
-
-            <div style="overflow-x: auto;">
-                <table style="width: 100%; border-collapse: collapse; font-size: 13px; text-align: left; background: white; border-radius: 8px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
                     <thead>
-                        <tr style="background: #e2e8f0; color: #334155;">
-                            <th style="padding: 10px 12px; width: 120px;">Penerima</th>
-                            <th style="padding: 10px 12px;">Nama Penerima</th>
-                            <th style="padding: 10px 12px;">Alat Dimohon</th>
-                            <th style="padding: 10px 12px;">Lokasi</th>
+                        <tr>
+                            <th style="text-align: left;">ID Permohonan</th>
+                            <th>Tarikh mohon</th>
+                            <th style="text-align: left;">Pemohon</th>
+                            <th>Jabatan / Unit</th>
+                            <th style="text-align: left;">Item</th>
+                            <th>Jenis</th>
+                            <th>Status Pelulus</th>
+                            <th>Tindakan</th>
                         </tr>
                     </thead>
-                    <tbody id="tblBodyPenerima">
-                        <!-- js -->
+                    <tbody>
+                        @forelse($senaraiPermohonan ?? [] as $item)
+                            @php
+                                $statusPelulus = strtolower($item->status_pelulus ?? $item->status ?? '');
+                            @endphp
+                            <tr>
+                                <td style="text-align: left; font-weight: 700; color: #1e0b75;">
+                                    {{ $item->id_permohonan ?? 'REQ'.str_pad($item->id, 3, '0', STR_PAD_LEFT) }}
+                                </td>
+                                <td>{{ \Carbon\Carbon::parse($item->created_at)->format('d/m/Y') }}</td>
+                                <td style="text-align: left; font-weight: 600; color: #0f172a;">
+                                    {{ $item->user->name ?? $item->nama_pemohon ?? '-' }}
+                                </td>
+                                <td>{{ $item->jabatan ?? $item->unit ?? 'STM' }}</td>
+                                <td style="text-align: left;">{{ $item->nama_item ?? '-' }}</td>
+                                <td>{{ $item->jenis_permohonan ?? 'Baru' }}</td>
+
+                                <td>
+                                    @if(in_array($statusPelulus, ['diterima', 'disokong', 'lulus', 'terima']))
+                                        <span class="badge badge-purple">
+                                            <i class="fa-solid fa-user-check"></i> Diterima Pelulus
+                                        </span>
+                                    @elseif($statusPelulus == 'ditolak')
+                                        <span class="badge badge-tolak">
+                                            <i class="fa-solid fa-user-xmark"></i> Ditolak Pelulus
+                                        </span>
+                                    @else
+                                        <span class="badge badge-proses">
+                                            <i class="fa-solid fa-clock"></i> Menunggu Pelulus
+                                        </span>
+                                    @endif
+                                </td>
+
+                                <td>
+                                    <button type="button" class="btn-action-edit btn-view-permohonan"
+                                        title="Semak & Kemaskini Kelulusan"
+                                        data-id="{{ $item->id }}"
+                                        data-id-permohonan="{{ $item->id_permohonan ?? 'REQ'.str_pad($item->id, 3, '0', STR_PAD_LEFT) }}"
+                                        data-nama="{{ $item->user->name ?? $item->nama_pemohon ?? '-' }}"
+                                        data-ic="{{ $item->user->ic ?? '-' }}"
+                                        data-tel="{{ $item->user->phone ?? '-' }}"
+                                        data-tel-pej="{{ $item->user->no_tel_pejabat ?? '-' }}"
+                                        data-email="{{ $item->user->email ?? '-' }}"
+                                        data-tarikh="{{ \Carbon\Carbon::parse($item->created_at)->format('d/m/Y') }}"
+                                        data-jenis="{{ $item->jenis_permohonan ?? 'Baru' }}"
+                                        data-namapenerima="{{ is_array($item->nama_penerima) ? json_encode($item->nama_penerima) : $item->nama_penerima }}"
+                                        data-lokasi="{{ is_array($item->lokasi) ? json_encode($item->lokasi) : ($item->lokasi ?? '-') }}"
+                                        data-item="{{ is_array($item->nama_item) ? json_encode($item->nama_item) : ($item->nama_item ?? '-') }}"
+                                        data-justifikasi="{{ $item->tujuan ?? 'Tiada justifikasi.' }}"
+                                        data-status="{{ $statusPelulus }}">
+                                        <i class="fa-solid fa-pen-to-square"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="8" style="text-align: center; color: #94a3b8; padding: 35px; font-style: italic;">
+                                    Tiada permohonan memerlukan kelulusan buat masa ini.
+                                </td>
+                            </tr>
+                        @endforelse
                     </tbody>
                 </table>
             </div>
-        </div>
+        </main>
 
-        <!-- justification -->
-        <div class="justifikasi-section" style="margin-top: 15px;">
-            <div class="justifikasi-title" style="font-size: 14px; font-weight: 700; color: #1e1b4b; margin-bottom: 8px;">Justifikasi</div>
-            <div class="justifikasi-box" id="modalJustifikasi" style="background: #eef2ff; border-radius: 12px; padding: 14px 18px; color: #1e1b4b; border: none;">-</div>
-        </div>
+    </div>
 
-        <!-- button terima/tolak -->
-        <div class="modal-actions" id="modalActionsGroup" style="margin-top: 20px; display: flex; justify-content: flex-end; gap: 10px;">
-            <button type="button" class="btn-modal btn-lulus" id="btnProsesLulus">
-                <i class="fa-solid fa-check"></i> TERIMA
-            </button>
-            <button type="button" class="btn-modal btn-tolak" id="btnProsesTolak">
-                <i class="fa-solid fa-xmark"></i> TOLAK
-            </button>
+    <!-- popup details permohonan -->
+    <div class="modal-overlay" id="modalButiran">
+        <div class="modal-card">
+            <button type="button" class="close-modal-btn" id="btnCloseModal">&times;</button>
+            <h2 class="modal-header-title">
+                <i class="fa-solid fa-file-signature" style="color: #29158f;"></i> Butiran Permohonan
+            </h2>
+
+            <div class="modal-info-grid">
+                <!-- maklumat pemohon -->
+                <div class="info-box-card">
+                    <div class="info-box-title">Maklumat Pemohon</div>
+                    <table class="info-table">
+                        <tr><td class="label">Nama penuh</td><td class="colon">:</td><td class="value" id="modalNama">-</td></tr>
+                        <tr><td class="label">No. Kad Pengenalan</td><td class="colon">:</td><td class="value" id="modalIC">-</td></tr>
+                        <tr><td class="label">No. Tel Pejabat</td><td class="colon">:</td><td class="value" id="modalTelPej">-</td></tr>
+                        <tr><td class="label">No. Tel Bimbit</td><td class="colon">:</td><td class="value" id="modalTel">-</td></tr>
+                        <tr><td class="label">Emel</td><td class="colon">:</td><td class="value" id="modalEmail">-</td></tr>
+                    </table>
+                </div>
+
+                <!-- maklumat permohonan -->
+                <div class="info-box-card">
+                    <div class="info-box-title">Maklumat Permohonan</div>
+                    <table class="info-table">
+                        <tr><td class="label">ID Permohonan</td><td class="colon">:</td><td class="value" id="modalIDPermohonan">-</td></tr>
+                        <tr><td class="label">Tarikh Mohon</td><td class="colon">:</td><td class="value" id="modalTarikh">-</td></tr>
+                        <tr><td class="label">Jenis Permohonan</td><td class="colon">:</td><td class="value" id="modalJenis">-</td></tr>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Table Senarai Penerima -->
+            <div class="info-box-card">
+                <div class="info-box-title">Senarai Penerima Permohonan</div>
+
+                <div style="overflow-x: auto; border-radius: 8px; border: 1px solid #e2e8f0;">
+                    <table style="width: 100%; border-collapse: collapse; font-size: 13px; text-align: left; background: white;">
+                        <thead>
+                            <tr style="background: #e0e7ff; color: #3730a3;">
+                                <th style="padding: 10px 12px; width: 110px;">Penerima</th>
+                                <th style="padding: 10px 12px;">Nama Penerima</th>
+                                <th style="padding: 10px 12px;">Alat Dimohon</th>
+                                <th style="padding: 10px 12px;">Lokasi</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tblBodyPenerima">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- justifikasi -->
+            <div class="justifikasi-section">
+                <div class="justifikasi-title">Tujuan / Justifikasi</div>
+                <div class="justifikasi-box" id="modalJustifikasi">-</div>
+            </div>
+
+            <!-- button terima / tolak -->
+            <div class="modal-actions" id="modalActionsGroup">
+                <button type="button" class="btn-modal btn-tolak" id="btnProsesTolak">
+                    <i class="fa-solid fa-xmark"></i> TOLAK
+                </button>
+                <button type="button" class="btn-modal btn-lulus" id="btnProsesLulus">
+                    <i class="fa-solid fa-check"></i> TERIMA
+                </button>
+            </div>
         </div>
     </div>
-</div>
-<!-- POPUP 2: PENGESAHAN LULUS/TERIMA (POPUP KEDUA BERTINGKAT) -->
-    <div class="modal" id="modalLulus" style="display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0, 0, 0, 0.6); justify-content: center; align-items: center; z-index: 999999;">
-        <div class="modal-content-confirm" style="max-width: 400px; background: white; padding: 25px; border-radius: 16px; text-align: center;">
+
+    <!-- popup -->
+    <div class="modal" id="modalLulus">
+        <div class="modal-content-confirm">
             <div class="icon-circle-success">
                 <i class="fa-solid fa-check"></i>
             </div>
-            <p class="modal-confirm-title">Terima permohonan ini ?</p>
-            
-            <form id="formConfirmLulus" action="" method="POST" style="width: 100%; display: flex; flex-direction: column; align-items: center;">
+            <p class="modal-confirm-title">Terima permohonan ini?</p>
+
+            <form id="formConfirmLulus" action="" method="POST" style="width: 100%;">
                 @csrf
                 @method('PUT')
-                <input type="hidden" name="status" value="Lulus">
-                
-                <div class="reason-box" style="width: 100%; margin-bottom: 15px; text-align: left;">
-                    <span class="reason-label">Catatan kelulusan :</span>
-                    <textarea name="catatan_kelulusan" class="reason-textarea" ></textarea>
+                <input type="hidden" name="status" value="Diterima">
+
+                <div class="reason-box">
+                    <span class="reason-label">Catatan kelulusan (pilihan):</span>
+                    <textarea name="catatan_kelulusan" class="reason-textarea" placeholder="Masukkan catatan tambahan jika ada..."></textarea>
                 </div>
 
-                <button type="submit" class="modal-btn-confirm-lulus">Terima</button>
+                <div class="confirm-btn-row">
+                    <button type="button" class="modal-btn-batal close-lulus-btn">Batal</button>
+                    <button type="submit" class="modal-btn-confirm-lulus">Ya, Terima</button>
+                </div>
             </form>
-            <button type="button" class="modal-btn-batal close-lulus-btn" style="margin-top: 10px;">Batal</button>
         </div>
     </div>
 
-    <!-- POPUP 3: PENGESAHAN TOLAK (POPUP KEDUA BERTINGKAT) -->
-    <div class="modal" id="modalTolak" style="display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0, 0, 0, 0.6); justify-content: center; align-items: center; z-index: 999999;">
-        <div class="modal-content-confirm" style="max-width: 400px; background: white; padding: 25px; border-radius: 16px; text-align: center;">
+    <!-- popup -->
+    <div class="modal" id="modalTolak">
+        <div class="modal-content-confirm">
             <div class="icon-circle-danger">
                 <i class="fa-solid fa-xmark"></i>
             </div>
-            <p class="modal-confirm-title">Tolak permohonan ini ?</p>
+            <p class="modal-confirm-title">Tolak permohonan ini?</p>
 
-            <form id="formConfirmTolak" action="" method="POST" style="width: 100%; display: flex; flex-direction: column; align-items: center;">
+            <form id="formConfirmTolak" action="" method="POST" style="width: 100%;">
                 @csrf
                 @method('PUT')
                 <input type="hidden" name="status" value="Ditolak">
-                
-                <div class="reason-box" style="width: 100%; margin-bottom: 15px; text-align: left;">
-                    <span class="reason-label">Sebab penolakan :</span>
+
+                <div class="reason-box">
+                    <span class="reason-label">Sebab penolakan:</span>
                     <textarea name="sebab_penolakan" class="reason-textarea" placeholder="Nyatakan sebab penolakan..." required></textarea>
                 </div>
 
-                <button type="submit" class="modal-btn-confirm-tolak">Ya, tolak</button>
+                <div class="confirm-btn-row">
+                    <button type="button" class="modal-btn-batal close-tolak-btn">Batal</button>
+                    <button type="submit" class="modal-btn-confirm-tolak">Ya, Tolak</button>
+                </div>
             </form>
-            <button type="button" class="modal-btn-batal close-tolak-btn" style="margin-top: 10px;">Batal</button>
         </div>
     </div>
-
-</main>
 
    <script>
     document.addEventListener('DOMContentLoaded', function () {
         
-        // 1. Sidebar Toggle
+       
         const sidebar = document.querySelector('.sidebar');
         const toggleBtn = document.getElementById('toggleSidebar');
 
@@ -811,7 +885,7 @@
             });
         }
 
-        // 2. Pembolehubah Utama Modal
+       
         const modalButiran = document.getElementById('modalButiran');
         const modalLulus = document.getElementById('modalLulus');
         const modalTolak = document.getElementById('modalTolak');
@@ -822,25 +896,25 @@
         let selectedPermohonanId = null;
         let selectedRowTarget = null;
 
-        // 3. Klik Butang Pensel -> Buka Modal Butiran (Popup 1)
+        
         document.querySelectorAll('.btn-view-permohonan').forEach(btn => {
             btn.addEventListener('click', function () {
                 selectedPermohonanId = this.getAttribute('data-id');
                 selectedRowTarget = this.closest('tr');
 
-                // Maklumat Pemohon
+                // maklumat pemohon
                 document.getElementById('modalNama').innerText = this.getAttribute('data-nama') || '-';
                 document.getElementById('modalIC').innerText = this.getAttribute('data-ic') || '-';
                 document.getElementById('modalTel').innerText = this.getAttribute('data-tel') || '-';
                 document.getElementById('modalEmail').innerText = this.getAttribute('data-email') || '-';
 
-                // Maklumat Permohonan
+                // maklumat permohonan
                 document.getElementById('modalIDPermohonan').innerText = this.getAttribute('data-id-permohonan') || '-';
                 document.getElementById('modalTarikh').innerText = this.getAttribute('data-tarikh') || '-';
                 document.getElementById('modalJenis').innerText = this.getAttribute('data-jenis') || '-';
                 document.getElementById('modalJustifikasi').innerText = this.getAttribute('data-justifikasi') || 'Tiada justifikasi.';
 
-                // Sembunyikan Butang Terima/Tolak jika status dah selesai
+                
                 const currentStatus = (this.getAttribute('data-status') || '').toLowerCase().trim();
                 if (['diterima', 'disokong', 'ditolak', 'lulus', 'terima'].includes(currentStatus)) {
                     if (modalActionsGroup) modalActionsGroup.style.display = 'none';
@@ -848,7 +922,7 @@
                     if (modalActionsGroup) modalActionsGroup.style.display = 'flex';
                 }
 
-                // Ambil & Pecahkan Data Penerima, Item, Lokasi
+               
                 const strPenerima = this.getAttribute('data-namapenerima') || '';
                 const strItem     = this.getAttribute('data-item') || '';
                 const strLokasi   = this.getAttribute('data-lokasi') || '';
@@ -874,7 +948,7 @@
                     listLokasi = [strLokasi.trim()];
                 }
 
-                // Bina Baris Jadual Penerima
+                
                 const tbody = document.getElementById('tblBodyPenerima');
                 if (tbody) {
                     tbody.innerHTML = '';
@@ -909,7 +983,7 @@
             });
         });
 
-        // 4. Kawalan Butang Tutup Modal
+        
         if (btnCloseModal) {
             btnCloseModal.addEventListener('click', () => modalButiran.style.display = 'none');
         }
@@ -928,7 +1002,7 @@
             if (e.target === modalTolak) modalTolak.style.display = 'none';
         });
 
-        // 5. Aliran Modal Bertingkat (Terima / Tolak)
+       
         document.getElementById('btnProsesLulus').addEventListener('click', function () {
             if (!selectedPermohonanId) return;
             modalLulus.style.display = 'flex';
@@ -939,7 +1013,7 @@
             modalTolak.style.display = 'flex';
         });
 
-        // 6. Fungsi AJAX untuk Hantar Keputusan ke Backend Server
+        ajax hantar ke backend server
         function sendStatusUpdate(status, extraData = {}) {
             if (!selectedPermohonanId) return;
 
@@ -971,12 +1045,12 @@
             })
             .then(data => {
                 if (data.success) {
-                    // Tutup kedua-dua modal
+                    
                     modalLulus.style.display = 'none';
                     modalTolak.style.display = 'none';
                     modalButiran.style.display = 'none';
 
-                    // Kemaskini Badge & Atribut pada baris jadual secara langsung
+                    // Kemaskini Badge & Atribut dekat baris jadual secara langsung
                     if (selectedRowTarget) {
                         const statusTd = selectedRowTarget.children[6]; 
                         const actionBtn = selectedRowTarget.querySelector('.btn-view-permohonan');
@@ -1005,7 +1079,7 @@
             });
         }
 
-        // 7. Pengendali Borang Pengesahan Modal (Submit Forms)
+        
         document.getElementById('formConfirmLulus').addEventListener('submit', function (e) {
             e.preventDefault();
             const catatan = this.querySelector('textarea[name="catatan_kelulusan"]')?.value || '';

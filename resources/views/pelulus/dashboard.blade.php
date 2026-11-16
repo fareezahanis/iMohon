@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
-         *{
+        * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
@@ -34,15 +34,9 @@
             transition: all 0.3s ease;
         }
 
-        .sidebar-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 40px;
-        }
-
         .sidebar.collapsed {
             width: 80px;
+            padding: 25px 12px;
         }
 
         .sidebar.collapsed .brand-name,
@@ -53,6 +47,17 @@
         .sidebar.collapsed .nav-link {
             justify-content: center;
             padding: 12px 0;
+        }
+
+        .sidebar.collapsed .sidebar-header {
+            justify-content: center;
+        }
+
+        .sidebar-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 40px;
         }
 
         .brand-logo {
@@ -89,7 +94,8 @@
             transition: all 0.2s ease;
         }
 
-        .nav-link:hover, .nav-link.active {
+        .nav-link:hover,
+        .nav-link.active {
             background-color: rgba(255, 255, 255, 0.2);
             color: #ffffff;
             font-weight: 600;
@@ -152,49 +158,77 @@
             width: 100%;
         }
 
+        .page-title {
+            font-size: 28px;
+            font-weight: bold;
+            color: #0f172a;
+            margin-bottom: 4px;
+        }
 
+        .page-sub {
+            color: #64748b;
+            font-size: 13.5px;
+            margin-bottom: 24px;
+        }
 
+        /* STATS CARDS */
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 20px;
-            margin-bottom: 25px;
-            max-width: 900px;
+            margin-bottom: 26px;
+        }
+
+        @media (max-width: 900px) {
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
         }
 
         .stat-card {
             background: white;
             border-radius: 16px;
-            padding: 20px 24px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+            padding: 22px 24px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
             display: flex;
             align-items: center;
-            gap: 20px;
+            gap: 18px;
+            border-left: 5px solid transparent;
+            transition: transform 0.2s ease;
         }
 
+        .stat-card:hover {
+            transform: translateY(-2px);
+        }
+
+        .stat-card.card-yellow { border-left-color: #eab308; }
+        .stat-card.card-green  { border-left-color: #16a34a; }
+        .stat-card.card-red    { border-left-color: #dc2626; }
+
         .stat-icon {
-            width: 50px;
-            height: 50px;
-            border-radius: 12px;
+            width: 52px;
+            height: 52px;
+            border-radius: 14px;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 22px;
+            flex-shrink: 0;
         }
 
         .bg-yellow-light {
-            background-color: #fef08a;
-            color: #a16207;
+            background-color: #fef9c3;
+            color: #ca8a04;
         }
 
         .bg-green-light {
-            background-color: #bbf7d0;
-            color: #15803d;
+            background-color: #dcfce7;
+            color: #16a34a;
         }
 
         .bg-red-light {
-            background-color: #fecaca;
-            color: #b91c1c;
+            background-color: #fee2e2;
+            color: #dc2626;
         }
 
         .stat-info .title {
@@ -202,78 +236,121 @@
             color: #64748b;
             font-weight: 600;
             display: block;
-            margin-bottom: 6px;
+            margin-bottom: 4px;
         }
 
         .stat-info .value {
-            font-size: 28px;
-            font-weight: bold;
-            color: #1e293b;
+            font-size: 30px;
+            font-weight: 800;
+            color: #0f172a;
+            line-height: 1.1;
         }
 
-      
+        /* TABLE CARD */
         .card-box {
             background: white;
             border-radius: 16px;
             padding: 25px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
         }
 
-        .table-top-link {
+        .table-header-bar {
             display: flex;
-            justify-content: flex-end;
-            margin-bottom: 15px;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 18px;
+        }
+
+        .table-heading {
+            font-size: 17px;
+            font-weight: 700;
+            color: #0f172a;
         }
 
         .btn-lihat-semua {
             color: #29158f;
+            background-color: #eef2ff;
+            padding: 7px 14px;
+            border-radius: 9px;
             text-decoration: none;
-            font-size: 13px;
+            font-size: 12.5px;
             font-weight: 600;
-            display: flex;
+            display: inline-flex;
             align-items: center;
             gap: 6px;
+            transition: background 0.2s, color 0.2s;
+        }
+
+        .btn-lihat-semua:hover {
+            background-color: #29158f;
+            color: #ffffff;
         }
 
         .custom-table {
             width: 100%;
             border-collapse: collapse;
-            font-size: 13px;
+            font-size: 13.5px;
         }
 
         .custom-table th {
             background-color: #e0e7ff;
             color: #3730a3;
-            padding: 12px 16px;
+            padding: 13px 16px;
             text-align: center;
             font-weight: 600;
+        }
+
+        .custom-table th:first-child { border-radius: 10px 0 0 10px; }
+        .custom-table th:last-child  { border-radius: 0 10px 10px 0; }
+
+        .custom-table tbody tr {
+            border-bottom: 1px solid #f1f5f9;
+            transition: background 0.15s;
+        }
+
+        .custom-table tbody tr:hover {
+            background-color: #f8fafc;
         }
 
         .custom-table td {
             padding: 14px 16px;
             color: #334155;
             text-align: center;
-            border-bottom: 1px solid #f1f5f9;
         }
 
         .badge {
-            padding: 4px 12px;
-            border-radius: 12px;
-            font-size: 11px;
+            padding: 5px 13px;
+            border-radius: 50px;
+            font-size: 11.5px;
             font-weight: 600;
             display: inline-block;
+            min-width: 88px;
         }
-        .badge-proses { background-color: #fef3c7; color: #b45309; }
-        .badge-lulus { background-color: #bbf7d0; color: #15803d; }
-        .badge-tolak { background-color: #fecaca; color: #b91c1c; }
+
+        .badge-proses { background-color: #fef3c7; color: #92400e; }
+        .badge-lulus  { background-color: #dcfce7; color: #166534; }
+        .badge-tolak  { background-color: #fee2e2; color: #991b1b; }
 
         .btn-action-edit {
-            color: #111;
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            background-color: #eef2ff;
+            color: #29158f;
             text-decoration: none;
-            font-size: 15px;
+            font-size: 14px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+
+        .btn-action-edit:hover {
+            background-color: #29158f;
+            color: #ffffff;
         }
     </style>
-    </head>
+</head>
 <body>
 
     <!-- SIDEBAR LEFT -->
@@ -305,7 +382,6 @@
                     <span>Profil</span>
                 </a>
             </li>
-            
             <li>
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
@@ -318,12 +394,13 @@
         </ul>
     </aside>
 
+    <!-- MAIN WRAPPER RIGHT -->
     <div class="main-wrapper">
 
         <!-- TOP HEADER -->
         <header class="top-header">
             <div class="user-profile">
-                <span>Pelulus</span>
+                <span>{{ Auth::user()->name ?? 'Pelulus' }}</span>
                 <div class="user-avatar">
                     <i class="fa-solid fa-user"></i>
                 </div>
@@ -331,92 +408,105 @@
         </header>
 
         <!-- CONTENT BODY -->
-        <main class="content-body">        
-        <div class="stats-grid">
-            <div class="stat-card">
-                <div class="stat-icon bg-yellow-light">
-                <i class="fa-solid fa-hourglass-start"></i>
+        <main class="content-body">
+
+            <h1 class="page-title">Laman Utama Pelulus</h1>
+            <p class="page-sub">Ringkasan status dan senarai permohonan peralatan ICT yang perlu disemak</p>
+
+           
+            <div class="stats-grid">
+                <div class="stat-card card-yellow">
+                    <div class="stat-icon bg-yellow-light">
+                        <i class="fa-solid fa-hourglass-half"></i>
+                    </div>
+                    <div class="stat-info">
+                        <span class="title">Menunggu kelulusan</span>
+                        <span class="value">{{ $menungguCount ?? 0 }}</span>
+                    </div>
+                </div>
+
+                <div class="stat-card card-green">
+                    <div class="stat-icon bg-green-light">
+                        <i class="fa-solid fa-circle-check"></i>
+                    </div>
+                    <div class="stat-info">
+                        <span class="title">Diterima</span>
+                        <span class="value">{{ $diterimaCount ?? 0 }}</span>
+                    </div>
+                </div>
+
+                <div class="stat-card card-red">
+                    <div class="stat-icon bg-red-light">
+                        <i class="fa-solid fa-circle-xmark"></i>
+                    </div>
+                    <div class="stat-info">
+                        <span class="title">Ditolak</span>
+                        <span class="value">{{ $ditolakCount ?? 0 }}</span>
+                    </div>
+                </div>
             </div>
-        <div class="stat-info">
-                <span class="title">Menunggu kelulusan</span>
-                <span class="value">{{ $menungguCount ?? 0 }}</span>
-        </div>
-    </div>
 
-        <div class="stat-card">
-            <div class="stat-icon bg-green-light">
-                <i class="fa-solid fa-check"></i>
-        </div>
-        <div class="stat-info">
-            <span class="title">Diterima</span>
-            <span class="value">{{ $diterimaCount ?? 0 }}</span>
-            </div>
-        </div>
-
-        <div class="stat-card">
-            <div class="stat-icon bg-red-light">
-                <i class="fa-solid fa-xmark"></i>
-        </div>
-        <div class="stat-info">
-                <span class="title">Ditolak</span>
-                <span class="value">{{ $ditolakCount ?? 0 }}</span>
-        </div>
-    </div>
-</div>
-
-            <!-- table permohonan -->
+            
             <div class="card-box">
-                <div class="table-top-link">
-                    <a href="{{ route('pelulus.kelulusan') }}" class="btn-lihat-semua"> Lihat semua <i class="fa-solid fa-arrow-right"></i>
+                <div class="table-header-bar">
+                    <span class="table-heading">Permohonan Terkini</span>
+                    <a href="{{ route('pelulus.kelulusan') }}" class="btn-lihat-semua">
+                        Lihat semua <i class="fa-solid fa-arrow-right"></i>
                     </a>
                 </div>
 
-                <table class="custom-table">
-                    <thead>
-                        <tr>
-                            <th>ID Permohonan</th>
-                            <th>Tarikh mohon</th>
-                            <th>Pemohon</th>
-                            <th>Jabatan/Unit</th>
-                            <th>Item</th>
-                            <th>Jenis</th>
-                            <th>Status</th>
-                            <th>Tindakan</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @forelse($permohonanTerkini ?? [] as $item)
+                <div style="overflow-x: auto;">
+                    <table class="custom-table">
+                        <thead>
                             <tr>
-                                <td>{{ $item->id_permohonan ?? 'REQ'.str_pad($item->id, 3, '0', STR_PAD_LEFT) }}</td>
-                                <td>{{ \Carbon\Carbon::parse($item->created_at)->format('j M Y') }}</td>
-                                <td>{{ $item->user->name ?? $item->nama_pemohon ?? '-' }}</td>
-                                <td>{{ $item->jabatan ?? $item->unit ?? 'STM' }}</td>
-                                <td>{{ $item->nama_item ?? '-' }}</td>
-                                <td>{{ $item->jenis_permohonan ?? 'Baru' }}</td>
-                                <td>
-                                    @if(in_array(strtolower($item->status ?? ''), [ 'diterima', 'terima']))
-                                        <span class="badge badge-lulus">Diterima</span>
-                                    @elseif(strtolower($item->status ?? '') == 'ditolak')
-                                        <span class="badge badge-tolak">Ditolak</span>
-                                    @else
-                                        <span class="badge badge-proses">Menunggu</span>
-                                    @endif
-                                </td>
-                                <td>
-                                    <a href="{{ route('pelulus.kelulusan') }}" class="btn-action-edit" title="Proses Permohonan">
-                                        <i class="fa-solid fa-pen-to-square"></i>
-                                    </a>
-                                </td>
+                                <th style="text-align: left;">ID Permohonan</th>
+                                <th>Tarikh mohon</th>
+                                <th style="text-align: left;">Pemohon</th>
+                                <th>Jabatan / Unit</th>
+                                <th style="text-align: left;">Item</th>
+                                <th>Jenis</th>
+                                <th>Status</th>
+                                <th>Tindakan</th>
                             </tr>
-                        @empty
-                            <tr>
-                                <td colspan="8" style="text-align: center; color: #888; padding: 20px;">
-                                    Tiada rekod permohonan ditemui.
-                                </td>
-                            </tr>
-                        @endforelse
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            @forelse($permohonanTerkini ?? [] as $item)
+                                <tr>
+                                    <td style="text-align: left; font-weight: 700; color: #1e0b75;">
+                                        {{ $item->id_permohonan ?? 'REQ'.str_pad($item->id, 3, '0', STR_PAD_LEFT) }}
+                                    </td>
+                                    <td>{{ \Carbon\Carbon::parse($item->created_at)->format('d/m/Y') }}</td>
+                                    <td style="text-align: left; font-weight: 600; color: #0f172a;">
+                                        {{ $item->user->name ?? $item->nama_pemohon ?? '-' }}
+                                    </td>
+                                    <td>{{ $item->jabatan ?? $item->unit ?? 'STM' }}</td>
+                                    <td style="text-align: left;">{{ $item->nama_item ?? '-' }}</td>
+                                    <td>{{ $item->jenis_permohonan ?? 'Baru' }}</td>
+                                    <td>
+                                        @if(in_array(strtolower($item->status ?? ''), ['diterima', 'terima', 'lulus']))
+                                            <span class="badge badge-lulus">Diterima</span>
+                                        @elseif(strtolower($item->status ?? '') == 'ditolak')
+                                            <span class="badge badge-tolak">Ditolak</span>
+                                        @else
+                                            <span class="badge badge-proses">Menunggu</span>
+                                        @endif
+                                    </td>
+                                    <td>
+                                        <a href="{{ route('pelulus.kelulusan') }}" class="btn-action-edit" title="Proses Permohonan">
+                                            <i class="fa-solid fa-pen-to-square"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            @empty
+                                <tr>
+                                    <td colspan="8" style="text-align: center; color: #94a3b8; padding: 35px; font-style: italic;">
+                                        Tiada rekod permohonan ditemui.
+                                    </td>
+                                </tr>
+                            @endforelse
+                        </tbody>
+                    </table>
+                </div>
             </div>
 
         </main>

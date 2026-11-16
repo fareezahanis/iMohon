@@ -11,7 +11,7 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
     <style>
-         *{
+        * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
@@ -24,7 +24,7 @@
             min-height: 100vh;
         }
 
-        /* SIDEBAR (LEFT) - PELULUS */
+        /* SIDEBAR (LEFT) */
         .sidebar {
             width: 260px;
             background-color: #29158f;
@@ -96,7 +96,8 @@
             transition: all 0.2s ease;
         }
 
-        .nav-link:hover, .nav-link.active {
+        .nav-link:hover,
+        .nav-link.active {
             background-color: rgba(255, 255, 255, 0.2);
             color: #ffffff;
             font-weight: 600;
@@ -125,7 +126,7 @@
         }
 
         .top-header {
-            background-color: #29158f; 
+            background-color: #29158f;
             display: flex;
             justify-content: flex-end;
             align-items: center;
@@ -138,7 +139,7 @@
             align-items: center;
             gap: 12px;
             color: #ffffff;
-            font-weight: bold;
+            font-weight: 600;
             font-size: 15px;
         }
 
@@ -162,109 +163,214 @@
         .page-title {
             font-size: 28px;
             font-weight: bold;
-            color: #111;
-            margin-bottom: 25px;
+            color: #0f172a;
+            margin-bottom: 4px;
         }
 
-        /* CARDS */
-        .profile-card {
-            background: white;
-            border-radius: 16px;
-            border: 1px solid #d1d5db;
-            padding: 35px 40px;
+        .page-subtitle {
+            font-size: 13px;
+            color: #64748b;
+            margin-bottom: 24px;
+        }
+
+        /* ALERT SUCCESS */
+        .alert-success {
+            background-color: #dcfce7;
+            border: 1px solid #86efac;
+            color: #166534;
+            padding: 14px 18px;
+            border-radius: 12px;
             margin-bottom: 20px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+            font-size: 13.5px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* HERO PROFILE CARD */
+        .profile-hero-card {
+            background: white;
+            border-radius: 18px;
+            overflow: hidden;
+            margin-bottom: 24px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+        }
+
+        .profile-banner {
+            height: 95px;
+            background: linear-gradient(135deg, #29158f 0%, #4f46e5 100%);
         }
 
         .header-card-content {
             display: flex;
-            align-items: center;
+            flex-wrap: wrap;
+            align-items: flex-end;
             justify-content: space-between;
+            gap: 20px;
+            padding: 0 35px 30px;
+            margin-top: -45px;
         }
 
         .profile-main-info {
             display: flex;
-            align-items: center;
-            gap: 25px;
+            flex-wrap: wrap;
+            align-items: flex-end;
+            gap: 22px;
         }
 
         .avatar-large {
-            width: 100px;
-            height: 100px;
-            background-color: #9392e2;
-            color: white;
+            width: 96px;
+            height: 96px;
+            background: #eef2ff;
+            color: #29158f;
+            border: 4px solid #ffffff;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 50px;
+            font-size: 40px;
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+            flex-shrink: 0;
+        }
+
+        .user-titles {
+            padding-bottom: 4px;
         }
 
         .user-titles h2 {
-            font-size: 24px;
-            font-weight: bold;
-            color: #111;
-            margin-bottom: 5px;
+            font-size: 22px;
+            font-weight: 700;
+            color: #0f172a;
+            margin-bottom: 6px;
         }
 
-        .user-titles p {
-            color: #666;
-            font-size: 14px;
-            margin-bottom: 3px;
+        .user-meta-pills {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .meta-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 12.5px;
+            font-weight: 600;
+            padding: 4px 12px;
+            border-radius: 20px;
+            background-color: #eef2ff;
+            color: #29158f;
+        }
+
+        .meta-pill-muted {
+            background-color: #f1f5f9;
+            color: #475569;
+            font-weight: 500;
         }
 
         .edit-btn {
-            border: 1px solid #29158f;
-            background: transparent;
-            color: #29158f;
-            padding: 10px 24px;
-            border-radius: 8px;
+            background-color: #29158f;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 10px;
             font-weight: 600;
-            font-size: 14px;
-            cursor: pointer;
+            font-size: 13px;
             text-decoration: none;
-            display: inline-block;
-            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 12px rgba(41, 21, 143, 0.2);
+            transition: background 0.2s, transform 0.2s;
         }
 
         .edit-btn:hover {
-            background-color: #29158f;
-            color: white;
+            background-color: #1e0b75;
+            transform: translateY(-1px);
+        }
+
+        /* 2-COLUMN DETAILS GRID */
+        .profile-details-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 22px;
+        }
+
+        @media (max-width: 900px) {
+            .profile-details-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .profile-card {
+            background: white;
+            border-radius: 16px;
+            padding: 28px 32px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+            border-top: 4px solid #29158f;
+        }
+
+        .section-header-box {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 22px;
+            padding-bottom: 14px;
+            border-bottom: 1px solid #f1f5f9;
+        }
+
+        .section-icon {
+            width: 38px;
+            height: 38px;
+            border-radius: 10px;
+            background-color: #eef2ff;
+            color: #29158f;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
         }
 
         .section-title {
-            font-size: 18px;
-            font-weight: bold;
-            color: #111;
-            margin-bottom: 20px;
+            font-size: 17px;
+            font-weight: 700;
+            color: #0f172a;
         }
 
-        .info-grid {
+        .info-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .info-item {
             display: grid;
-            grid-template-columns: 200px 20px 1fr;
-            row-gap: 14px;
-            align-items: center;
-            font-size: 14px;
+            grid-template-columns: 165px 15px 1fr;
+            align-items: baseline;
+            font-size: 13.5px;
         }
 
         .info-label {
-            color: #777;
+            color: #64748b;
             font-weight: 500;
         }
 
         .info-colon {
-            color: #777;
+            color: #94a3b8;
+            font-weight: bold;
         }
 
         .info-value {
-            color: #222;
+            color: #0f172a;
             font-weight: 600;
+            line-height: 1.45;
         }
     </style>
 </head>
 <body>
 
-    <!-- SIDEBAR LEFT (PELULUS KHAS) -->
+    <!-- SIDEBAR LEFT  -->
     <aside class="sidebar">
         <div class="sidebar-header">
             <div class="brand-logo">
@@ -282,7 +388,7 @@
                 </a>
             </li>
             <li>
-                <a href="{{ route('pelulus.kelulusan') }}" class="nav-link {{ request()->routeIs('pelulus.kelulusan') ? 'active' : '' }}">
+                <a href="{{ route('pelulus.kelulusan') }}" class="nav-link {{ request()->routeIs('pelulus.kelulusan*') ? 'active' : '' }}">
                     <i class="fa-solid fa-circle-check"></i>
                     <span>Kelulusan</span>
                 </a>
@@ -293,7 +399,6 @@
                     <span>Profil</span>
                 </a>
             </li>
-            
             <li>
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
@@ -323,9 +428,18 @@
         <main class="content-body">
 
             <h1 class="page-title">Profil Saya</h1>
+            <p class="page-subtitle">Maklumat akaun peribadi serta penempatan unit semasa anda</p>
 
-            <!-- CARD 1: USER HEADER -->
-            <div class="profile-card">
+            @if(session('status') === 'profile-updated' || session('success'))
+                <div class="alert-success">
+                    <i class="fa-solid fa-circle-check"></i>
+                    <span>{{ session('success') ?? 'Maklumat profil anda telah berjaya dikemaskini.' }}</span>
+                </div>
+            @endif
+
+            
+            <div class="profile-hero-card">
+                <div class="profile-banner"></div>
                 <div class="header-card-content">
                     <div class="profile-main-info">
                         <div class="avatar-large">
@@ -333,66 +447,113 @@
                         </div>
                         <div class="user-titles">
                             <h2>{{ Auth::user()->name }}</h2>
-                            <p>{{ Auth::user()->jawatan ?? 'Pegawai Pelulus' }} / {{ Auth::user()->unit ?? 'STM' }}</p>
-                            <p>{{ Auth::user()->email }}</p>
+                            <div class="user-meta-pills">
+                                <span class="meta-pill">
+                                    <i class="fa-solid fa-briefcase"></i>
+                                    {{ Auth::user()->jawatan ?? 'Pegawai Pelulus' }} &bull; {{ Auth::user()->unit ?? '-' }}
+                                </span>
+                                <span class="meta-pill meta-pill-muted">
+                                    <i class="fa-solid fa-envelope"></i>
+                                    {{ Auth::user()->email }}
+                                </span>
+                            </div>
                         </div>
                     </div>
-                    <!-- Pautan Khas ke Route Edit Profile Pelulus -->
-                    <a href="{{ route('pelulus.profile.edit') }}" class="edit-btn">Edit Profil</a>
+
+                    <a href="{{ route('pelulus.profile.edit') }}" class="edit-btn">
+                        <i class="fa-solid fa-pen-to-square"></i> Edit Profil
+                    </a>
                 </div>
             </div>
 
-            <!-- CARD 2: MAKLUMAT PERIBADI -->
-            <div class="profile-card">
-                <h3 class="section-title">Maklumat peribadi</h3>
+            
+            <div class="profile-details-grid">
+
+                <!-- CARD 2: MAKLUMAT PERIBADI -->
+                <div class="profile-card">
+                    <div class="section-header-box">
+                        <div class="section-icon">
+                            <i class="fa-solid fa-id-card"></i>
+                        </div>
+                        <h3 class="section-title">Maklumat peribadi</h3>
+                    </div>
+
+                    <div class="info-list">
+                        <div class="info-item">
+                            <span class="info-label">Nama penuh</span>
+                            <span class="info-colon">:</span>
+                            <span class="info-value">{{ Auth::user()->name }}</span>
+                        </div>
+
+                        <div class="info-item">
+                            <span class="info-label">No. kad pengenalan</span>
+                            <span class="info-colon">:</span>
+                            <span class="info-value" style="font-family: monospace; font-size: 14px;">{{ Auth::user()->ic ?? Auth::user()->no_ic ?? '-' }}</span>
+                        </div>
+
+                        <div class="info-item">
+                            <span class="info-label">No. Telefon</span>
+                            <span class="info-colon">:</span>
+                            <span class="info-value">{{ Auth::user()->phone ?? Auth::user()->no_tel ?? '-' }}</span>
+                        </div>
+
+                        <div class="info-item">
+                            <span class="info-label">Emel rasmi</span>
+                            <span class="info-colon">:</span>
+                            <span class="info-value">{{ Auth::user()->email }}</span>
+                        </div>
+                    </div>
+                </div>
+
                 
-                <div class="info-grid">
-                    <div class="info-label">Nama penuh</div>
-                    <div class="info-colon">:</div>
-                    <div class="info-value">{{ Auth::user()->name }}</div>
+                <div class="profile-card" style="border-top-color: #10b981;">
+                    <div class="section-header-box">
+                        <div class="section-icon" style="background-color: #ecfdf5; color: #10b981;">
+                            <i class="fa-solid fa-building"></i>
+                        </div>
+                        <h3 class="section-title">Maklumat pekerjaan</h3>
+                    </div>
 
-                    <div class="info-label">No. kad pengenalan</div>
-                    <div class="info-colon">:</div>
-                    <div class="info-value">{{ Auth::user()->ic ?? Auth::user()->no_ic ?? '-' }}</div>
+                    <div class="info-list">
+                        <div class="info-item">
+                            <span class="info-label">Jawatan</span>
+                            <span class="info-colon">:</span>
+                            <span class="info-value">{{ Auth::user()->jawatan ?? 'Pegawai Pelulus' }}</span>
+                        </div>
 
-                    <div class="info-label">No. Tel</div>
-                    <div class="info-colon">:</div>
-                    <div class="info-value">{{ Auth::user()->phone ?? Auth::user()->no_tel ?? '-' }}</div>
+                        <div class="info-item">
+                            <span class="info-label">Unit</span>
+                            <span class="info-colon">:</span>
+                            <span class="info-value">{{ Auth::user()->unit ?? '-' }}</span>
+                        </div>
 
-                    <div class="info-label">Email</div>
-                    <div class="info-colon">:</div>
-                    <div class="info-value">{{ Auth::user()->email }}</div>
+                        <div class="info-item">
+                            <span class="info-label">Bahagian</span>
+                            <span class="info-colon">:</span>
+                            <span class="info-value">{{ Auth::user()->bahagian ?? '-' }}</span>
+                        </div>
+
+                        <div class="info-item">
+                            <span class="info-label">No. Tel Pejabat</span>
+                            <span class="info-colon">:</span>
+                            <span class="info-value">{{ Auth::user()->no_tel_pejabat ?? '-' }}</span>
+                        </div>
+
+                        <div class="info-item">
+                            <span class="info-label">Alamat Pejabat</span>
+                            <span class="info-colon">:</span>
+                            <span class="info-value">{{ Auth::user()->address ?? '-' }}</span>
+                        </div>
+                    </div>
                 </div>
-            </div>
 
-            <!-- CARD 3: MAKLUMAT PEKERJAAN -->
-            <div class="profile-card">
-                <h3 class="section-title">Maklumat pekerjaan</h3>
-
-                <div class="info-grid">
-                    <div class="info-label">Jawatan</div>
-                    <div class="info-colon">:</div>
-                    <div class="info-value">{{ Auth::user()->jawatan ?? 'Pegawai Pelulus' }}</div>
-
-                    <div class="info-label">Unit</div>
-                    <div class="info-colon">:</div>
-                    <div class="info-value">{{ Auth::user()->unit ?? 'STM' }}</div>
-
-                    <div class="info-label">Bahagian</div>
-                    <div class="info-colon">:</div>
-                    <div class="info-value">{{ Auth::user()->bahagian ?? '-' }}</div>
-
-                    <div class="info-label">Alamat Pejabat</div>
-                    <div class="info-colon">:</div>
-                    <div class="info-value">{{ Auth::user()->address ?? 'Angkasapuri, Kuala Lumpur' }}</div>
-                </div>
             </div>
 
         </main>
 
     </div>
 
-    <!-- SCRIPT SIDEBAR -->
+    
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             const sidebar = document.querySelector('.sidebar');

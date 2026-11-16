@@ -11,7 +11,7 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
     <style>
-         *{
+        * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
@@ -96,7 +96,8 @@
             transition: all 0.2s ease;
         }
 
-        .nav-link:hover, .nav-link.active {
+        .nav-link:hover,
+        .nav-link.active {
             background-color: rgba(255, 255, 255, 0.2);
             color: #ffffff;
             font-weight: 600;
@@ -162,35 +163,58 @@
         .page-title {
             font-size: 28px;
             font-weight: bold;
-            color: #111;
+            color: #0f172a;
+            margin-bottom: 4px;
         }
 
         .page-sub {
-            color: #666;
-            font-size: 14px;
-            margin-bottom: 25px;
+            color: #64748b;
+            font-size: 13.5px;
+            margin-bottom: 24px;
+        }
+
+        /* ALERT */
+        .alert-danger {
+            background-color: #fee2e2;
+            border: 1px solid #fca5a5;
+            color: #991b1b;
+            padding: 14px 18px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            font-size: 13.5px;
+        }
+
+        .alert-danger ul {
+            margin-left: 18px;
+            margin-top: 4px;
         }
 
         /* FORM LAYOUT (2 COLUMNS) */
         .edit-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 25px;
+            gap: 24px;
             align-items: start;
+        }
+
+        @media (max-width: 900px) {
+            .edit-grid {
+                grid-template-columns: 1fr;
+            }
         }
 
         .edit-card {
             background: white;
             border-radius: 16px;
-            border: 1px solid #d1d5db;
-            padding: 25px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+            border: 1px solid #e2e8f0;
+            padding: 26px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
         }
 
         .card-header-title {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 10px;
             margin-bottom: 20px;
             font-size: 16px;
             font-weight: 700;
@@ -198,7 +222,7 @@
         }
 
         .card-header-title i {
-            font-size: 18px;
+            font-size: 17px;
         }
 
         /* INPUT FIELD STYLES */
@@ -210,7 +234,7 @@
             display: block;
             font-size: 13px;
             font-weight: 600;
-            color: #333;
+            color: #334155;
             margin-bottom: 6px;
         }
 
@@ -222,58 +246,97 @@
             width: 100%;
             padding: 10px 14px;
             border: 1px solid #cbd5e1;
-            border-radius: 8px;
-            font-size: 13px;
-            color: #333;
+            border-radius: 9px;
+            font-size: 13.5px;
+            color: #0f172a;
             outline: none;
             background-color: #f8fafc;
-            transition: border-color 0.2s, background-color 0.2s;
+            transition: border-color 0.2s, background-color 0.2s, box-shadow 0.2s;
         }
 
         .form-input:focus {
             border-color: #29158f;
             background-color: #ffffff;
+            box-shadow: 0 0 0 3px rgba(41, 21, 143, 0.1);
         }
 
-        /* PASSWORD SECTION */
+        .error-text {
+            color: #dc2626;
+            font-size: 12px;
+            margin-top: 4px;
+            display: block;
+        }
+
+        
+        .password-wrapper {
+            position: relative;
+        }
+
+        .password-wrapper .form-input {
+            padding-right: 40px;
+        }
+
+        .toggle-pw {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: #64748b;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .toggle-pw:hover {
+            color: #29158f;
+        }
+
+        
         .password-divider {
-            border-top: 1px dashed #e2e8f0;
-            margin: 25px 0 0 0;
+            border-top: 1px dashed #cbd5e1;
+            margin-top: 22px;
             padding-top: 20px;
         }
 
-        /* BOTTOM ACTION BUTTONS */
+        
         .bottom-actions {
             display: flex;
             justify-content: flex-end;
-            gap: 15px;
+            gap: 14px;
             margin-top: 25px;
         }
 
         .btn-cancel {
             background-color: #e2e8f0;
             color: #475569;
-            padding: 10px 24px;
-            border-radius: 8px;
+            padding: 11px 24px;
+            border-radius: 10px;
             font-weight: 600;
-            font-size: 13px;
+            font-size: 13.5px;
             text-decoration: none;
             display: inline-flex;
             align-items: center;
+            transition: background 0.2s;
+        }
+
+        .btn-cancel:hover {
+            background-color: #cbd5e1;
         }
 
         .btn-save {
             background-color: #29158f;
             color: white;
             border: none;
-            padding: 10px 24px;
-            border-radius: 8px;
+            padding: 11px 26px;
+            border-radius: 10px;
             font-weight: 600;
-            font-size: 13px;
+            font-size: 13.5px;
             cursor: pointer;
             display: inline-flex;
             align-items: center;
             gap: 8px;
+            transition: background 0.2s;
         }
 
         .btn-save:hover {
@@ -283,7 +346,7 @@
 </head>
 <body>
 
-    <!-- SIDEBAR LEFT (DINAMIK MENGIKUT ROLE) -->
+    <!-- SIDEBAR LEFT  -->
     <aside class="sidebar">
         <div class="sidebar-header">
             <div class="brand-logo">
@@ -295,7 +358,7 @@
 
         <ul class="nav-menu">
             @if(Auth::user()->role === 'pelulus')
-                <!-- MENU PELULUS -->
+                
                 <li>
                     <a href="{{ route('pelulus.dashboard') }}" class="nav-link">
                         <i class="fa-solid fa-house"></i>
@@ -316,7 +379,7 @@
                 </li>
 
             @elseif(Auth::user()->role === 'admin')
-                <!-- MENU ADMIN -->
+               
                 <li>
                     <a href="{{ route('admin.dashboard') }}" class="nav-link">
                         <i class="fa-solid fa-house"></i>
@@ -355,7 +418,7 @@
                 </li>
 
             @else
-                <!-- MENU PEMOHON -->
+                
                 <li>
                     <a href="{{ route('dashboard') }}" class="nav-link">
                         <i class="fa-solid fa-house"></i>
@@ -411,7 +474,18 @@
         <main class="content-body">
 
             <h1 class="page-title">Edit Profil</h1>
-            <p class="page-sub">Kemaskini maklumat peribadi anda di sini.</p>
+            <p class="page-sub">Kemaskini maklumat peribadi, pekerjaan, dan kata laluan akaun anda.</p>
+
+            @if($errors->any())
+                <div class="alert-danger">
+                    <strong><i class="fa-solid fa-triangle-exclamation"></i> Sila semak semula ralat berikut:</strong>
+                    <ul>
+                        @foreach($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
 
             <form action="{{ route('profile.update') }}" method="POST" enctype="multipart/form-data">
                 @csrf
@@ -419,7 +493,7 @@
 
                 <div class="edit-grid">
 
-                    <!-- MAKLUMAT AKAUN -->
+                    
                     <div class="edit-card">
                         <div class="card-header-title">
                             <i class="fa-regular fa-user"></i>
@@ -429,25 +503,35 @@
                         <div class="form-group">
                             <label class="form-label">Nama Penuh <span>*</span></label>
                             <input type="text" name="name" class="form-input" value="{{ old('name', Auth::user()->name) }}" required>
+                            @error('name') <span class="error-text">{{ $message }}</span> @enderror
                         </div>
 
                         <div class="form-group">
                             <label class="form-label">No. Kad Pengenalan <span>*</span></label>
                             <input type="text" name="ic" class="form-input" value="{{ old('ic', Auth::user()->ic ?? Auth::user()->no_ic) }}">
+                            @error('ic') <span class="error-text">{{ $message }}</span> @enderror
                         </div>
 
                         <div class="form-group">
                             <label class="form-label">Emel <span>*</span></label>
                             <input type="email" name="email" class="form-input" value="{{ old('email', Auth::user()->email) }}" required>
+                            @error('email') <span class="error-text">{{ $message }}</span> @enderror
                         </div>
 
                         <div class="form-group">
-                            <label class="form-label">No. Telefon <span>*</span></label>
-                            <input type="text" name="phone" class="form-input" value="{{ old('phone', Auth::user()->phone ?? Auth::user()->no_tel) }}">
+                            <label class="form-label">No. Tel Pejabat</label>
+                            <input type="text" name="no_tel_pejabat" class="form-input" placeholder="Contoh: 03-2282 5333" value="{{ old('no_tel_pejabat', Auth::user()->no_tel_pejabat) }}">
+                            @error('no_tel_pejabat') <span class="error-text">{{ $message }}</span> @enderror
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">No. Tel Bimbit <span>*</span></label>
+                            <input type="text" name="phone" class="form-input" placeholder="Contoh: 012-3456789" value="{{ old('phone', Auth::user()->phone ?? Auth::user()->no_tel) }}">
+                            @error('phone') <span class="error-text">{{ $message }}</span> @enderror
                         </div>
                     </div>
 
-                    <!-- MAKLUMAT PEKERJAAN -->
+                    
                     <div class="edit-card">
                         <div class="card-header-title">
                             <i class="fa-solid fa-briefcase"></i>
@@ -456,41 +540,65 @@
 
                         <div class="form-group">
                             <label class="form-label">Jawatan <span>*</span></label>
-                            <input name="jawatan" class="form-input" value="{{ old('jawatan', Auth::user()->jawatan) }}">
+                            <input type="text" name="jawatan" class="form-input" value="{{ old('jawatan', Auth::user()->jawatan) }}">
+                            @error('jawatan') <span class="error-text">{{ $message }}</span> @enderror
                         </div>
 
                         <div class="form-group">
                             <label class="form-label">Bahagian <span>*</span></label>
-                            <input name="bahagian" class="form-input" value="{{ old('bahagian', Auth::user()->bahagian) }}">
+                            <input type="text" name="bahagian" class="form-input" value="{{ old('bahagian', Auth::user()->bahagian) }}">
+                            @error('bahagian') <span class="error-text">{{ $message }}</span> @enderror
                         </div>
 
                         <div class="form-group">
                             <label class="form-label">Unit <span>*</span></label>
-                            <input name="unit" class="form-input" value="{{ old('unit', Auth::user()->unit) }}">
+                            <input type="text" name="unit" class="form-input" value="{{ old('unit', Auth::user()->unit) }}">
+                            @error('unit') <span class="error-text">{{ $message }}</span> @enderror
                         </div>
 
                         <div class="form-group">
                             <label class="form-label">Alamat Pejabat <span>*</span></label>
-                            <input name="address" class="form-input" value="{{ old('address', Auth::user()->address) }}">
+                            <input type="text" name="address" class="form-input" value="{{ old('address', Auth::user()->address) }}">
+                            @error('address') <span class="error-text">{{ $message }}</span> @enderror
                         </div>
 
-                        <!-- TUKAR PASSWORD -->
+                        
                         <div class="password-divider">
-                            <div class="card-header-title" style="margin-bottom: 12px;">
+                            <div class="card-header-title" style="margin-bottom: 14px;">
                                 <i class="fa-solid fa-lock"></i>
-                                <span>Tukar Kata Laluan</span>
+                                <span>Tukar Kata Laluan (Pilihan)</span>
                             </div>
+
                             <div class="form-group">
                                 <label class="form-label">Kata Laluan Semasa</label>
-                                <input type="password" name="current_password" class="form-input" autocomplete="current-password">
+                                <div class="password-wrapper">
+                                    <input type="password" name="current_password" class="form-input" autocomplete="current-password">
+                                    <button type="button" class="toggle-pw" aria-label="Papar kata laluan">
+                                        <i class="fa-regular fa-eye"></i>
+                                    </button>
+                                </div>
+                                @error('current_password') <span class="error-text">{{ $message }}</span> @enderror
                             </div>
+
                             <div class="form-group">
                                 <label class="form-label">Kata Laluan Baharu</label>
-                                <input type="password" name="password" class="form-input" autocomplete="new-password">
+                                <div class="password-wrapper">
+                                    <input type="password" name="password" class="form-input" autocomplete="new-password">
+                                    <button type="button" class="toggle-pw" aria-label="Papar kata laluan">
+                                        <i class="fa-regular fa-eye"></i>
+                                    </button>
+                                </div>
+                                @error('password') <span class="error-text">{{ $message }}</span> @enderror
                             </div>
-                            <div class="form-group">
+
+                            <div class="form-group" style="margin-bottom: 0;">
                                 <label class="form-label">Sahkan Kata Laluan Baharu</label>
-                                <input type="password" name="password_confirmation" class="form-input" autocomplete="new-password">
+                                <div class="password-wrapper">
+                                    <input type="password" name="password_confirmation" class="form-input" autocomplete="new-password">
+                                    <button type="button" class="toggle-pw" aria-label="Papar kata laluan">
+                                        <i class="fa-regular fa-eye"></i>
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -514,7 +622,6 @@
         </main>
 
     </div>
-
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             const sidebar = document.querySelector('.sidebar');

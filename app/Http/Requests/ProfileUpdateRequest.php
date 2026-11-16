@@ -21,6 +21,7 @@ class ProfileUpdateRequest extends FormRequest
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', Rule::unique(User::class)->ignore($this->user()->id),],
             'ic'       => ['required', 'string', 'max:20', Rule::unique(User::class)->ignore($this->user()->id)],
             'phone'    => ['required', 'string', 'max:20'],
+            'no_tel_pejabat' => ['required', 'string', 'max:20'],
             'jawatan'  => ['nullable', 'string', 'max:255'],
             'bahagian' => ['nullable', 'string', 'max:255'],
             'unit'     => ['required', 'string', 'max:255'],

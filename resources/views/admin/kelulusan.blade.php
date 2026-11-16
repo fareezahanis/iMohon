@@ -11,7 +11,7 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
     <style>
-         {
+        * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
@@ -24,6 +24,7 @@
             min-height: 100vh;
         }
 
+        /* SIDEBAR LEFT */
         .sidebar {
             width: 260px;
             background-color: #29158f;
@@ -32,7 +33,7 @@
             flex-direction: column;
             padding: 25px 20px;
             flex-shrink: 0;
-            transition: all 0.3s ease;
+            transition: width 0.3s ease;
         }
 
         .sidebar-header {
@@ -40,6 +41,20 @@
             align-items: center;
             justify-content: space-between;
             margin-bottom: 40px;
+        }
+
+        .sidebar.collapsed {
+            width: 80px;
+        }
+
+        .sidebar.collapsed .brand-name,
+        .sidebar.collapsed .nav-link span {
+            display: none;
+        }
+
+        .sidebar.collapsed .nav-link {
+            justify-content: center;
+            padding: 12px 0;
         }
 
         .brand-logo {
@@ -76,7 +91,8 @@
             transition: all 0.2s ease;
         }
 
-        .nav-link:hover, .nav-link.active {
+        .nav-link:hover,
+        .nav-link.active {
             background-color: rgba(255, 255, 255, 0.2);
             color: #ffffff;
             font-weight: 600;
@@ -97,27 +113,7 @@
             font-family: inherit;
         }
 
-        .sidebar.collapsed {
-            width: 80px;
-            padding: 25px 10px;
-        }
-
-        .sidebar.collapsed .brand-name,
-        .sidebar.collapsed .nav-link span {
-            display: none;
-        }
-
-        .sidebar.collapsed .nav-link {
-            justify-content: center;
-            padding: 12px 0;
-        }
-
-        .sidebar.collapsed .sidebar-header {
-            justify-content: center;
-            margin-bottom: 30px;
-        }
-
-        /* content right */
+        /* CONTENT RIGHT */
         .main-wrapper {
             flex-grow: 1;
             display: flex;
@@ -159,68 +155,135 @@
             width: 100%;
         }
 
-        .page-header {
-            margin-bottom: 25px;
-        }
-
         .page-title {
             font-size: 28px;
             font-weight: bold;
-            color: #111;
+            color: #0f172a;
             margin-bottom: 4px;
         }
 
         .page-subtitle {
             font-size: 13px;
             color: #64748b;
+            margin-bottom: 24px;
         }
 
-        /* filter search */
-        .filter-bar {
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 18px;
+            margin-bottom: 26px;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 14px;
+            padding: 18px 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
             display: flex;
             align-items: center;
             gap: 15px;
-            margin-bottom: 25px;
+            border-left: 4px solid #29158f;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 18px rgba(0, 0, 0, 0.06);
+        }
+
+        .stat-icon {
+            width: 45px;
+            height: 45px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 19px;
+            flex-shrink: 0;
+        }
+
+        .stat-info .title {
+            font-size: 12px;
+            color: #64748b;
+            font-weight: 600;
+            display: block;
+            margin-bottom: 3px;
+        }
+
+        .stat-info .value {
+            font-size: 22px;
+            font-weight: 700;
+            color: #0f172a;
+        }
+
+        
+        .filter-bar {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 22px;
         }
 
         .search-box {
-            background: white;
+            background: #ffffff;
             border: 1px solid #cbd5e1;
             border-radius: 10px;
-            padding: 5px 11px;
+            padding: 0 14px;
+            height: 40px;
             width: 100%;
-            max-width: 400px;
+            max-width: 360px;
             display: flex;
             align-items: center;
             gap: 10px;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .search-box:focus-within {
+            border-color: #29158f;
+            box-shadow: 0 0 0 3px rgba(41, 21, 143, 0.12);
         }
 
         .search-box input {
-            border: none;
-            outline: none;
+            border: none !important;
+            outline: none !important;
+            box-shadow: none !important;
+            background: transparent !important;
+            padding: 0 !important;
+            margin: 0 !important;
             width: 100%;
+            height: 100%;
             font-size: 13px;
             color: #334155;
         }
 
         .status-select {
-            background: white;
+            background: #ffffff;
             border: 1px solid #cbd5e1;
             border-radius: 10px;
-            padding: 5px 14px;
+            padding: 0 34px 0 14px;
+            height: 40px;
             font-size: 13px;
             color: #334155;
-            outline: none;
+            outline: none !important;
+            box-shadow: none !important;
             cursor: pointer;
-            height: 37px;
+            transition: border-color 0.2s, box-shadow 0.2s;
         }
 
-        /* table*/
+        .status-select:focus {
+            border-color: #29158f;
+            box-shadow: 0 0 0 3px rgba(41, 21, 143, 0.12) !important;
+        }
+
+        
         .table-card {
             background: white;
             border-radius: 16px;
             padding: 25px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
             overflow-x: auto;
         }
 
@@ -233,12 +296,13 @@
         .custom-table th {
             background-color: #e0e7ff;
             color: #3730a3;
-            padding: 12px 14px;
+            padding: 13px 14px;
             text-align: left;
             font-weight: 600;
         }
 
-        .custom-table th.center, .custom-table td.center {
+        .custom-table th.center,
+        .custom-table td.center {
             text-align: center;
         }
 
@@ -246,6 +310,31 @@
             padding: 14px;
             color: #334155;
             border-bottom: 1px solid #f1f5f9;
+        }
+
+        .custom-table tbody tr:hover {
+            background-color: #f8fafc;
+        }
+
+       
+        .btn-icon-soft {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 14px;
+            background: #eef2ff;
+            color: #29158f;
+        }
+
+        .btn-icon-soft:hover {
+            background: #29158f;
+            color: white;
         }
 
         .btn-action-group {
@@ -256,122 +345,153 @@
         }
 
         .btn-lulus {
-            background-color: #86efac;
-            color: #14532d;
-            border: none;
+            background-color: #dcfce7;
+            color: #166534;
+            border: 1px solid #86efac;
             padding: 6px 12px;
-            border-radius: 6px;
+            border-radius: 8px;
             font-size: 11px;
-            font-weight: bold;
+            font-weight: 700;
             cursor: pointer;
             display: inline-flex;
             align-items: center;
-            gap: 4px;
+            gap: 5px;
             transition: 0.2s;
         }
 
         .btn-lulus:hover {
-            background-color: #4ade80;
+            background-color: #16a34a;
+            color: white;
+            border-color: #16a34a;
         }
 
         .btn-tolak {
-            background-color: #fca5a5;
-            color: #7f1d1d;
-            border: none;
+            background-color: #fee2e2;
+            color: #991b1b;
+            border: 1px solid #fca5a5;
             padding: 6px 12px;
-            border-radius: 6px;
+            border-radius: 8px;
             font-size: 11px;
-            font-weight: bold;
+            font-weight: 700;
             cursor: pointer;
             display: inline-flex;
             align-items: center;
-            gap: 4px;
+            gap: 5px;
             transition: 0.2s;
         }
 
         .btn-tolak:hover {
-            background-color: #f87171;
+            background-color: #dc2626;
+            color: white;
+            border-color: #dc2626;
         }
 
-        .action-icons i {
-            cursor: pointer;
-            font-size: 20px;
-            color: #000;
-            transition: color 0.2s;
+       
+        .badge-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 5px 12px;
+            font-size: 11px;
+            font-weight: 600;
+            border-radius: 20px;
         }
 
-        .action-icons i:hover {
-            color: #1e0b75;
+        .badge-pelulus-diterima {
+            background-color: #f3e8ff;
+            color: #6b21a8;
         }
 
-        /* popup modal detail */
+        .badge-pelulus-menunggu {
+            background-color: #fef3c7;
+            color: #92400e;
+        }
+
+        .badge-pelulus-ditolak {
+            background-color: #fee2e2;
+            color: #991b1b;
+        }
+
+        .badge-diterima {
+            background-color: #dcfce7;
+            color: #166534;
+        }
+
+        .badge-ditolak {
+            background-color: #fee2e2;
+            color: #991b1b;
+        }
+
+        
         .modal {
             display: none;
             position: fixed;
-            z-index: 1000;
-            left: 0;
-            top: 0;
+            z-index: 99999;
+            inset: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.4);
+            background-color: rgba(15, 23, 42, 0.55);
+            backdrop-filter: blur(3px);
             align-items: center;
             justify-content: center;
         }
 
         .close-btn {
-            font-size: 24px;
+            font-size: 22px;
             cursor: pointer;
-            color: #888;
+            color: #94a3b8;
             transition: color 0.2s;
         }
 
         .close-btn:hover {
-            color: #000;
+            color: #0f172a;
         }
 
         .modal-report-content {
             background-color: white;
             border-radius: 20px;
-            padding: 35px 40px;
-            width: 100%;
+            padding: 32px 36px;
+            width: 92%;
             max-width: 820px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.15);
             position: relative;
         }
 
         .report-title {
-            font-size: 22px;
+            font-size: 20px;
             font-weight: bold;
-            color: #111;
-            margin-bottom: 25px;
+            color: #0f172a;
+            margin-bottom: 20px;
         }
 
         .report-grid {
             display: grid;
             grid-template-columns: 1fr 1.1fr;
-            gap: 20px;
-            margin-bottom: 25px;
+            gap: 18px;
+            margin-bottom: 18px;
         }
 
         .report-card {
             background-color: #eef2ff;
-            border: 1px solid #f1f5f9;
-            border-radius: 16px;
-            padding: 22px 25px;
+            border: 1px solid #e0e7ff;
+            border-radius: 14px;
+            padding: 20px 22px;
         }
 
         .report-card-header {
             font-size: 14px;
-            font-weight: 600;
-            color: #334155;
-            margin-bottom: 20px;
+            font-weight: 700;
+            color: #1e0b75;
+            margin-bottom: 14px;
         }
 
         .detail-row {
             display: flex;
             align-items: center;
-            margin-bottom: 14px;
-            font-size: 12px;
+            margin-bottom: 10px;
+            font-size: 12.5px;
         }
 
         .detail-row:last-child {
@@ -385,8 +505,8 @@
         }
 
         .detail-colon {
-            color: #000;
-            margin-right: 12px;
+            color: #0f172a;
+            margin-right: 10px;
             font-weight: bold;
         }
 
@@ -396,34 +516,34 @@
         }
 
         .justification-section {
-            padding-left: 10px;
+            margin-top: 16px;
         }
 
         .justification-title {
-            font-size: 14px;
-            font-weight: 600;
+            font-size: 13px;
+            font-weight: 700;
             color: #334155;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
         }
 
         .justification-box {
-            background-color: #eef2ff;
+            background-color: #f8fafc;
             border: 1px solid #e2e8f0;
             border-radius: 12px;
-            padding: 14px 18px;
-            font-size: 12px;
-            color: #64748b;
-            min-height: 55px;
+            padding: 12px 16px;
+            font-size: 13px;
+            color: #334155;
+            min-height: 52px;
         }
 
-        /* popup lulus/tolak */
+        
         .modal-content-confirm {
             background-color: white;
-            border-radius: 16px;
-            padding: 35px 30px;
-            width: 100%;
-            max-width: 380px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+            border-radius: 18px;
+            padding: 32px 28px;
+            width: 92%;
+            max-width: 400px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.15);
             text-align: center;
             display: flex;
             flex-direction: column;
@@ -431,81 +551,80 @@
         }
 
         .icon-circle-success {
-            width: 60px;
-            height: 60px;
-            background-color: #bbf7d0;
+            width: 58px;
+            height: 58px;
+            background-color: #dcfce7;
             color: #16a34a;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 26px;
-            margin-bottom: 20px;
+            font-size: 24px;
+            margin-bottom: 16px;
         }
 
         .icon-circle-danger {
-            width: 60px;
-            height: 60px;
-            background-color: #fca5a5;
+            width: 58px;
+            height: 58px;
+            background-color: #fee2e2;
             color: #dc2626;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 24px;
-            margin-bottom: 20px;
+            margin-bottom: 16px;
         }
 
         .modal-confirm-title {
-            font-size: 15px;
+            font-size: 16px;
             font-weight: bold;
-            color: #1e293b;
-            margin-bottom: 20px;
+            color: #0f172a;
+            margin-bottom: 18px;
         }
 
         .modal-btn-confirm-lulus {
-            background-color: #48bb78;
+            background-color: #16a34a;
             color: white;
             border: none;
             padding: 10px;
-            width: 140px;
-            border-radius: 8px;
+            width: 100%;
+            border-radius: 9px;
             font-weight: 600;
             font-size: 13px;
             cursor: pointer;
-            margin-bottom: 10px;
             transition: 0.2s;
         }
 
         .modal-btn-confirm-lulus:hover {
-            background-color: #38a169;
+            background-color: #15803d;
         }
 
         .modal-btn-confirm-tolak {
-            background-color: #cc0000;
+            background-color: #dc2626;
             color: white;
             border: none;
             padding: 10px;
-            width: 140px;
-            border-radius: 8px;
+            width: 100%;
+            border-radius: 9px;
             font-weight: 600;
             font-size: 13px;
             cursor: pointer;
-            margin-top: 15px;
+            margin-top: 12px;
             transition: 0.2s;
         }
 
         .modal-btn-confirm-tolak:hover {
-            background-color: #990000;
+            background-color: #b91c1c;
         }
 
         .modal-btn-batal {
-            background-color: white;
-            color: #718096;
-            border: 1px solid #cbd5e1;
-            padding: 8px;
-            width: 140px;
-            border-radius: 8px;
+            background-color: #f1f5f9;
+            color: #475569;
+            border: none;
+            padding: 9px;
+            width: 100%;
+            border-radius: 9px;
             font-weight: 600;
             font-size: 13px;
             cursor: pointer;
@@ -513,163 +632,114 @@
         }
 
         .modal-btn-batal:hover {
-            background-color: #f8fafc;
+            background-color: #e2e8f0;
         }
 
         .reason-box {
             width: 100%;
             display: flex;
-            align-items: flex-start;
-            gap: 10px;
-            margin-bottom: 10px;
+            flex-direction: column;
+            gap: 6px;
+            margin-bottom: 14px;
             text-align: left;
         }
 
         .reason-label {
-            font-size: 11px;
-            color: #000;
+            font-size: 12px;
+            color: #334155;
             font-weight: 600;
-            white-space: nowrap;
-            margin-top: 5px;
         }
 
         .reason-textarea {
             width: 100%;
-            height: 70px;
+            height: 75px;
             border: 1px solid #cbd5e1;
-            border-radius: 8px;
+            border-radius: 9px;
             padding: 8px 10px;
-            font-size: 12px;
+            font-size: 12.5px;
             outline: none;
             resize: none;
             color: #334155;
         }
-        
-        
-        .badge-status {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            padding: 6px 12px;
-            font-size: 11px;
-            font-weight: 600;
-            border-radius: 18px;
-        }
 
-        .badge-pelulus-diterima {
-            background-color: #f3e8ff;
-            color: #6b21a8;
-            border: 1px solid #d8b4fe;
-        }
+        /* print */
+        @media print {
+            body * {
+                visibility: hidden !important;
+            }
 
-        .badge-pelulus-menunggu {
-            background-color: #fef08a;
-            color: #854d0e;
-            border: 1px solid #743e14;
-        }
+            #modalReport,
+            #modalReport * {
+                visibility: visible !important;
+            }
 
-        .badge-pelulus-ditolak {
-            background-color: #fee2e2;
-            color: #991b1b;
-            border: 1px solid #c4100d;
-        }
+            #modalReport,
+            #modalReport .modal-report-content,
+            #modalReport .report-card,
+            #modalReport .justification-box,
+            #modalReport div,
+            #modalReport table,
+            #modalReport th,
+            #modalReport td {
+                background: #ffffff !important;
+                background-color: #ffffff !important;
+                color: #000000 !important;
+                box-shadow: none !important;
+                -webkit-print-color-adjust: economy !important;
+                print-color-adjust: economy !important;
+            }
 
-        .badge-diterima {
-            background-color: #d1fae5;
-            color: #065f46;
-           
-        }
+            #modalReport .report-card,
+            #modalReport .justification-box,
+            #modalReport table,
+            #modalReport th,
+            #modalReport td {
+                border: 1px solid #cbd5e1 !important;
+            }
 
-        .badge-ditolak {
-            background-color: #fee2e2;
-            color: #991b1b;
-        }
-        
-    
-    @media print {
-    
-        body * {
-            visibility: hidden !important;
-        }
+            #modalReport {
+                position: absolute !important;
+                left: 0 !important;
+                top: 0 !important;
+                width: 100% !important;
+                height: auto !important;
+                display: block !important;
+                background: transparent !important;
+            }
 
-   
-        #modalReport,
-        #modalReport * {
-            visibility: visible !important;
-        }
+            #modalReport .modal-report-content {
+                position: absolute !important;
+                left: 0 !important;
+                top: 0 !important;
+                width: 100% !important;
+                max-width: 100% !important;
+                padding: 0 !important;
+                margin: 0 !important;
+                border: none !important;
+            }
 
-        /* background putih */
-        #modalReport,
-        #modalReport .modal-report-content,
-        #modalReport .report-card,
-        #modalReport .justification-box,
-        #modalReport div,
-        #modalReport table,
-        #modalReport th,
-        #modalReport td {
-            background: #ffffff !important;
-            background-color: #ffffff !important;
-            color: #000000 !important;
-            box-shadow: none !important;
-            -webkit-print-color-adjust: economy !important;
-            print-color-adjust: economy !important;
-        }
+            #modalReport div,
+            #modalReport table {
+                max-height: none !important;
+                overflow: visible !important;
+            }
 
+            #modalReport .modal-actions,
+            #modalReport .close-btn,
+            #modalReport #closeReportBtn {
+                display: none !important;
+            }
 
-        #modalReport .report-card,
-        #modalReport .justification-box,
-        #modalReport table,
-        #modalReport th,
-        #modalReport td {
-            border: 1px solid #cbd5e1 !important;
+            @page {
+                size: A4 portrait;
+                margin: 12mm;
+            }
         }
-
-        /* kedudukan table */
-        #modalReport {
-            position: absolute !important;
-            left: 0 !important;
-            top: 0 !important;
-            width: 100% !important;
-            height: auto !important;
-            display: block !important;
-            background: transparent !important;
-        }
-
-        #modalReport .modal-report-content {
-            position: absolute !important;
-            left: 0 !important;
-            top: 0 !important;
-            width: 100% !important;
-            max-width: 100% !important;
-            padding: 0 !important;
-            margin: 0 !important;
-            border: none !important;
-        }
-
-        /* display semua jadual */
-        #modalReport div, 
-        #modalReport table {
-            max-height: none !important;
-            overflow: visible !important;
-        }
-
-        /*  buang button */
-        #modalReport .modal-actions,
-        #modalReport .close-btn,
-        #modalReport #closeReportBtn {
-            display: none !important;
-        }
-
-        @page {
-            size: A4 portrait;
-            margin: 12mm;
-        }
-}
     </style>
 </head>
 <body>
 
-    <!-- sidebar left -->
+    <!-- SIDEBAR LEFT -->
     <aside class="sidebar">
         <div class="sidebar-header">
             <div class="brand-logo">
@@ -716,7 +786,6 @@
                     <span>Permohonan Baru</span>
                 </a>
             </li>
-            
             <li>
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
@@ -729,10 +798,10 @@
         </ul>
     </aside>
 
-    <!-- content right -->
+    
     <div class="main-wrapper">
 
-        <!-- TOP HEADER -->
+        
         <header class="top-header">
             <div class="user-profile">
                 <span>Admin</span>
@@ -742,22 +811,71 @@
             </div>
         </header>
 
-        <!-- CONTENT BODY -->
+        
         <main class="content-body">
 
-            <div class="page-header">
-                <h1 class="page-title">Permohonan baru</h1>
-                <p class="page-subtitle">Senarai permohonan yang memerlukan kelulusan</p>
+            <h1 class="page-title">Permohonan baru</h1>
+            <p class="page-subtitle">Senarai permohonan yang memerlukan semakan dan kelulusan Admin</p>
+
+            @php
+                $senarai = collect($permohonan ?? []);
+                $bilJumlah = $senarai->count();
+                $bilProses = $senarai->filter(fn($i) => !in_array(strtolower($i->status ?? ''), ['terima', 'lulus', 'diterima', 'ditolak']))->count();
+                $bilDiterima = $senarai->filter(fn($i) => in_array(strtolower($i->status ?? ''), ['terima', 'lulus', 'diterima']))->count();
+                $bilDitolak = $senarai->filter(fn($i) => strtolower($i->status ?? '') == 'ditolak')->count();
+            @endphp
+
+            
+            <div class="stats-grid">
+                <div class="stat-card" style="border-left-color: #29158f;">
+                    <div class="stat-icon" style="background: #eef2ff; color: #29158f;">
+                        <i class="fa-solid fa-file-lines"></i>
+                    </div>
+                    <div class="stat-info">
+                        <span class="title">Jumlah Permohonan</span>
+                        <span class="value">{{ $bilJumlah }}</span>
+                    </div>
+                </div>
+
+                <div class="stat-card" style="border-left-color: #f59e0b;">
+                    <div class="stat-icon" style="background: #fef3c7; color: #d97706;">
+                        <i class="fa-solid fa-hourglass-half"></i>
+                    </div>
+                    <div class="stat-info">
+                        <span class="title">Dalam Proses</span>
+                        <span class="value" style="color: #d97706;">{{ $bilProses }}</span>
+                    </div>
+                </div>
+
+                <div class="stat-card" style="border-left-color: #10b981;">
+                    <div class="stat-icon" style="background: #ecfdf5; color: #10b981;">
+                        <i class="fa-solid fa-circle-check"></i>
+                    </div>
+                    <div class="stat-info">
+                        <span class="title">Diterima</span>
+                        <span class="value" style="color: #10b981;">{{ $bilDiterima }}</span>
+                    </div>
+                </div>
+
+                <div class="stat-card" style="border-left-color: #ef4444;">
+                    <div class="stat-icon" style="background: #fee2e2; color: #ef4444;">
+                        <i class="fa-solid fa-circle-xmark"></i>
+                    </div>
+                    <div class="stat-info">
+                        <span class="title">Ditolak</span>
+                        <span class="value" style="color: #ef4444;">{{ $bilDitolak }}</span>
+                    </div>
+                </div>
             </div>
 
-            <!-- search bar & status filter -->
+            
             <div class="filter-bar">
                 <div class="search-box">
                     <i class="fa-solid fa-magnifying-glass" style="color: #94a3b8;"></i>
-                    <input type="text" placeholder="Cari permohonan..">
+                    <input type="text" id="liveSearchPermohonan" placeholder="Cari ID, nama pemohon atau item...">
                 </div>
 
-                <select class="status-select">
+                <select class="status-select" id="statusFilterPermohonan">
                     <option value="">Semua status</option>
                     <option value="Dalam proses">Dalam proses</option>
                     <option value="Diterima">Diterima</option>
@@ -765,9 +883,9 @@
                 </select>
             </div>
 
-            <!-- table lulus permohonan -->
+          
             <div class="table-card">
-                <table class="custom-table">
+                <table class="custom-table" id="permohonanTable">
                     <thead>
                         <tr>
                             <th class="center">ID Permohonan</th>
@@ -775,37 +893,48 @@
                             <th>Item</th>
                             <th>Tarikh mohon</th>
                             <th class="center">Butiran</th>
-                            <th class="center">Status Pelulus</th> 
-                            <th class="center">Tindakan Admin</th> 
+                            <th class="center">Status Pelulus</th>
+                            <th class="center">Tindakan Admin</th>
                         </tr>
                     </thead>
                     <tbody>
                         @forelse($permohonan ?? [] as $item)
-                            <tr>
-                                <td class="center" style="font-weight: 600;">{{ str_pad($item->id_permohonan ?? $item->id, 3, '0', STR_PAD_LEFT) }}</td>
-                                <td>{{ $item->user->name ?? $item->nama_pemohon ?? $item->name }}</td>
-                                <td>{{ $item->nama_item ?? $item->peralatan->nama_peralatan }}</td>
+                            @php
+                                $statusAdminLower = strtolower($item->status ?? '');
+                                $kategoriStatus = in_array($statusAdminLower, ['terima', 'lulus', 'diterima'])
+                                    ? 'Diterima'
+                                    : ($statusAdminLower == 'ditolak' ? 'Ditolak' : 'Dalam proses');
+                            @endphp
+                            <tr data-status="{{ $kategoriStatus }}">
+                                <td class="center" style="font-weight: 700; color: #1e0b75;">
+                                    {{ str_pad($item->id_permohonan ?? $item->id, 3, '0', STR_PAD_LEFT) }}
+                                </td>
+                                <td style="font-weight: 600; color: #0f172a;">
+                                    {{ $item->user->name ?? $item->nama_pemohon ?? $item->name }}
+                                </td>
+                                <td>{{ $item->nama_item ?? $item->peralatan->nama_peralatan ?? '-' }}</td>
                                 <td>{{ \Carbon\Carbon::parse($item->created_at)->format('d/m/Y') }}</td>
-                                
-                                <!-- details report -->
-                                <td class="action-icons center">
-                                    <i class="fa-solid fa-file-lines btn-open-report" 
-                                       title="Lihat Laporan"
-                                       data-id="{{ str_pad($item->id_permohonan ?? $item->id, 3, '0', STR_PAD_LEFT) }}"
-                                       data-nama="{{ $item->user?->name }}"
-                                       data-ic="{{ $item->user?->ic }}"
-                                       data-phone="{{ $item->user?->phone }}"
-                                       data-email="{{ $item->user?->email }}"
-                                       data-tarikh="{{ \Carbon\Carbon::parse($item->created_at)->format('d/m/Y') }}"
-                                       data-jenis="{{ $item->jenis_permohonan }}"
-                                       data-namapenerima="{{ $item->nama_penerima}}"
-                                       data-lokasi="{{ $item->lokasi }}"
-                                       data-item="{{ $item->nama_item }}"
-                                       data-justifikasi="{{ $item->tujuan }}">
-                                    </i>
+
+                                <!-- details report-->
+                                <td class="center">
+                                    <button type="button" class="btn-icon-soft btn-open-report"
+                                        title="Lihat Laporan Permohonan"
+                                        data-id="{{ str_pad($item->id_permohonan ?? $item->id, 3, '0', STR_PAD_LEFT) }}"
+                                        data-nama="{{ $item->user?->name ?? $item->nama_pemohon ?? '-' }}"
+                                        data-ic="{{ $item->user?->ic ?? '-' }}"
+                                        data-phone="{{ $item->user?->phone ?? '-' }}"
+                                        data-email="{{ $item->user?->email ?? '-' }}"
+                                        data-tarikh="{{ \Carbon\Carbon::parse($item->created_at)->format('d/m/Y') }}"
+                                        data-jenis="{{ $item->jenis_permohonan ?? '-' }}"
+                                        data-namapenerima="{{ $item->nama_penerima ?? '-' }}"
+                                        data-lokasi="{{ $item->lokasi ?? '-' }}"
+                                        data-item="{{ $item->nama_item ?? $item->peralatan->nama_peralatan ?? '-' }}"
+                                        data-justifikasi="{{ $item->tujuan ?? '-' }}">
+                                        <i class="fa-solid fa-file-lines"></i>
+                                    </button>
                                 </td>
 
-                                
+                                <!-- status pelulus -->
                                 <td class="center">
                                     @if(in_array(strtolower($item->status_pelulus ?? ''), ['disokong', 'terima', 'lulus', 'diterima']))
                                         <span class="badge-status badge-pelulus-diterima">
@@ -822,45 +951,41 @@
                                     @endif
                                 </td>
 
-                                <!-- tindakan admin-->
+                                <!-- admin punya tindakan -->
                                 <td class="center">
-                                    @if(in_array(strtolower($item->status ?? ''), ['terima', 'lulus', 'diterima']))
-                                        {{-- Papar Lencana Diterima jika Admin sudah luluskan --}}
+                                    @if(in_array($statusAdminLower, ['terima', 'lulus', 'diterima']))
                                         <span class="badge-status badge-diterima">
                                             <i class="fa-solid fa-check"></i> Diterima
                                         </span>
-
-                                    @elseif(strtolower($item->status ?? '') == 'ditolak')
-                                        {{-- Papar Lencana Ditolak jika Admin sudah tolak --}}
+                                    @elseif($statusAdminLower == 'ditolak')
                                         <span class="badge-status badge-ditolak">
                                             <i class="fa-solid fa-xmark"></i> Ditolak
                                         </span>
-
-                                    @elseif(in_array(strtolower($item->status_pelulus ?? ''), ['disokong', 'terima', 'diterima']))
-                                        
+                                    @elseif(in_array(strtolower($item->status_pelulus ?? ''), ['disokong', 'terima', 'lulus', 'diterima']))
                                         <div class="btn-action-group">
-                                           <button type="button" class="btn-lulus btn-open-lulus" data-id="{{ $item->id }}">
-                                                 <i class="fa-solid fa-check"></i> Terima
+                                            <button type="button" class="btn-lulus btn-open-lulus"
+                                                data-id="{{ $item->id }}"
+                                                data-action="{{ route('admin.kelulusan.update', $item->id) }}">
+                                                <i class="fa-solid fa-check"></i> Terima
                                             </button>
-                                            <button type="button" class="btn-tolak btn-open-tolak" data-id="{{ $item->id }}">
+                                            <button type="button" class="btn-tolak btn-open-tolak"
+                                                data-id="{{ $item->id }}"
+                                                data-action="{{ route('admin.kelulusan.update', $item->id) }}">
                                                 <i class="fa-solid fa-xmark"></i> Tolak
                                             </button>
                                         </div>
-
                                     @else
-                                        
                                         <span style="color: #94a3b8; font-size: 11px; font-style: italic;">
                                             Menunggu Pelulus
                                         </span>
                                     @endif
                                 </td>
-
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="7" class="center" style="padding: 30px; color: #94a3b8; font-style: italic;">
+                                <td colspan="7" class="center" style="padding: 35px; color: #94a3b8; font-style: italic;">
                                     <i class="fa-solid fa-folder-open" style="font-size: 24px; margin-bottom: 8px; display: block;"></i>
-                                    Tiada rekod dijumpai.
+                                    Tiada rekod permohonan dijumpai.
                                 </td>
                             </tr>
                         @endforelse
@@ -871,17 +996,17 @@
         </main>
     </div>
 
-    <!-- popup details -->
+    <!-- popup -->
     <div class="modal" id="modalReport">
-        <div class="modal-report-content" style="max-width: 800px;">
-            <span class="close-btn" id="closeReportBtn" style="position: absolute; right: 25px; top: 20px; cursor: pointer;">&times;</span>
+        <div class="modal-report-content">
+            <span class="close-btn" id="closeReportBtn" style="position: absolute; right: 24px; top: 20px;">&times;</span>
 
-            <h2 class="report-title">Butiran permohonan</h2>
+            <h2 class="report-title">Butiran Permohonan</h2>
 
             <div class="report-grid">
-                <!-- maklumat pemohon (kiri) -->
+                <!-- Maklumat Pemohon -->
                 <div class="report-card">
-                    <h3 class="report-card-header">Maklumat pemohon</h3>
+                    <h3 class="report-card-header">Maklumat Pemohon</h3>
 
                     <div class="detail-row">
                         <span class="detail-label">Nama penuh</span>
@@ -905,9 +1030,9 @@
                     </div>
                 </div>
 
-                <!-- maklumat permohonan (kanan) -->
+                <!-- Maklumat Permohonan -->
                 <div class="report-card">
-                    <h3 class="report-card-header">Maklumat permohonan</h3>
+                    <h3 class="report-card-header">Maklumat Permohonan</h3>
 
                     <div class="detail-row">
                         <span class="detail-label">ID permohonan</span>
@@ -927,88 +1052,87 @@
                 </div>
             </div>
 
-            <!-- table untuk nama penerima -->
-            <div style="margin-top: 15px; background: #eef2ff; border-radius: 12px; padding: 15px;">
-                <h3 style="font-size: 14px; font-weight: bold; color: #334155; margin-top: 0; margin-bottom: 12px;">
-                    <i style="color: #08070c;"></i> Senarai Penerima Permohonan
+            
+            <div style="margin-top: 15px; background: #eef2ff; border-radius: 14px; padding: 18px;">
+                <h3 style="font-size: 14px; font-weight: bold; color: #1e0b75; margin-bottom: 12px;">
+                    Senarai Penerima Permohonan
                 </h3>
 
                 <div style="overflow-x: auto;">
-                    <table style="width: 100%; border-collapse: collapse; font-size: 13px; text-align: left; background: white; border-radius: 8px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
+                    <table style="width: 100%; border-collapse: collapse; font-size: 13px; text-align: left; background: white; border-radius: 10px; overflow: hidden;">
                         <thead>
-                            <tr style="background: #e2e8f0; color: #334155;">
-                                <th style="padding: 10px 12px; width: 130px;">Penerima</th>
+                            <tr style="background: #e0e7ff; color: #3730a3;">
+                                <th style="padding: 10px 12px; width: 110px;">Penerima</th>
                                 <th style="padding: 10px 12px;">Nama Penerima</th>
-                                <th style="padding: 10px 12px;"> Alat Dimohon</th>
+                                <th style="padding: 10px 12px;">Alat Dimohon</th>
                                 <th style="padding: 10px 12px;">Lokasi</th>
                             </tr>
                         </thead>
                         <tbody id="tblBodyPenerima">
-                            <!-- baris dalam table (js) -->
+                            <!-- Diisi oleh JavaScript -->
                         </tbody>
                     </table>
                 </div>
             </div>
 
-           
-            <div class="justification-section" style="margin-top: 15px;">
+            <div class="justification-section">
                 <h3 class="justification-title">Justifikasi</h3>
                 <div class="justification-box" id="repJustifikasi">-</div>
             </div>
+
             <div class="modal-actions" style="margin-top: 20px; display: flex; justify-content: flex-end; gap: 8px;">
-        <button type="button" class="btn-print" onclick="printModalContent()" style="background: #312abd; color: white; border: none; padding: 10px 20px; border-radius: 8px; font-weight: 300; cursor: pointer; display: flex; align-items: center; gap: 8px;">
-        <i class="fa-solid fa-print"></i> CETAK LAPORAN
-        </button>
-    </div>
-        </div>
-    </div>
-
-    <!-- popup lulus -->
-<div class="modal" id="modalLulus">
-    <div class="modal-content-confirm" style="max-width: 400px;">
-        <div class="icon-circle-success">
-            <i class="fa-solid fa-check"></i>
-        </div>
-        <p class="modal-confirm-title">Terima permohonan ini ?</p>
-        
-        <form id="formConfirmLulus" action="" method="POST" style="width: 100%; display: flex; flex-direction: column; align-items: center;">
-            @csrf
-            <input type="hidden" name="status" value="Lulus">
-            
-            
-            <div class="reason-box" style="width: 100%; margin-bottom: 15px;">
-                <span class="reason-label">Catatan kelulusan :</span>
-                <textarea name="catatan_kelulusan" class="reason-textarea"></textarea>
+                <button type="button" class="btn-print" onclick="printModalContent()" style="background: #29158f; color: white; border: none; padding: 10px 20px; border-radius: 9px; font-weight: 600; font-size: 13px; cursor: pointer; display: inline-flex; align-items: center; gap: 8px;">
+                    <i class="fa-solid fa-print"></i> CETAK LAPORAN
+                </button>
             </div>
-
-            <button type="submit" class="modal-btn-confirm-lulus">Terima</button>
-        </form>
-        <button type="button" class="modal-btn-batal close-lulus-btn" style="margin-top: 10px;">Batal</button>
-    </div>
-</div>
-
-<!-- popup tolak -->
-<div class="modal" id="modalTolak">
-    <div class="modal-content-confirm" style="max-width: 400px;">
-        <div class="icon-circle-danger">
-            <i class="fa-solid fa-xmark"></i>
         </div>
-        <p class="modal-confirm-title">Tolak permohonan ini ?</p>
-
-        <form id="formConfirmTolak" action="" method="POST" style="width: 100%; display: flex; flex-direction: column; align-items: center;">
-            @csrf
-            <input type="hidden" name="status" value="Ditolak">
-            
-            <div class="reason-box">
-                <span class="reason-label">Sebab penolakan :</span>
-                <textarea name="sebab_penolakan" class="reason-textarea" placeholder="Nyatakan sebab penolakan..."></textarea>
-            </div>
-
-            <button type="submit" class="modal-btn-confirm-tolak">Ya, tolak</button>
-        </form>
-        <button type="button" class="modal-btn-batal close-tolak-btn" style="margin-top: 10px;">Batal</button>
     </div>
-</div>
+
+    <!-- popup terima -->
+    <div class="modal" id="modalLulus">
+        <div class="modal-content-confirm">
+            <div class="icon-circle-success">
+                <i class="fa-solid fa-check"></i>
+            </div>
+            <p class="modal-confirm-title">Terima permohonan ini?</p>
+
+            <form id="formConfirmLulus" action="" method="POST" style="width: 100%; display: flex; flex-direction: column; align-items: center;">
+                @csrf
+                <input type="hidden" name="status" value="Lulus">
+
+                <div class="reason-box">
+                    <span class="reason-label">Catatan kelulusan (Pilihan):</span>
+                    <textarea name="catatan_kelulusan" class="reason-textarea" placeholder="Masukkan catatan kelulusan jika ada..."></textarea>
+                </div>
+
+                <button type="submit" class="modal-btn-confirm-lulus">Ya, Terima</button>
+            </form>
+            <button type="button" class="modal-btn-batal close-lulus-btn" style="margin-top: 8px;">Batal</button>
+        </div>
+    </div>
+
+    <!-- popup tolak -->
+    <div class="modal" id="modalTolak">
+        <div class="modal-content-confirm">
+            <div class="icon-circle-danger">
+                <i class="fa-solid fa-xmark"></i>
+            </div>
+            <p class="modal-confirm-title">Tolak permohonan ini?</p>
+
+            <form id="formConfirmTolak" action="" method="POST" style="width: 100%; display: flex; flex-direction: column; align-items: center;">
+                @csrf
+                <input type="hidden" name="status" value="Ditolak">
+
+                <div class="reason-box">
+                    <span class="reason-label">Sebab penolakan:</span>
+                    <textarea name="sebab_penolakan" class="reason-textarea" required placeholder="Nyatakan sebab penolakan..."></textarea>
+                </div>
+
+                <button type="submit" class="modal-btn-confirm-tolak">Ya, Tolak</button>
+            </form>
+            <button type="button" class="modal-btn-batal close-tolak-btn" style="margin-top: 8px;">Batal</button>
+        </div>
+    </div>
 
     <script>
 
