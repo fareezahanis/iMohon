@@ -19,6 +19,7 @@ class Permohonan extends Model
         'tujuan',
         'nama_penerima',
         'lokasi',
+        'no_siri',
         'status',
     ];
 

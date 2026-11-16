@@ -584,15 +584,14 @@
                                     <button type="button" class="btn-icon-soft btn-icon-view btn-view-kontrak"
                                         title="Lihat Kontrak, Vendor & No. Siri"
                                         data-nama="{{ $item->nama_peralatan }}"
+                                        data-nosiri="{{ $item->no_siri ?? '' }}"
                                         data-kontrak="{{ json_encode($item->vendors->map(function($v) {
-                                            return [
+                                        return [
                                                 'no_kontrak'  => $v->no_kontrak ?? '-',
                                                 'vendor'      => $v->nama_vendor ?? '-',
                                                 'tarikh'      => $v->created_at ? $v->created_at->format('d/m/Y') : '-',
-                                                'jumlah_unit' => $v->pivot->jumlah_unit ?? 0
-                                            ];
-                                        })) }}"
-                                        data-units="{{ json_encode($item->units ?? []) }}">
+                                                'jumlah_unit' => $v->pivot->jumlah_unit ?? 0 ];})) }}"
+                                                data-units="{{ json_encode($item->units ?? []) }}">
                                         <i class="fa-solid fa-eye"></i>
                                     </button>
 
@@ -670,7 +669,7 @@
                         <thead style="position: sticky; top: 0; background: #f8fafc; z-index: 2;">
                             <tr style="color: #475569; border-bottom: 1px solid #e2e8f0;">
                                 <th style="padding: 10px 12px; width: 50px; text-align: center;">No.</th>
-                                <th style="padding: 10px 12px;">No. Siri (Serial Number)</th>
+                                <th style="padding: 10px 12px;">No. Siri </th>
                                 <th style="padding: 10px 12px;">No. Kontrak</th>
                                 <th style="padding: 10px 12px; text-align: center;">Status</th>
                             </tr>
@@ -759,7 +758,7 @@
                             0 No. Siri
                         </span>
                     </div>
-                    <textarea name="senarai_no_siri" id="inputSenaraiNoSiri" rows="4" required
+                    <textarea name="no_siri" id="inputSenaraiNoSiri" rows="4" required
                         placeholder="CND2026001&#10;CND2026002&#10;CND2026003"
                         style="width: 100%; padding: 10px 12px; border: 1px solid #cbd5e1; border-radius: 8px; font-family: monospace; font-size: 13px; outline: none;"></textarea>
                 </div>
@@ -791,226 +790,237 @@
     </div>
 
     <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        
-        
-        const sidebar = document.querySelector('.sidebar');
-        const toggleBtn = document.getElementById('toggleSidebar');
+document.addEventListener('DOMContentLoaded', function () {
 
-        if (toggleBtn && sidebar) {
-            toggleBtn.addEventListener('click', function () {
-                sidebar.classList.toggle('collapsed');
-                toggleBtn.style.transform = sidebar.classList.contains('collapsed') ? 'rotate(180deg)' : 'rotate(0deg)';
-            });
+    
+    const sidebar = document.querySelector('.sidebar');
+    const toggleBtn = document.getElementById('toggleSidebar');
+
+    if (toggleBtn && sidebar) {
+        toggleBtn.addEventListener('click', function () {
+            sidebar.classList.toggle('collapsed');
+            toggleBtn.style.transform = sidebar.classList.contains('collapsed') ? 'rotate(180deg)' : 'rotate(0deg)';
+        });
+    }
+
+    
+    const modal = document.getElementById('addModal');
+    const openBtn = document.getElementById('openModalBtn');
+    const closeBtn = document.getElementById('closeModalBtn');
+
+    if (openBtn && modal) openBtn.onclick = () => modal.style.display = 'flex';
+    if (closeBtn && modal) closeBtn.onclick = () => modal.style.display = 'none';
+
+    // kira jumlah item ikut jumlah no siri
+    const textareaSN = document.getElementById('inputSenaraiNoSiri');
+    const badgeKiraanSN = document.getElementById('badgeKiraanSN');
+    const inputJumlah = document.getElementById('inputJumlahKuantiti');
+    const inputTersedia = document.getElementById('inputKuantitiTersedia');
+
+    if (textareaSN) {
+        textareaSN.addEventListener('input', function () {
+            const lines = this.value.split(/\r?\n/).map(s => s.trim()).filter(s => s !== '');
+            const uniqueCount = new Set(lines).size;
+
+            if (badgeKiraanSN) badgeKiraanSN.innerText = `${uniqueCount} No. Siri`;
+            if (uniqueCount > 0) {
+                if (inputJumlah) inputJumlah.value = uniqueCount;
+                if (inputTersedia) inputTersedia.value = uniqueCount;
+            }
+        });
+    }
+
+
+    const modalKontrak = document.getElementById('modalKontrakVendor');
+    const closeKontrakBtn = document.getElementById('closeKontrakModalBtn');
+    let currentModalUnits = [];
+
+    function renderSerialUnitsTable(units) {
+        const tbodySerial = document.getElementById('tblBodySerialUnits');
+        if (!tbodySerial) return;
+
+        tbodySerial.innerHTML = '';
+
+        if (!units || units.length === 0) {
+            tbodySerial.innerHTML = `
+                <tr>
+                    <td colspan="4" style="padding: 18px; text-align: center; color: #94a3b8; font-style: italic;">
+                        Tiada rekod nombor siri didaftarkan untuk peralatan ini.
+                    </td>
+                </tr>`;
+            return;
         }
 
-        
-        const modal = document.getElementById('addModal');
-        const openBtn = document.getElementById('openModalBtn');
-        const closeBtn = document.getElementById('closeModalBtn');
+        units.forEach((u, idx) => {
+            const isTersedia = (u.status || '').toLowerCase() === 'tersedia';
+            const statusBadge = isTersedia
+                ? `<span style="background: #dcfce7; color: #166534; padding: 3px 10px; border-radius: 12px; font-weight: 600;">Tersedia</span>`
+                : `<span style="background: #e0f2fe; color: #0369a1; padding: 3px 10px; border-radius: 12px; font-weight: 600;">${u.status || 'Diagih'}</span>`;
 
-        if (openBtn && modal) openBtn.onclick = () => modal.style.display = 'flex';
-        if (closeBtn && modal) closeBtn.onclick = () => modal.style.display = 'none';
+            tbodySerial.insertAdjacentHTML('beforeend', `
+                <tr style="border-bottom: 1px solid #f1f5f9;">
+                    <td style="padding: 10px 12px; text-align: center; color: #64748b;">${idx + 1}</td>
+                    <td style="padding: 10px 12px; font-family: monospace; font-weight: 700; color: #0f172a;">${u.no_siri}</td>
+                    <td style="padding: 10px 12px; color: #475569;">${u.no_kontrak || '-'}</td>
+                    <td style="padding: 10px 12px; text-align: center;">${statusBadge}</td>
+                </tr>
+            `);
+        });
+    }
 
-       
-        const textareaSN = document.getElementById('inputSenaraiNoSiri');
-        const badgeKiraanSN = document.getElementById('badgeKiraanSN');
-        const inputJumlah = document.getElementById('inputJumlahKuantiti');
-        const inputTersedia = document.getElementById('inputKuantitiTersedia');
+    document.querySelectorAll('.btn-view-kontrak').forEach(button => {
+        button.addEventListener('click', function () {
+            const namaPeralatan = this.getAttribute('data-nama') || 'Kontrak & vendor';
+            const modalTitle = document.getElementById('modalTitlePeralatan');
+            if (modalTitle) modalTitle.innerText = namaPeralatan;
 
-        if (textareaSN) {
-            textareaSN.addEventListener('input', function () {
-                const lines = this.value.split(/\r?\n/).map(s => s.trim()).filter(s => s !== '');
-                const uniqueCount = new Set(lines).size;
-
-                if (badgeKiraanSN) badgeKiraanSN.innerText = `${uniqueCount} No. Siri`;
-                if (uniqueCount > 0) {
-                    if (inputJumlah) inputJumlah.value = uniqueCount;
-                    if (inputTersedia) inputTersedia.value = uniqueCount;
-                }
-            });
-        }
-
-        
-        const modalKontrak = document.getElementById('modalKontrakVendor');
-        const closeKontrakBtn = document.getElementById('closeKontrakModalBtn');
-        let currentModalUnits = [];
-
-        function renderSerialUnitsTable(units) {
-            const tbodySerial = document.getElementById('tblBodySerialUnits');
-            if (!tbodySerial) return;
-
-            tbodySerial.innerHTML = '';
-
-            if (!units || units.length === 0) {
-                tbodySerial.innerHTML = `
-                    <tr>
-                        <td colspan="4" style="padding: 18px; text-align: center; color: #94a3b8; font-style: italic;">
-                            Tiada rekod nombor siri didaftarkan untuk peralatan ini.
-                        </td>
-                    </tr>`;
-                return;
+            // show senarai kontrak
+            let senaraiKontrak = [];
+            try {
+                const rawKontrak = this.getAttribute('data-kontrak');
+                senaraiKontrak = rawKontrak ? JSON.parse(rawKontrak) : [];
+            } catch (e) {
+                console.error("Ralat parsing kontrak:", e);
+                senaraiKontrak = [];
             }
 
-            units.forEach((u, idx) => {
-                const isTersedia = (u.status || '').toLowerCase() === 'tersedia';
-                const statusBadge = isTersedia
-                    ? `<span style="background: #dcfce7; color: #166534; padding: 3px 10px; border-radius: 12px; font-weight: 600;">Tersedia</span>`
-                    : `<span style="background: #e0f2fe; color: #0369a1; padding: 3px 10px; border-radius: 12px; font-weight: 600;">${u.status || 'Diagih'}</span>`;
-
-                tbodySerial.insertAdjacentHTML('beforeend', `
-                    <tr style="border-bottom: 1px solid #f1f5f9;">
-                        <td style="padding: 10px 12px; text-align: center; color: #64748b;">${idx + 1}</td>
-                        <td style="padding: 10px 12px; font-family: monospace; font-weight: 700; color: #0f172a;">${u.no_siri}</td>
-                        <td style="padding: 10px 12px; color: #475569;">${u.no_kontrak || '-'}</td>
-                        <td style="padding: 10px 12px; text-align: center;">${statusBadge}</td>
-                    </tr>
-                `);
-            });
-        }
-
-        document.querySelectorAll('.btn-view-kontrak').forEach(button => {
-            button.addEventListener('click', function () {
-                const namaPeralatan = this.getAttribute('data-nama') || 'Kontrak & vendor';
-                const modalTitle = document.getElementById('modalTitlePeralatan');
-                if (modalTitle) modalTitle.innerText = namaPeralatan;
-
-                
-                const tbody = document.getElementById('tblBodyKontrak');
-                if (tbody) {
-                    tbody.innerHTML = '';
-                    try {
-                        const rawKontrak = this.getAttribute('data-kontrak');
-                        const senaraiKontrak = rawKontrak ? JSON.parse(rawKontrak) : [];
-
-                        if (senaraiKontrak.length > 0) {
-                            senaraiKontrak.forEach((k, index) => {
-                                tbody.insertAdjacentHTML('beforeend', `
-                                    <tr style="border-bottom: 1px solid #f1f5f9;">
-                                        <td style="padding: 12px 14px; text-align: center; color: #0f172a;">${index + 1}</td>
-                                        <td style="padding: 12px 14px; font-weight: 600; color: #0f172a;">${k.no_kontrak || '-'}</td>
-                                        <td style="padding: 12px 14px; color: #334155;">${k.vendor || '-'}</td>
-                                        <td style="padding: 12px 14px; text-align: center; font-weight: 700; color: #1e0b75;">${k.jumlah_unit || 0}</td>
-                                    </tr>
-                                `);
-                            });
-                        } else {
-                            tbody.innerHTML = `
-                                <tr>
-                                    <td colspan="4" style="padding: 18px; text-align: center; color: #94a3b8; font-style: italic;">
-                                        Tiada rekod kontrak & vendor dijumpai.
-                                    </td>
-                                </tr>`;
-                        }
-                    } catch (e) {
-                        console.error("Ralat parsing kontrak:", e);
-                    }
+            // show jadual kontrak
+            const tbody = document.getElementById('tblBodyKontrak');
+            if (tbody) {
+                tbody.innerHTML = '';
+                if (senaraiKontrak.length > 0) {
+                    senaraiKontrak.forEach((k, index) => {
+                        tbody.insertAdjacentHTML('beforeend', `
+                            <tr style="border-bottom: 1px solid #f1f5f9;">
+                                <td style="padding: 12px 14px; text-align: center; color: #0f172a;">${index + 1}</td>
+                                <td style="padding: 12px 14px; font-weight: 600; color: #0f172a;">${k.no_kontrak || '-'}</td>
+                                <td style="padding: 12px 14px; color: #334155;">${k.vendor || '-'}</td>
+                                <td style="padding: 12px 14px; text-align: center; font-weight: 700; color: #1e0b75;">${k.jumlah_unit || 0}</td>
+                            </tr>
+                        `);
+                    });
+                } else {
+                    tbody.innerHTML = `
+                        <tr>
+                            <td colspan="4" style="padding: 18px; text-align: center; color: #94a3b8; font-style: italic;">
+                                Tiada rekod kontrak & vendor dijumpai.
+                            </td>
+                        </tr>`;
                 }
+            }
 
-                
-                try {
-                    const rawUnits = this.getAttribute('data-units');
-                    currentModalUnits = rawUnits ? JSON.parse(rawUnits) : [];
-                } catch (e) {
-                    currentModalUnits = [];
-                }
+            // ambil kontrak utama untuk dipaparkan sebelah no. siri
+            const noKontrakUtama = senaraiKontrak.length > 0 ? (senaraiKontrak[0].no_kontrak || '-') : '-';
 
-                const searchSNInput = document.getElementById('searchSerialModalInput');
-                if (searchSNInput) searchSNInput.value = '';
-                renderSerialUnitsTable(currentModalUnits);
+            // baca 'data-nosiri' (teks baris demi baris) & bina array objek untuk jadual No. Siri
+            const rawNoSiri = this.getAttribute('data-nosiri') || '';
+            currentModalUnits = rawNoSiri
+                .split(/\r?\n/)
+                .map(sn => sn.trim())
+                .filter(sn => sn !== '')
+                .map(sn => ({
+                    no_siri: sn,
+                    no_kontrak: noKontrakUtama,
+                    status: 'Tersedia'
+                }));
 
-                if (modalKontrak) modalKontrak.style.display = 'flex';
-            });
+            const searchSNInput = document.getElementById('searchSerialModalInput');
+            if (searchSNInput) searchSNInput.value = '';
+            renderSerialUnitsTable(currentModalUnits);
+
+            if (modalKontrak) modalKontrak.style.display = 'flex';
         });
-
-        
-        const searchSNModal = document.getElementById('searchSerialModalInput');
-        if (searchSNModal) {
-            searchSNModal.addEventListener('input', function () {
-                const keyword = this.value.toLowerCase().trim();
-                const filtered = currentModalUnits.filter(u =>
-                    (u.no_siri || '').toLowerCase().includes(keyword) ||
-                    (u.no_kontrak || '').toLowerCase().includes(keyword)
-                );
-                renderSerialUnitsTable(filtered);
-            });
-        }
-
-        if (closeKontrakBtn && modalKontrak) {
-            closeKontrakBtn.onclick = () => modalKontrak.style.display = 'none';
-        }
-
-        window.addEventListener('click', function (e) {
-            if (modal && e.target === modal) modal.style.display = 'none';
-            if (modalKontrak && e.target === modalKontrak) modalKontrak.style.display = 'none';
-        });
-
-        
-        const searchInput = document.getElementById('liveSearchInput');
-        const categorySelect = document.getElementById('filterKategoriSelect');
-        const tableRows = document.querySelectorAll('#inventoriTable tbody tr');
-
-        function filterInventoriTable() {
-            const query = (searchInput?.value || '').toLowerCase().trim();
-            const selectedKat = (categorySelect?.value || '').toLowerCase().trim();
-
-            tableRows.forEach(row => {
-                if (row.children.length === 1 && row.children[0].hasAttribute('colspan')) return;
-
-                const textContent = row.textContent.toLowerCase();
-                const rowKategori = (row.getAttribute('data-kategori') || '').toLowerCase();
-
-                const matchSearch = textContent.includes(query);
-                const matchKategori = selectedKat === '' || rowKategori === selectedKat;
-
-                row.style.display = (matchSearch && matchKategori) ? '' : 'none';
-            });
-        }
-
-        if (searchInput) searchInput.addEventListener('input', filterInventoriTable);
-        if (categorySelect) categorySelect.addEventListener('change', filterInventoriTable);
-
-        
-        const vendorWrapper = document.getElementById('vendor-wrapper');
-        const btnTambahVendor = document.getElementById('btn-tambah-vendor');
-
-        function reindexVendorRows() {
-            const rows = vendorWrapper.querySelectorAll('.vendor-row');
-            rows.forEach((row, index) => {
-                const select = row.querySelector('select');
-                const input = row.querySelector('input[type="number"]');
-                if (select) select.name = `vendors[${index}][id]`;
-                if (input) input.name = `vendors[${index}][jumlah_unit]`;
-            });
-        }
-
-        if (btnTambahVendor && vendorWrapper) {
-            btnTambahVendor.addEventListener('click', function () {
-                const firstRow = vendorWrapper.querySelector('.vendor-row');
-                if (firstRow) {
-                    const newRow = firstRow.cloneNode(true);
-                    const selectElem = newRow.querySelector('select');
-                    const inputElem = newRow.querySelector('input[type="number"]');
-                    if (selectElem) selectElem.value = "";
-                    if (inputElem) inputElem.value = "";
-                    vendorWrapper.appendChild(newRow);
-                    reindexVendorRows();
-                }
-            });
-
-            vendorWrapper.addEventListener('click', function (e) {
-                if (e.target.closest('.btn-remove-vendor')) {
-                    const rows = vendorWrapper.querySelectorAll('.vendor-row');
-                    if (rows.length > 1) {
-                        e.target.closest('.vendor-row').remove();
-                        reindexVendorRows();
-                    } else {
-                        alert('Sekurang-kurangnya satu vendor diperlukan.');
-                    }
-                }
-            });
-        }
     });
-    </script>
+
+    
+    const searchSNModal = document.getElementById('searchSerialModalInput');
+    if (searchSNModal) {
+        searchSNModal.addEventListener('input', function () {
+            const keyword = this.value.toLowerCase().trim();
+            const filtered = currentModalUnits.filter(u =>
+                (u.no_siri || '').toLowerCase().includes(keyword) ||
+                (u.no_kontrak || '').toLowerCase().includes(keyword)
+            );
+            renderSerialUnitsTable(filtered);
+        });
+    }
+
+    if (closeKontrakBtn && modalKontrak) {
+        closeKontrakBtn.onclick = () => modalKontrak.style.display = 'none';
+    }
+
+    // Tutup modal apabila klik di luar kotak modal
+    window.addEventListener('click', function (e) {
+        if (modal && e.target === modal) modal.style.display = 'none';
+        if (modalKontrak && e.target === modalKontrak) modalKontrak.style.display = 'none';
+    });
+
+    // 6. CARIAN & PENAPIS KATEGORI JADUAL UTAMA
+    const searchInput = document.getElementById('liveSearchInput');
+    const categorySelect = document.getElementById('filterKategoriSelect');
+    const tableRows = document.querySelectorAll('#inventoriTable tbody tr');
+
+    function filterInventoriTable() {
+        const query = (searchInput?.value || '').toLowerCase().trim();
+        const selectedKat = (categorySelect?.value || '').toLowerCase().trim();
+
+        tableRows.forEach(row => {
+            if (row.children.length === 1 && row.children[0].hasAttribute('colspan')) return;
+
+            const textContent = row.textContent.toLowerCase();
+            const rowKategori = (row.getAttribute('data-kategori') || '').toLowerCase();
+
+            const matchSearch = textContent.includes(query);
+            const matchKategori = selectedKat === '' || rowKategori === selectedKat;
+
+            row.style.display = (matchSearch && matchKategori) ? '' : 'none';
+        });
+    }
+
+    if (searchInput) searchInput.addEventListener('input', filterInventoriTable);
+    if (categorySelect) categorySelect.addEventListener('change', filterInventoriTable);
+
+    // 7. TAMBAH / BUANG BARIS VENDOR DALAM BORANG TAMBAH PERALATAN
+    const vendorWrapper = document.getElementById('vendor-wrapper');
+    const btnTambahVendor = document.getElementById('btn-tambah-vendor');
+
+    function reindexVendorRows() {
+        const rows = vendorWrapper.querySelectorAll('.vendor-row');
+        rows.forEach((row, index) => {
+            const select = row.querySelector('select');
+            const input = row.querySelector('input[type="number"]');
+            if (select) select.name = `vendors[${index}][id]`;
+            if (input) input.name = `vendors[${index}][jumlah_unit]`;
+        });
+    }
+
+    if (btnTambahVendor && vendorWrapper) {
+        btnTambahVendor.addEventListener('click', function () {
+            const firstRow = vendorWrapper.querySelector('.vendor-row');
+            if (firstRow) {
+                const newRow = firstRow.cloneNode(true);
+                const selectElem = newRow.querySelector('select');
+                const inputElem = newRow.querySelector('input[type="number"]');
+                if (selectElem) selectElem.value = "";
+                if (inputElem) inputElem.value = "";
+                vendorWrapper.appendChild(newRow);
+                reindexVendorRows();
+            }
+        });
+
+        vendorWrapper.addEventListener('click', function (e) {
+            if (e.target.closest('.btn-remove-vendor')) {
+                const rows = vendorWrapper.querySelectorAll('.vendor-row');
+                if (rows.length > 1) {
+                    e.target.closest('.vendor-row').remove();
+                    reindexVendorRows();
+                } else {
+                    alert('Sekurang-kurangnya satu vendor diperlukan.');
+                }
+            }
+        });
+    }
+});
+</script>
 </body>
 </html>

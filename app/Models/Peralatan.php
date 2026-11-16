@@ -14,6 +14,7 @@ class Peralatan extends Model
         'kategori',
         'vendor_id',
         'jumlah',
+        'no_siri',
         'tersedia',
         'diagih',
     ];
