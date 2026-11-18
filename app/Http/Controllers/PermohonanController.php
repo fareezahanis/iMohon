@@ -86,4 +86,13 @@ class PermohonanController extends Controller
         'permohonanTerkini'
     ));
 }
+public function sahkanPenerimaan($id)
+{
+    $permohonan = Permohonan::where('user_id', Auth::id())->findOrFail($id);
+
+    $permohonan->status_penempatan = 'Selesai';
+    $permohonan->save();
+
+    return redirect()->back()->with('success', 'Terima kasih! Penerimaan peralatan telah berjaya disahkan.');
+}
 }

@@ -639,15 +639,7 @@
     <!-- MAIN WRAPPER -->
     <div class="main-wrapper">
 
-        <!-- TOP HEADER -->
-        <header class="top-header">
-            <div class="user-profile">
-                <span>{{ Auth::user()->name ?? 'Pelulus' }}</span>
-                <div class="user-avatar">
-                    <i class="fa-solid fa-user"></i>
-                </div>
-            </div>
-        </header>
+       @include('partials.top-header')
 
         <!-- CONTENT BODY -->
         <main class="content-body">
@@ -1013,7 +1005,7 @@
             modalTolak.style.display = 'flex';
         });
 
-        ajax hantar ke backend server
+        
         function sendStatusUpdate(status, extraData = {}) {
             if (!selectedPermohonanId) return;
 

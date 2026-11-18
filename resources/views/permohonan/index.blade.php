@@ -548,15 +548,7 @@
 
     <!-- MAIN WRAPPER -->
     <div class="main-wrapper">
-        <!-- TOP HEADER -->
-        <header class="top-header">
-            <div class="user-profile">
-                <span>{{ Auth::user()->name }}</span>
-                <div class="user-avatar">
-                    <i class="fa-solid fa-user"></i>
-                </div>
-            </div>
-        </header>
+        @include('partials.top-header')
 
         <!-- CONTENT AREA -->
         <div class="content-area">
@@ -609,19 +601,21 @@
                                     </td>
                                     <td>
                                         <div class="action-group">
-                                            <!-- BUTTON JEJAK -->
-                                            <button type="button" class="btn-jejak"
-                                                onclick="openTrackingModal(
-                                                    @js($item->id_permohonan),
-                                                    @js($item->nama_item),
-                                                    @js(\Carbon\Carbon::parse($item->tarikh_mohon)->format('d/m/Y')),
-                                                    @js($item->kuantiti),
-                                                    @js($item->status ?? 'Dalam proses')
-                                                )">
-                                                <i class="fa-solid fa-route"></i> Jejak
-                                            </button>
+                                            
+    <button type="button" class="btn-jejak"
+    onclick="openTrackingModal(
+        @js($item->id),
+        @js($item->id_permohonan),
+        @js($item->nama_item),
+        @js(\Carbon\Carbon::parse($item->tarikh_mohon)->format('d/m/Y')),
+        @js($item->kuantiti),
+        @js($item->status ?? 'Dalam proses'),
+        @js($item->status_penempatan ?? '')
+    )">
+    <i class="fa-solid fa-route"></i> Jejak
+</button>
 
-                                            <!-- BUTTON MATA DETAIL -->
+                                            
                                             <button type="button" class="btn-mata" title="Lihat Butiran"
                                                 onclick="openDetailModal(
                                                     @js(Auth::user()->name),
@@ -726,10 +720,38 @@
                         <h4>Selesai / Penerimaan</h4>
                         <p id="step-penerimaan-desc">Belum mula</p>
                     </div>
+                        <!-- BUTANG PENGESAHAN PENERIMAAN OLEH PEMOHON -->
+<div id="boxConfirmTerima" style="display: none; margin-top: 18px; padding-top: 16px; border-top: 1px solid #e2e8f0; text-align: center;">
+    <p style="font-size: 12px; color: #475569; margin-bottom: 10px;">
+        Peralatan telah dihantar ke lokasi anda. Sila sahkan sebaik sahaja peralatan diterima:
+    </p>
+    <form id="formSahkanTerima" action="" method="POST">
+        @csrf
+        @method('PUT')
+        <button type="submit" style="width: 100%; background: #16a34a; color: white; border: none; padding: 11px 16px; border-radius: 10px; font-weight: 700; font-size: 13px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 4px 12px rgba(22, 163, 74, 0.25);">
+            <i class="fa-solid fa-circle-check"></i> Sahkan Penerimaan Peralatan
+        </button>
+    </form>
+</div>
                 </div>
             </div>
         </div>
     </div>
+
+    <!-- BUTANG PENGESAHAN PENERIMAAN OLEH PEMOHON -->
+<div id="boxConfirmTerima" style="display: none; margin-top: 18px; padding-top: 16px; border-top: 1px solid #e2e8f0; text-align: center;">
+    <p style="font-size: 12px; color: #475569; margin-bottom: 10px;">
+        Peralatan telah dihantar ke lokasi anda. Sila sahkan sebaik sahaja peralatan diterima:
+    </p>
+    <form id="formSahkanTerima" action="" method="POST">
+        @csrf
+        @method('PUT')
+        <button type="submit" style="width: 100%; background: #16a34a; color: white; border: none; padding: 11px 16px; border-radius: 10px; font-weight: 700; font-size: 13px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 4px 12px rgba(22, 163, 74, 0.25);">
+            <i class="fa-solid fa-circle-check"></i> Sahkan Penerimaan Peralatan
+        </button>
+    </form>
+</div>
+    
 
     
     <div id="detailModal" class="modal">
@@ -834,15 +856,75 @@
     });
 
     
-    function openTrackingModal(id, item, date, qty) {
-        document.getElementById('modal-req-id').innerText = id;
-        document.getElementById('modal-item').innerText = item;
-        document.getElementById('modal-date').innerText = date;
-        document.getElementById('modal-qty').innerText = qty + ' unit';
-        document.getElementById('modal-step1-time').innerText = date;
+   function openTrackingModal(dbId, reqId, item, date, qty, status = '', statusPenempatan = '') {
+    document.getElementById('modal-req-id').innerText = reqId || '-';
+    document.getElementById('modal-item').innerText = Array.isArray(item) ? item.join(', ') : (item || '-');
+    document.getElementById('modal-date').innerText = date || '-';
+    document.getElementById('modal-qty').innerText = (Array.isArray(qty) ? qty.join(', ') : (qty || '1')) + ' unit';
+    document.getElementById('modal-step1-time').innerText = date || '-';
 
-        document.getElementById('trackingModal').style.display = 'flex';
+    const st = (status || '').toLowerCase().trim();
+    const sp = (statusPenempatan || '').toLowerCase().trim();
+
+    const step2 = document.getElementById('step-pengagihan');
+    const step2Desc = document.getElementById('step-pengagihan-desc');
+    const step3 = document.getElementById('step-penghantaran');
+    const step3Desc = document.getElementById('step-penghantaran-desc');
+    const step4 = document.getElementById('step-penerimaan');
+    const step4Desc = document.getElementById('step-penerimaan-desc');
+
+    function setStep(stepEl, descEl, isActive, text) {
+        if (!stepEl) return;
+        const iconBox = stepEl.querySelector('.timeline-icon');
+        if (isActive) {
+            stepEl.classList.add('active');
+            if (iconBox) iconBox.classList.add('icon-success');
+        } else {
+            stepEl.classList.remove('active');
+            if (iconBox) iconBox.classList.remove('icon-success');
+        }
+        if (descEl) descEl.innerText = text;
     }
+
+    // Reset langkah 2, 3, dan 4
+    setStep(step2, step2Desc, false, 'Menunggu semakan unit ICT');
+    setStep(step3, step3Desc, false, 'Belum mula');
+    setStep(step4, step4Desc, false, 'Belum mula');
+
+    // Sembunyikan kotak pengesahan dahulu
+    const boxConfirm = document.getElementById('boxConfirmTerima');
+    const formConfirm = document.getElementById('formSahkanTerima');
+    if (boxConfirm) boxConfirm.style.display = 'none';
+
+    if (st === 'ditolak') {
+        setStep(step2, step2Desc, false, 'Permohonan telah ditolak');
+    } else {
+        // Langkah 2: Semakan & Pengagihan
+        if (['diagih', 'diagihkan', 'dihantar', 'penempatan', 'selesai'].includes(sp)) {
+            setStep(step2, step2Desc, true, 'Peralatan telah diagihkan oleh unit ICT');
+        } else if (['diterima', 'lulus', 'terima'].includes(st)) {
+            setStep(step2, step2Desc, false, 'Diluluskan — sedang diproses untuk pengagihan');
+        }
+
+        // Langkah 3: Penghantaran / Penempatan
+        if (['dihantar', 'penempatan', 'selesai'].includes(sp)) {
+            setStep(step3, step3Desc, true, 'Peralatan sedang / telah dihantar ke lokasi penempatan');
+        }
+
+        // Langkah 4: Selesai / Penerimaan + Paparan Butang Sahkan
+        if (sp === 'selesai') {
+            setStep(step4, step4Desc, true, 'Penempatan peralatan selesai diterima');
+        } else if (['diagih', 'diagihkan', 'dihantar', 'penempatan', 'dalam penghantaran'].includes(sp)) {
+            if (boxConfirm && formConfirm && dbId) {
+                let url = "{{ route('permohonan.sahkanTerima', ':id') }}";
+                formConfirm.action = url.replace(':id', dbId);
+                boxConfirm.style.display = 'block';
+            }
+        }
+    }
+
+    document.getElementById('trackingModal').style.display = 'flex';
+}
 
     function openDetailModal(nama, jawatan, email, telPej, unit, telHp, jenis, item, penerima, tarikh, tujuan, lokasi) {
         

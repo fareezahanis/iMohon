@@ -621,15 +621,7 @@
     <!-- MAIN WRAPPER RIGHT -->
     <div class="main-wrapper">
 
-        <!-- TOP HEADER -->
-        <header class="top-header">
-            <div class="user-profile">
-                <span>{{ Auth::user()->name }}</span>
-                <div class="user-avatar">
-                    <i class="fa-solid fa-user"></i>
-                </div>
-            </div>
-        </header>
+       @include('partials.top-header')
 
         <!-- CONTENT BODY -->
         <main class="content-body">

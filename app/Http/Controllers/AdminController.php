@@ -125,30 +125,30 @@ class AdminController extends Controller
         return redirect()->back()->with('success', 'Peralatan baharu berjaya disimpan!');
     }
 
-    public function destroyInventori($id)
-    {
-        $inventori = Peralatan::with('vendors')->findOrFail($id);
+   public function destroyInventori($id)
+{
+    $inventori = Peralatan::with('vendors')->findOrFail($id);
 
-        // Pulangkan semula unit kepada vendor sebelum peralatan dipadam
-        foreach ($inventori->vendors as $v) {
-            $unitDipulangkan = (int) ($v->pivot->jumlah_unit ?? 0);
-            $v->jumlah_peralatan = ($v->jumlah_peralatan ?? 0) - $unitDipulangkan;
-            $v->save();
+    // 1. Simpan senarai ID vendor sebelum hubungan diputuskan (detach)
+    $vendorIds = $inventori->vendors->pluck('id')->toArray();
+
+    // 2. Putuskan pautan pivot dan padam peralatan
+    $inventori->vendors()->detach();
+    $inventori->delete();
+
+    // 3. Kira semula jumlah_peralatan sebenar setiap vendor terlibat supaya selari dengan rekod inventori
+    foreach ($vendorIds as $vendorId) {
+        $vendor = Vendor::with('peralatans')->find($vendorId);
+        if ($vendor) {
+            $vendor->jumlah_peralatan = $vendor->peralatans->sum(function ($p) {
+                return (int) ($p->pivot->jumlah_unit ?? 0);
+            });
+            $vendor->save();
         }
-
-        $inventori->vendors()->detach();
-        $inventori->delete();
-
-        foreach ($attachData as $vendorId => $pivotData) {
-    $vendor = Vendor::with('peralatans')->find($vendorId);
-    if ($vendor) {
-        $vendor->jumlah_peralatan = $vendor->peralatans->sum(fn($p) => (int) ($p->pivot->jumlah_unit ?? 0));
-        $vendor->save();
     }
+
+    return redirect()->back()->with('success', 'Peralatan berjaya dipadam!');
 }
-
-        return redirect()->back()->with('success', 'Peralatan berjaya dipadam!');
-    }
 
    public function vendor(Request $request)
 {

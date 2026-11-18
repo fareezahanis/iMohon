@@ -468,14 +468,7 @@
     <div class="main-wrapper">
 
         
-        <header class="top-header">
-            <div class="user-profile">
-                <span>Admin</span>
-                <div class="user-avatar">
-                    <i class="fa-solid fa-user"></i>
-                </div>
-            </div>
-        </header>
+        @include('partials.top-header')
 
         
         <main class="content-body">
