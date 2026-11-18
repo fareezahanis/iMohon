@@ -720,38 +720,23 @@
                         <h4>Selesai / Penerimaan</h4>
                         <p id="step-penerimaan-desc">Belum mula</p>
                     </div>
-                        <!-- BUTANG PENGESAHAN PENERIMAAN OLEH PEMOHON -->
-<div id="boxConfirmTerima" style="display: none; margin-top: 18px; padding-top: 16px; border-top: 1px solid #e2e8f0; text-align: center;">
-    <p style="font-size: 12px; color: #475569; margin-bottom: 10px;">
-        Peralatan telah dihantar ke lokasi anda. Sila sahkan sebaik sahaja peralatan diterima:
-    </p>
-    <form id="formSahkanTerima" action="" method="POST">
-        @csrf
-        @method('PUT')
-        <button type="submit" style="width: 100%; background: #16a34a; color: white; border: none; padding: 11px 16px; border-radius: 10px; font-weight: 700; font-size: 13px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 4px 12px rgba(22, 163, 74, 0.25);">
-            <i class="fa-solid fa-circle-check"></i> Sahkan Penerimaan Peralatan
-        </button>
-    </form>
-</div>
+                        <!-- button sah pemohon terima -->
+                    <div id="boxConfirmTerima" style="display: none; margin-top: 18px; padding-top: 16px; border-top: 1px solid #e2e8f0; text-align: center;">
+                        <p style="font-size: 12px; color: #475569; margin-bottom: 10px;">
+                        Peralatan telah dihantar ke lokasi anda. Sila sahkan sebaik sahaja peralatan diterima:
+                        </p>
+                        <form id="formSahkanTerima" action="" method="POST">
+                        @csrf
+                        @method('PUT')
+                        <button type="submit" style="width: 100%; background: #16a34a; color: white; border: none; padding: 11px 16px; border-radius: 10px; font-weight: 700; font-size: 13px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 4px 12px rgba(22, 163, 74, 0.25);">
+                            <i class="fa-solid fa-circle-check"></i> Sahkan Penerimaan Peralatan
+                        </button>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-
-    <!-- BUTANG PENGESAHAN PENERIMAAN OLEH PEMOHON -->
-<div id="boxConfirmTerima" style="display: none; margin-top: 18px; padding-top: 16px; border-top: 1px solid #e2e8f0; text-align: center;">
-    <p style="font-size: 12px; color: #475569; margin-bottom: 10px;">
-        Peralatan telah dihantar ke lokasi anda. Sila sahkan sebaik sahaja peralatan diterima:
-    </p>
-    <form id="formSahkanTerima" action="" method="POST">
-        @csrf
-        @method('PUT')
-        <button type="submit" style="width: 100%; background: #16a34a; color: white; border: none; padding: 11px 16px; border-radius: 10px; font-weight: 700; font-size: 13px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 4px 12px rgba(22, 163, 74, 0.25);">
-            <i class="fa-solid fa-circle-check"></i> Sahkan Penerimaan Peralatan
-        </button>
-    </form>
-</div>
-    
 
     
     <div id="detailModal" class="modal">

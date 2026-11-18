@@ -15,20 +15,20 @@ class AdminController extends Controller
 {
     public function dashboard()
     {
-        // DITERIMA PELULUS: Mengira permohonan yang telah diluluskan/disokong oleh Pelulus
+        
         $permohonanBaru = Permohonan::count();
 
-        // DALAM PROSES: Mengira permohonan yang masih belum diproses
+        // dalam proses
         $dalamProses = Permohonan::where(function ($q) {
             $q->whereNull('status')
               ->orWhere('status', '')
               ->orWhere('status', 'Dalam Proses');
         })->count();
 
-        // DITERIMA ADMIN: Mengira permohonan yang telah diterima akhir oleh Admin
+        // diterima admin
         $diterima = Permohonan::whereIn('status', ['Diterima', 'Lulus', 'Terima'])->count();
 
-        // DITOLAK
+        // ditolak
         $ditolak = Permohonan::where('status', 'Ditolak')->count();
 
         $permohonanTerkini = Permohonan::latest()->take(5)->get();
@@ -104,7 +104,7 @@ class AdminController extends Controller
         if (!empty($attachData)) {
             $peralatan->vendors()->attach($attachData);
 
-            // yolak unit yang didaftarkan ke inventori daripada baki vendor
+            // tolak unit yang didaftarkan ke inventori daripada baki vendor
             foreach ($attachData as $vendorId => $pivotData) {
                 $vendor = Vendor::find($vendorId);
                 if ($vendor) {
@@ -129,14 +129,14 @@ class AdminController extends Controller
 {
     $inventori = Peralatan::with('vendors')->findOrFail($id);
 
-    // 1. Simpan senarai ID vendor sebelum hubungan diputuskan (detach)
+    // simpan senarai id vendor sebelum relay detach
     $vendorIds = $inventori->vendors->pluck('id')->toArray();
 
-    // 2. Putuskan pautan pivot dan padam peralatan
+    
     $inventori->vendors()->detach();
     $inventori->delete();
 
-    // 3. Kira semula jumlah_peralatan sebenar setiap vendor terlibat supaya selari dengan rekod inventori
+    // kira jumlah item sebenar setiap vendor terlibat supaya selari dengan rekod inventori
     foreach ($vendorIds as $vendorId) {
         $vendor = Vendor::with('peralatans')->find($vendorId);
         if ($vendor) {
@@ -165,7 +165,7 @@ class AdminController extends Controller
 
     $vendors = $query->latest()->get();
 
-    // Kira jumlah unit sebenar setiap vendor supaya 100% sama dengan jadual dalam popup
+    // kira jumlah unit sebenar setiap vendor supaya 100% sama dengan jadual dalam popup
     foreach ($vendors as $v) {
         $v->jumlah_peralatan = $v->peralatans->sum(function ($p) {
             return (int) ($p->pivot->jumlah_unit ?? 0);
@@ -198,7 +198,7 @@ class AdminController extends Controller
             'jumlah_peralatan' => 'required|integer|min:0',
         ]);
 
-        // Simpan dalam pangkalan data
+        // simpan dalam database
         Vendor::create([
             'nama_vendor'      => $request->nama_vendor,
             'no_kontrak'       => $request->no_kontrak,
@@ -234,14 +234,14 @@ class AdminController extends Controller
             });
         }
 
-        // Ambil data
+        // ambil data
         $users = $query->latest()->get();
 
-        // Hantar sebagai 'users' ke Blade
+        // hantar sebagai 'users' ke Blade
         return view('admin.pengguna', compact('users'));
     }
 
-    // Simpan Data Pengguna Baharu
+    // simpan pengguna
     public function storePengguna(Request $request)
     {
         $request->validate([
@@ -282,7 +282,7 @@ class AdminController extends Controller
 
     public function kelulusan()
     {
-        // Ambil semua permohonan berserta perhubungan user
+        // ambil semua permohonan berserta perhubungan user
         $permohonan = Permohonan::with('user')->latest()->get();
 
         return view('admin.kelulusan', compact('permohonan'));
@@ -311,10 +311,10 @@ class AdminController extends Controller
 
     public function rekodPeminjaman(Request $request)
     {
-        // Hanya ambil permohonan yang telah Diterima / Lulus oleh pelulus/admin
+        // hanya ambil permohonan yang telah Diterima / Lulus oleh pelulus/admin
         $query = Permohonan::whereIn('status', ['Diterima', 'Lulus']);
 
-        // Filter carian (search)
+        // search bar filter
         if ($request->filled('search')) {
             $search = $request->search;
             $query->where(function ($q) use ($search) {
@@ -324,7 +324,7 @@ class AdminController extends Controller
             });
         }
 
-        // Filter mengikut status_penempatan (Permohonan / Diagih / Dihantar / Selesai)
+        // filter mengikut status_penempatan (Permohonan / Diagih / Dihantar / Selesai)
         if ($request->filled('status')) {
             $query->where(function ($q) use ($request) {
                 if ($request->status == 'Permohonan') {
@@ -340,7 +340,7 @@ class AdminController extends Controller
         return view('admin.peminjaman', compact('peminjaman'));
     }
 
-    // Kemaskini Status Penempatan
+    
     public function updateStatusPenempatan(Request $request, $id)
     {
         $statusInput = $request->input('status_penempatan') ?? $request->input('status');
@@ -375,7 +375,7 @@ class AdminController extends Controller
         $rekod->tarikh_pulang = now();
         $rekod->save();
 
-        // Kemaskini jumlah dalam stok inventori
+    
         if ($rekod->peralatan_id) {
             $peralatan = Peralatan::find($rekod->peralatan_id);
             if ($peralatan) {

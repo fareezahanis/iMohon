@@ -12,7 +12,7 @@ return new class extends Migration
    public function up(): void
 {
     Schema::table('permohonans', function (Blueprint $table) {
-        // Tambah kolum status_penempatan, tetapkan default null atau 'Diagih'
+        
         $table->string('status_penempatan')->nullable()->after('status');
     });
 }

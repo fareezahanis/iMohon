@@ -1,5 +1,5 @@
 <header class="top-header">
-    @php
+   @php
         $userRole  = strtolower(Auth::user()->role ?? '');
         $isPelulus = $userRole === 'pelulus' || request()->is('pelulus*');
         $isAdmin   = $userRole === 'admin' || request()->is('admin*');
@@ -23,22 +23,23 @@
             $notifHeader = 'Status Permohonan Anda';
             $badgeLabel  = $notifCount . ' Rekod';
         }
+
+        $notifSignature = collect($notifList)->pluck('id')->implode(',');
     @endphp
 
     <div style="display: flex; align-items: center; gap: 18px; position: relative;">
 
-        <!-- IKON LOCENG NOTIFIKASI -->
+        <!-- icon -->
         <div style="position: relative;">
-            <button type="button" id="btnToggleNotif" style="background: rgba(255, 255, 255, 0.14); border: none; color: white; width: 38px; height: 38px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 16px; position: relative;">
+            <button type="button" id="btnToggleNotif" data-signature="{{ $notifSignature }}" style="background: rgba(255, 255, 255, 0.14); border: none; color: white; width: 38px; height: 38px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 16px; position: relative;">
                 <i class="fa-solid fa-bell"></i>
                 @if($notifCount > 0)
-                    <span style="position: absolute; top: -3px; right: -4px; background: #ef4444; color: white; font-size: 10px; font-weight: 800; min-width: 18px; height: 18px; padding: 0 4px; border-radius: 999px; display: flex; align-items: center; justify-content: center; border: 2px solid #29158f;">
+                    <span id="notifBadge" style="position: absolute; top: -3px; right: -4px; background: #ef4444; color: white; font-size: 10px; font-weight: 800; min-width: 18px; height: 18px; padding: 0 4px; border-radius: 999px; display: flex; align-items: center; justify-content: center; border: 2px solid #29158f;">
                         {{ $notifCount > 99 ? '99+' : $notifCount }}
                     </span>
                 @endif
             </button>
-
-            <!-- KOTAK DROPDOWN NOTIFIKASI -->
+            <!-- dropdown noti -->
             <div id="notifDropdownMenu" style="display: none; position: absolute; right: 0; top: 48px; width: 335px; background: white; border-radius: 14px; box-shadow: 0 15px 30px rgba(15, 23, 42, 0.18); border: 1px solid #e2e8f0; z-index: 9999; overflow: hidden; text-align: left;">
                 <div style="padding: 13px 16px; background: #f8fafc; border-bottom: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center;">
                     <span style="font-size: 13px; font-weight: 700; color: #1e0b75;">{{ $notifHeader }}</span>
@@ -64,7 +65,7 @@
                             </div>
 
                             @if(!$isPelulus && !$isAdmin)
-                                {{-- PAPARAN PEMOHON --}}
+                                {{-- pemohon --}}
                                 <div style="font-size: 12px; font-weight: 600; color: #0f172a; margin-bottom: 3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
                                     {{ is_array($n->nama_item) ? implode(', ', $n->nama_item) : ($n->nama_item ?? '-') }}
                                 </div>
@@ -82,7 +83,7 @@
                                     @endif
                                 </div>
                             @else
-                                {{-- PAPARAN ADMIN & PELULUS --}}
+                                {{-- admin & pelulus--}}
                                 <div style="font-size: 12px; font-weight: 600; color: #0f172a; margin-bottom: 2px;">
                                     {{ $n->user->name ?? $n->nama_pemohon ?? 'Pemohon' }}
                                 </div>
@@ -104,7 +105,7 @@
             </div>
         </div>
 
-        <!-- PROFIL PENGGUNA -->
+        <!-- nama profile -->
         <div class="user-profile">
         <span>
             @if($isAdmin)
@@ -127,11 +128,30 @@
 document.addEventListener('DOMContentLoaded', function () {
     const btnToggleNotif = document.getElementById('btnToggleNotif');
     const notifDropdownMenu = document.getElementById('notifDropdownMenu');
+    const notifBadge = document.getElementById('notifBadge');
 
     if (btnToggleNotif && notifDropdownMenu) {
+        const storageKey = 'imohon_notif_seen_{{ Auth::id() ?? "guest" }}';
+        const currentSignature = btnToggleNotif.getAttribute('data-signature') || '';
+        const seenSignature = localStorage.getItem(storageKey);
+
+        
+        if (notifBadge && currentSignature !== '' && seenSignature === currentSignature) {
+            notifBadge.style.display = 'none';
+        }
+
         btnToggleNotif.addEventListener('click', function (e) {
             e.stopPropagation();
-            notifDropdownMenu.style.display = notifDropdownMenu.style.display === 'block' ? 'none' : 'block';
+            const isOpening = notifDropdownMenu.style.display !== 'block';
+            notifDropdownMenu.style.display = isOpening ? 'block' : 'none';
+
+            // Hilangkan nombor merah sebaik sahaja loceng diklik & simpan kekal
+            if (isOpening && notifBadge) {
+                notifBadge.style.display = 'none';
+                if (currentSignature !== '') {
+                    localStorage.setItem(storageKey, currentSignature);
+                }
+            }
         });
 
         document.addEventListener('click', function (e) {

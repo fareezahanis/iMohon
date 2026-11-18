@@ -16,28 +16,24 @@ class AppServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
-        // Notifikasi automatik untuk Admin, Pelulus, dan Pemohon
-       View::composer('*', function ($view) {
-            
-            // 1. PELULUS: Permohonan baharu yang menunggu kelulusan
-            $notifPelulusList = Permohonan::with('user')
+        View::composer('*', function ($view) {
+            $tarikhHad = now()->subDays(3);
+
+            // 1. PELULUS
+            $queryPelulus = Permohonan::with('user')
+                ->where('created_at', '>=', $tarikhHad)
                 ->where(function ($q) {
                     $q->whereNull('status')
                       ->orWhere('status', '')
                       ->orWhere('status', 'Dalam Proses');
-                })
-                ->latest()
-                ->take(5)
-                ->get();
+                });
 
-            $notifPelulusCount = Permohonan::where(function ($q) {
-                $q->whereNull('status')
-                  ->orWhere('status', '')
-                  ->orWhere('status', 'Dalam Proses');
-            })->count();
+            $notifPelulusCount = (clone $queryPelulus)->count();
+            $notifPelulusList  = $queryPelulus->latest()->take(6)->get();
 
-            // 2. ADMIN: Permohonan baharu atau permohonan diluluskan yang belum diagih
-            $notifAdminList = Permohonan::with('user')
+            // 2. ADMIN
+            $queryAdmin = Permohonan::with('user')
+                ->where('updated_at', '>=', $tarikhHad)
                 ->where(function ($q) {
                     $q->whereNull('status')
                       ->orWhere('status', '')
@@ -47,51 +43,35 @@ class AppServiceProvider extends ServiceProvider
                               ->where(function ($p) {
                                   $p->whereNull('status_penempatan')
                                     ->orWhere('status_penempatan', '')
-                                    ->orWhere('status_penempatan', 'Permohonan');
+                                    ->orWhere('status_penempatan', 'Permohonan')
+                                    ->orWhere('status_penempatan', 'Selesai');
                               });
                       });
-                })
-                ->latest()
-                ->take(5)
-                ->get();
+                });
 
-            $notifAdminCount = Permohonan::where(function ($q) {
-                $q->whereNull('status')
-                  ->orWhere('status', '')
-                  ->orWhere('status', 'Dalam Proses')
-                  ->orWhere(function ($sub) {
-                      $sub->whereIn('status', ['Diterima', 'Lulus', 'Terima'])
-                          ->where(function ($p) {
-                              $p->whereNull('status_penempatan')
-                                ->orWhere('status_penempatan', '')
-                                ->orWhere('status_penempatan', 'Permohonan');
-                          });
-                  });
-            })->count();
+            $notifAdminCount = (clone $queryAdmin)->count();
+            $notifAdminList  = $queryAdmin->latest('updated_at')->take(6)->get();
 
-            // 3. PEMOHON: Permohonan milik pengguna sendiri yang telah diproses (Diterima / Ditolak / Diagih / Dihantar / Selesai)
-            $notifPemohonList = collect();
+            // 3. PEMOHON
             $notifPemohonCount = 0;
+            $notifPemohonList  = collect();
 
             if (Auth::check()) {
-                $notifPemohonList = Permohonan::where('user_id', Auth::id())
-                    ->whereIn('status', ['Diterima', 'Lulus', 'Terima', 'Ditolak'])
-                    ->latest('updated_at')
-                    ->take(5)
-                    ->get();
+                $queryPemohon = Permohonan::where('user_id', Auth::id())
+                    ->where('updated_at', '>=', $tarikhHad)
+                    ->whereIn('status', ['Diterima', 'Lulus', 'Terima', 'Ditolak']);
 
-                $notifPemohonCount = Permohonan::where('user_id', Auth::id())
-                    ->whereIn('status', ['Diterima', 'Lulus', 'Terima', 'Ditolak'])
-                    ->count();
+                $notifPemohonCount = (clone $queryPemohon)->count();
+                $notifPemohonList  = $queryPemohon->latest('updated_at')->take(6)->get();
             }
 
             $view->with([
-                'notifPelulusList'  => $notifPelulusList,
                 'notifPelulusCount' => $notifPelulusCount,
-                'notifAdminList'    => $notifAdminList,
+                'notifPelulusList'  => $notifPelulusList,
                 'notifAdminCount'   => $notifAdminCount,
-                'notifPemohonList'  => $notifPemohonList,
+                'notifAdminList'    => $notifAdminList,
                 'notifPemohonCount' => $notifPemohonCount,
+                'notifPemohonList'  => $notifPemohonList,
             ]);
         });
     }

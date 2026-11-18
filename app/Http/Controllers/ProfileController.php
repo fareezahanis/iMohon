@@ -13,9 +13,7 @@ use Illuminate\View\View;
 
 class ProfileController extends Controller
 {
-    /**
-     * Papar halaman profil pengguna mengikut role.
-     */
+    
     public function show(Request $request): View
     {
         $role = strtolower($request->user()->role ?? '');
@@ -28,14 +26,13 @@ class ProfileController extends Controller
     }
 
     /**
-     * Papar borang edit profil mengikut role.
+     * borang edit ikut role
      */
     public function edit(Request $request): View
     {
         $role = strtolower($request->user()->role ?? '');
 
-        // Jika anda ada fail khas resources/views/pelulus/profile/edit.blade.php, ia akan guna fail itu.
-        // Jika tiada, ia akan guna resources/views/profile/edit.blade.php (yang sudah ada @if role pelulus).
+        
         if ($role === 'pelulus' && view()->exists('pelulus.profile.edit')) {
             return view('pelulus.profile.edit', [
                 'user' => $request->user(),
@@ -66,7 +63,7 @@ class ProfileController extends Controller
             'address'        => ['nullable', 'string', 'max:500'],
         ]);
 
-        // Kemaskini medan asas
+        // kemaskini medan asas
         $user->name           = $validated['name'];
         $user->email          = $validated['email'];
         $user->ic             = $validated['ic'] ?? $user->ic;
@@ -81,7 +78,7 @@ class ProfileController extends Controller
             $user->email_verified_at = null;
         }
 
-        // Kemaskini kata laluan jika pengguna mengisi medan kata laluan baharu
+        // kemaskini kata laluan jika pengguna mengisi medan kata laluan baharu
         if ($request->filled('password')) {
             $request->validate([
                 'current_password' => ['required', 'current_password'],
@@ -93,7 +90,7 @@ class ProfileController extends Controller
 
         $user->save();
 
-        // Redirect semula ke halaman profil mengikut role
+        // redirect semula ke halaman profil mengikut role
         $role = strtolower($user->role ?? '');
 
         if ($role === 'pelulus') {
@@ -103,9 +100,7 @@ class ProfileController extends Controller
         return Redirect::route('profile.user')->with('status', 'profile-updated');
     }
 
-    /**
-     * Delete the user's account.
-     */
+    
     public function destroy(Request $request): RedirectResponse
     {
         $request->validateWithBag('userDeletion', [

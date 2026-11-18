@@ -11,8 +11,7 @@ class User extends Authenticatable
 {
     use HasFactory, Notifiable;
 
-    // JANGAN letak protected $table = 'pengguna'; di sini 
-    // sebab nama jadual di phpMyAdmin ialah 'users'
+    
 
     protected $fillable = [
         'name',

@@ -7,9 +7,7 @@ use App\Models\Permohonan;
 
 class PelulusController extends Controller
 {
-    /**
-     * Paparan Dashboard Pelulus
-     */
+    
     public function dashboard()
     {
         $menungguCount = Permohonan::where('status', 'Menunggu')->count();
@@ -26,28 +24,24 @@ class PelulusController extends Controller
         ));
     }
 
-    /**
-     * Paparan Senarai Kelulusan Permohonan
-     */
+    
     public function kelulusan()
     {
-        // Ambil senarai permohonan berserta data pengguna
+        // ambil senarai permohonan & data pengguna
         $senaraiPermohonan = Permohonan::with('user')->latest()->get();
 
         return view('pelulus.kelulusan', compact('senaraiPermohonan'));
     }
 
-    /**
-     * Kemaskini Status Kelulusan oleh Pelulus (AJAX Request)
-     */
+    
     public function updateStatus(Request $request, $id)
     {
         $permohonan = Permohonan::findOrFail($id);
 
-        // Kemaskini status_pelulus secara khusus
+        // kemaskini status pelulus
         if ($request->status == 'Diterima' ) {
             $permohonan->status_pelulus = 'Diterima';
-            // Status permohonan utama kekal 'Dalam Proses' untuk tindakan Admin kelak
+            // kekal dalam proses untuk tindakan admin
             $permohonan->status = 'Dalam Proses'; 
         } elseif ($request->status == 'Ditolak') {
             $permohonan->status_pelulus = 'Ditolak';
