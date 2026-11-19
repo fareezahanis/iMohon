@@ -810,15 +810,35 @@ document.addEventListener('DOMContentLoaded', function () {
     const inputJumlah = document.getElementById('inputJumlahKuantiti');
     const inputTersedia = document.getElementById('inputKuantitiTersedia');
 
-    if (textareaSN) {
+   if (textareaSN) {
         textareaSN.addEventListener('input', function () {
-            const lines = this.value.split(/\r?\n/).map(s => s.trim()).filter(s => s !== '');
+            // Pecahkan mengikut baris baharu (Enter), ruang kosong (Space), tab, atau koma
+            const lines = this.value.trim()
+                ? this.value.trim().split(/[\s,]+/).filter(Boolean)
+                : [];
+            
+            const totalCount = lines.length;
             const uniqueCount = new Set(lines).size;
+            const duplicateCount = totalCount - uniqueCount;
 
-            if (badgeKiraanSN) badgeKiraanSN.innerText = `${uniqueCount} No. Siri`;
-            if (uniqueCount > 0) {
-                if (inputJumlah) inputJumlah.value = uniqueCount;
-                if (inputTersedia) inputTersedia.value = uniqueCount;
+            if (badgeKiraanSN) {
+                if (duplicateCount > 0) {
+                    badgeKiraanSN.style.background = '#fee2e2';
+                    badgeKiraanSN.style.color = '#991b1b';
+                    badgeKiraanSN.innerText = `${totalCount} No. Siri (${duplicateCount} pendua!)`;
+                } else {
+                    badgeKiraanSN.style.background = '#e0e7ff';
+                    badgeKiraanSN.style.color = '#1e0b75';
+                    badgeKiraanSN.innerText = `${totalCount} No. Siri`;
+                }
+            }
+
+            if (totalCount > 0) {
+                if (inputJumlah) inputJumlah.value = totalCount;
+                if (inputTersedia) inputTersedia.value = totalCount;
+            } else {
+                if (inputJumlah) inputJumlah.value = '';
+                if (inputTersedia) inputTersedia.value = '';
             }
         });
     }
