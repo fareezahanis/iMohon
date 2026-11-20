@@ -33,6 +33,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
     Route::get('/inventori', [AdminController::class, 'inventori'])->name('inventori');
     Route::post('/inventori', [AdminController::class, 'storeInventori'])->name('inventori.store');
+    Route::post('/inventori/import', [AdminController::class, 'importExcel'])->name('inventori.import');
     Route::get('/vendor', [AdminController::class, 'vendor'])->name('vendor');
     Route::post('/vendor', [AdminController::class, 'storeVendor'])->name('vendor.store');
     Route::delete('/vendor/{id}', [AdminController::class, 'destroyVendor'])->name('vendor.destroy');
@@ -45,6 +46,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/rekod-peminjaman', [AdminController::class, 'rekodPeminjaman'])->name('peminjaman');
     Route::post('/rekod-peminjaman/{id}/sahkan-pemulangan', [AdminController::class, 'sahkanPemulangan'])->name('peminjaman.sahkan');
     Route::put('/rekod-peminjaman/{id}/update-status', [AdminController::class, 'updateStatusPenempatan'])->name('peminjaman.updateStatus');
+    
 });
 
 

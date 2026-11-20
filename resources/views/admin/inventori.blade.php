@@ -538,6 +538,22 @@
                     <option value="Projektor">Projektor</option>
                 </select>
 
+                <form action="{{ route('admin.inventori.import') }}" method="POST" enctype="multipart/form-data" style="display: inline-flex; align-items: center; gap: 6px;">
+    @csrf
+    <select name="vendor_id" required class="filter-select" style="padding: 9px 10px; font-size: 12px; max-width: 190px;">
+        <option value="">-- Pilih Vendor Excel --</option>
+        @foreach($vendors as $vendor)
+            <option value="{{ $vendor->id }}">{{ $vendor->no_kontrak }} - {{ $vendor->nama_vendor }}</option>
+        @endforeach
+    </select>
+
+    <label for="excelFileInput" class="btn-add" style="background: #10b981; cursor: pointer; margin: 0;">
+        <i class="fa-solid fa-file-excel"></i> Import Excel
+    </label>
+    <input type="file" name="file_excel" id="excelFileInput" accept=".xlsx,.xls,.csv" style="display: none;"
+           onchange="if(!this.form.vendor_id.value){ alert('Sila pilih Vendor terlebih dahulu sebelum muat naik Excel!'); this.value=''; return; } this.form.submit();">
+</form>
+
                 <button type="button" class="btn-add" id="openModalBtn">
                     <i class="fa-solid fa-plus"></i> Tambah Peralatan
                 </button>

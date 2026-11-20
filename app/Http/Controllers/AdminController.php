@@ -8,6 +8,7 @@ use App\Models\Vendor;
 use App\Models\User;
 use App\Models\Peminjaman;
 use Illuminate\Http\Request;
+use PhpOffice\PhpSpreadsheet\IOFactory;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
@@ -149,6 +150,134 @@ class AdminController extends Controller
 
     return redirect()->back()->with('success', 'Peralatan berjaya dipadam!');
 }
+public function importExcel(Request $request)
+    {
+        $request->validate([
+            'vendor_id'  => 'required|exists:vendors,id',
+            'file_excel' => 'required|mimes:xlsx,xls,csv|max:10240',
+        ]);
+
+        $spreadsheet = IOFactory::load($request->file('file_excel')->getPathname());
+        $kumpulanPeralatan = [];
+        $sheetDiabaikan = ['sheet2', 'summary'];
+
+        foreach ($spreadsheet->getAllSheets() as $sheet) {
+            $namaSheet = strtolower(trim($sheet->getTitle()));
+            if (in_array($namaSheet, $sheetDiabaikan)) {
+                continue;
+            }
+
+            $rows = $sheet->toArray(null, true, true, true);
+            $colModel = null;
+            $colJenis = null;
+            $colSerial = null;
+
+            foreach ($rows as $row) {
+                if (!$colModel || !$colSerial) {
+                    foreach ($row as $colKey => $val) {
+                        $header = strtoupper(trim((string) $val));
+
+                        if ($header === 'MODEL') {
+                            $colModel = $colKey;
+                        } elseif ($header === 'JENIS PERALATAN') {
+                            $colJenis = $colKey;
+                        } elseif (in_array($header, ['S/N CPU', 'S/N NB', 'NOMBOR SIRI', 'SERIAL NUMBER'])) {
+                            $colSerial = $colKey;
+                        }
+                    }
+                    continue;
+                }
+
+                $model = trim((string) ($row[$colModel] ?? ''));
+                $jenis = $colJenis ? trim((string) ($row[$colJenis] ?? '')) : '';
+                $noSiri = trim((string) ($row[$colSerial] ?? ''));
+
+                if ($model === '' || $noSiri === '' || strtoupper($model) === 'MODEL') {
+                    continue;
+                }
+
+                if (!isset($kumpulanPeralatan[$model])) {
+                    $kumpulanPeralatan[$model] = [
+                        'kategori' => $this->petakanKategori($jenis, $namaSheet),
+                        'no_siri'  => [],
+                    ];
+                }
+
+                $kumpulanPeralatan[$model]['no_siri'][] = $noSiri;
+            }
+        }
+
+        // Simpan peralatan & pautkan terus kepada vendor yang dipilih
+        foreach ($kumpulanPeralatan as $namaModel => $data) {
+            $senaraiBersih = array_values(array_unique(array_filter($data['no_siri'])));
+            $jumlahUnit = count($senaraiBersih);
+
+            if ($jumlahUnit === 0) {
+                continue;
+            }
+
+            $peralatan = Peralatan::where('nama_peralatan', $namaModel)->first();
+
+            if ($peralatan) {
+                $siriLama = preg_split('/[\s,]+/', trim($peralatan->no_siri ?? ''), -1, PREG_SPLIT_NO_EMPTY);
+                $gabungSiri = array_values(array_unique(array_merge($siriLama, $senaraiBersih)));
+                $tambahanUnit = max(0, count($gabungSiri) - count($siriLama));
+
+                $peralatan->update([
+                    'no_siri'  => implode("\n", $gabungSiri),
+                    'jumlah'   => count($gabungSiri),
+                    'tersedia' => $peralatan->tersedia + $tambahanUnit,
+                ]);
+            } else {
+                $peralatan = Peralatan::create([
+                    'nama_peralatan' => $namaModel,
+                    'kategori'       => $data['kategori'],
+                    'no_siri'        => implode("\n", $senaraiBersih),
+                    'jumlah'         => $jumlahUnit,
+                    'tersedia'       => $jumlahUnit,
+                    'diagih'         => 0,
+                ]);
+            }
+
+            // Pautkan peralatan & jumlah unit ke vendor dalam jadual pivot
+            $pivotSediaAda = $peralatan->vendors()->where('vendor_id', $request->vendor_id)->first();
+            $unitVendorTerkini = $pivotSediaAda
+                ? ($pivotSediaAda->pivot->jumlah_unit + ($tambahanUnit ?? $jumlahUnit))
+                : $jumlahUnit;
+
+            $peralatan->vendors()->syncWithoutDetaching([
+                $request->vendor_id => ['jumlah_unit' => $unitVendorTerkini],
+            ]);
+        }
+
+        return back()->with('success', 'Peralatan, nombor siri dan kontrak vendor berjaya diimport!');
+    }
+    private function petakanKategori(string $jenis, string $namaSheet): string
+    {
+        $j = strtoupper($jenis);
+        $s = strtoupper($namaSheet);
+
+        if (str_contains($j, 'LAPTOP') || str_contains($j, 'RIBA') || str_starts_with($s, 'NB')) {
+            return (str_contains($j, 'HIGH END') || str_contains($s, 'HE')) ? 'Notebook Highend' : 'Notebook';
+        }
+        if (str_contains($j, 'DESKTOP') || str_contains($j, 'PERIBADI') || str_starts_with($s, 'PC')) {
+            return (str_contains($j, 'HIGH END') || str_contains($s, 'HE')) ? 'PC Highend' : 'PC';
+        }
+        if (str_contains($j, 'MONO') || $s === 'MP') {
+            return 'Printer Mono A4';
+        }
+        if (str_contains($j, 'WARNA A3') || str_contains($j, 'COLOR A3')) {
+            return 'Printer Color A3';
+        }
+        if (str_contains($j, 'WARNA') || str_contains($j, 'COLOR') || str_starts_with($s, 'CP')) {
+            return 'Printer Color A4';
+        }
+        if (str_contains($j, 'PROJEKTOR') || str_contains($j, 'PROJECTOR') || $s === 'PJ') {
+            return 'Projektor';
+        }
+
+        return 'Notebook';
+    }
 
    public function vendor(Request $request)
 {

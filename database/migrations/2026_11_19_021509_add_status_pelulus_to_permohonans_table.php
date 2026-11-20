@@ -23,5 +23,5 @@ public function down(): void
     Schema::table('permohonans', function (Blueprint $table) {
         $table->dropColumn('status_pelulus');
     });
-}
+    }
 };
