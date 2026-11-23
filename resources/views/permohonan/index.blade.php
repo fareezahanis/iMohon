@@ -602,18 +602,17 @@
                                     <td>
                                         <div class="action-group">
                                             
-    <button type="button" class="btn-jejak"
-    onclick="openTrackingModal(
-        @js($item->id),
-        @js($item->id_permohonan),
-        @js($item->nama_item),
-        @js(\Carbon\Carbon::parse($item->tarikh_mohon)->format('d/m/Y')),
-        @js($item->kuantiti),
-        @js($item->status ?? 'Dalam proses'),
-        @js($item->status_penempatan ?? '')
-    )">
-    <i class="fa-solid fa-route"></i> Jejak
-</button>
+                            <button type="button" class="btn-jejak" onclick="openTrackingModal(
+                                 @js($item->id),
+                                 @js($item->id_permohonan),
+                                 @js($item->nama_item),
+                                 @js(\Carbon\Carbon::parse($item->tarikh_mohon)->format('d/m/Y')),
+                                 @js($item->kuantiti),
+                                 @js($item->status ?? 'Dalam proses'),
+                                 @js($item->status_penempatan ?? '')
+                                    )">
+                                    <i class="fa-solid fa-route"></i> Jejak
+                                </button>
 
                                             
                                             <button type="button" class="btn-mata" title="Lihat Butiran"
@@ -871,12 +870,12 @@
         if (descEl) descEl.innerText = text;
     }
 
-    // Reset langkah 2, 3, dan 4
+    
     setStep(step2, step2Desc, false, 'Menunggu semakan unit ICT');
     setStep(step3, step3Desc, false, 'Belum mula');
     setStep(step4, step4Desc, false, 'Belum mula');
 
-    // Sembunyikan kotak pengesahan dahulu
+    
     const boxConfirm = document.getElementById('boxConfirmTerima');
     const formConfirm = document.getElementById('formSahkanTerima');
     if (boxConfirm) boxConfirm.style.display = 'none';
@@ -884,19 +883,19 @@
     if (st === 'ditolak') {
         setStep(step2, step2Desc, false, 'Permohonan telah ditolak');
     } else {
-        // Langkah 2: Semakan & Pengagihan
+        
         if (['diagih', 'diagihkan', 'dihantar', 'penempatan', 'selesai'].includes(sp)) {
             setStep(step2, step2Desc, true, 'Peralatan telah diagihkan oleh unit ICT');
         } else if (['diterima', 'lulus', 'terima'].includes(st)) {
             setStep(step2, step2Desc, false, 'Diluluskan — sedang diproses untuk pengagihan');
         }
 
-        // Langkah 3: Penghantaran / Penempatan
+        
         if (['dihantar', 'penempatan', 'selesai'].includes(sp)) {
             setStep(step3, step3Desc, true, 'Peralatan sedang / telah dihantar ke lokasi penempatan');
         }
 
-        // Langkah 4: Selesai / Penerimaan + Paparan Butang Sahkan
+        
         if (sp === 'selesai') {
             setStep(step4, step4Desc, true, 'Penempatan peralatan selesai diterima');
         } else if (['diagih', 'diagihkan', 'dihantar', 'penempatan', 'dalam penghantaran'].includes(sp)) {
@@ -936,7 +935,7 @@
         document.getElementById('dt-tel-pej').innerText = telPej || '-';
         document.getElementById('dt-unit').innerText = unit || '-';
         document.getElementById('dt-tel-hp').innerText = telHp || '-';
-
+        document.getElementById('dt-item-ringkas').innerText = Array.isArray(item) ? item.join(', ') : (item || '-');
         document.getElementById('dt-jenis').innerText = jenis || '-';
         document.getElementById('dt-tarikh').innerText = tarikh || '-';
         document.getElementById('dt-tujuan').innerText = tujuan || 'Tiada tujuan.';

@@ -663,78 +663,94 @@
         }
 
         /* print */
-        @media print {
-            body * {
-                visibility: hidden !important;
-            }
+       /* print */
+@media print {
+    @page {
+        size: A4 portrait;
+        margin: 0; /* Buang tarikh, tajuk laman web & URL pelayar di atas dan bawah */
+    }
 
-            #modalReport,
-            #modalReport * {
-                visibility: visible !important;
-            }
+    body * {
+        visibility: hidden !important;
+    }
 
-            #modalReport,
-            #modalReport .modal-report-content,
-            #modalReport .report-card,
-            #modalReport .justification-box,
-            #modalReport div,
-            #modalReport table,
-            #modalReport th,
-            #modalReport td {
-                background: #ffffff !important;
-                background-color: #ffffff !important;
-                color: #000000 !important;
-                box-shadow: none !important;
-                -webkit-print-color-adjust: economy !important;
-                print-color-adjust: economy !important;
-            }
+    #modalReport,
+    #modalReport * {
+        visibility: visible !important;
+    }
 
-            #modalReport .report-card,
-            #modalReport .justification-box,
-            #modalReport table,
-            #modalReport th,
-            #modalReport td {
-                border: 1px solid #cbd5e1 !important;
-            }
+    #modalReport,
+    #modalReport .modal-report-content,
+    #modalReport .report-card,
+    #modalReport .justification-box,
+    #modalReport div,
+    #modalReport table,
+    #modalReport th,
+    #modalReport td {
+        background: #ffffff !important;
+        background-color: #ffffff !important;
+        color: #000000 !important;
+        box-shadow: none !important;
+        -webkit-print-color-adjust: economy !important;
+        print-color-adjust: economy !important;
+    }
 
-            #modalReport {
-                position: absolute !important;
-                left: 0 !important;
-                top: 0 !important;
-                width: 100% !important;
-                height: auto !important;
-                display: block !important;
-                background: transparent !important;
-            }
+    #modalReport img {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+    }
 
-            #modalReport .modal-report-content {
-                position: absolute !important;
-                left: 0 !important;
-                top: 0 !important;
-                width: 100% !important;
-                max-width: 100% !important;
-                padding: 0 !important;
-                margin: 0 !important;
-                border: none !important;
-            }
+    #modalReport .report-card,
+    #modalReport .justification-box,
+    #modalReport table,
+    #modalReport th,
+    #modalReport td {
+        border: 1px solid #cbd5e1 !important;
+    }
 
-            #modalReport div,
-            #modalReport table {
-                max-height: none !important;
-                overflow: visible !important;
-            }
+    #modalReport {
+        position: absolute !important;
+        left: 0 !important;
+        top: 0 !important;
+        width: 100% !important;
+        height: auto !important;
+        display: block !important;
+        background: transparent !important;
+    }
 
-            #modalReport .modal-actions,
-            #modalReport .close-btn,
-            #modalReport #closeReportBtn {
-                display: none !important;
-            }
+    #modalReport .modal-report-content {
+        position: absolute !important;
+        left: 0 !important;
+        top: 0 !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        padding: 15mm 18mm !important; /* Jidar kertas A4 supaya susun atur kekal kemas */
+        margin: 0 !important;
+        border: none !important;
+        box-sizing: border-box !important;
+    }
 
-            @page {
-                size: A4 portrait;
-                margin: 12mm;
-            }
-        }
+    #modalReport div,
+    #modalReport table {
+        max-height: none !important;
+        overflow: visible !important;
+    }
+
+    #modalReport .modal-actions,
+    #modalReport .close-btn,
+    #modalReport #closeReportBtn {
+        display: none !important;
+    }
+
+    #modalReport .print-header-logo {
+        display: flex !important;
+    }
+}
+
+/* Sembunyikan logo RTM semasa paparan skrin biasa */
+.print-header-logo {
+    display: none;
+}
     </style>
 </head>
 <body>
@@ -994,6 +1010,13 @@
         <div class="modal-report-content">
             <span class="close-btn" id="closeReportBtn" style="position: absolute; right: 24px; top: 20px;">&times;</span>
 
+            <div class="print-header-logo" style="align-items: center; gap: 14px; border-bottom: 1.5px solid #cbd5e1; padding-bottom: 12px; margin-bottom: 16px;">
+        <img src="{{ asset('images/rtmlogo.png') }}" alt="Logo RTM" style="height: 55px; width: auto;">
+        <div>
+            <div style="font-size: 15px; font-weight: 700; color: #000000;">JABATAN PENYIARAN MALAYSIA (RTM)</div>
+            <div style="font-size: 12px; color: #334155;">Sistem Pengurusan Permohonan Peralatan ICT (iMohon)</div>
+        </div>
+    </div> 
             <h2 class="report-title">Butiran Permohonan</h2>
 
             <div class="report-grid">

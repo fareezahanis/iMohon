@@ -541,8 +541,13 @@
 
                 <select name="kategori" class="filter-select" onchange="this.form.submit()">
                     <option value="">Semua kategori</option>
-                    <option value="Laptop" {{ request('kategori') == 'Laptop' ? 'selected' : '' }}>Laptop</option>
-                    <option value="Monitor" {{ request('kategori') == 'Monitor' ? 'selected' : '' }}>Monitor</option>
+                    <option value="Notebook Highend" {{ request('kategori') == 'Notebook Highend' ? 'selected' : '' }}>Notebook Highend</option>
+                    <option value="Notebook" {{ request('kategori') == 'Notebook' ? 'selected' : '' }}>Notebook</option>
+                    <option value="PC Highend" {{ request('kategori') == 'PC Highend' ? 'selected' : '' }}>PC Highend</option>
+                    <option value="PC" {{ request('kategori') == 'PC' ? 'selected' : '' }}>PC</option>
+                    <option value="Printer Mono A4" {{ request('kategori') == 'Printer Mono A4' ? 'selected' : '' }}>Printer Mono A4</option>
+                    <option value="Printer Color A4" {{ request('kategori') == 'Printer Color A4' ? 'selected' : '' }}>Printer Color A4</option>
+                    <option value="Printer Color A3" {{ request('kategori') == 'Printer Color A3' ? 'selected' : '' }}>Printer Color A3</option>
                     <option value="Projektor" {{ request('kategori') == 'Projektor' ? 'selected' : '' }}>Projektor</option>
                 </select>
 
@@ -568,10 +573,40 @@
                     </thead>
                     <tbody>
                         @forelse($peminjaman ?? [] as $index => $item)
-                            @php
-                                $st = strtolower($item->status_penempatan ?? 'permohonan');
-                                $idPaparan = $item->id_permohonan ?? 'REQ' . str_pad($item->id, 3, '0', STR_PAD_LEFT);
-                            @endphp
+                           @php
+    $st = strtolower($item->status_penempatan ?? 'permohonan');
+    $idPaparan = $item->id_permohonan ?? 'REQ' . str_pad($item->id, 3, '0', STR_PAD_LEFT);
+    $namaAlat = $item->nama_peralatan ?? $item->nama_item ?? '-';
+
+    if (!empty($item->kategori)) {
+        $kategoriPaparan = $item->kategori;
+    } else {
+        $senaraiAlat = array_filter(array_map('trim', explode(',', $namaAlat)));
+        $senaraiKategori = [];
+
+        foreach ($senaraiAlat as $alat) {
+            $n = strtolower($alat);
+            if (str_contains($n, 'notebook') || str_contains($n, 'latitude') || str_contains($n, 'precision 5490') || str_contains($n, 'laptop')) {
+                $senaraiKategori[] = (str_contains($n, 'highend') || str_contains($n, '5490')) ? 'Notebook Highend' : 'Notebook';
+            } elseif (str_contains($n, 'pc') || str_contains($n, 'optiplex') || str_contains($n, 'precision 3680')) {
+                $senaraiKategori[] = (str_contains($n, 'highend') || str_contains($n, '3680')) ? 'PC Highend' : 'PC';
+            } elseif (str_contains($n, 'a3')) {
+                $senaraiKategori[] = 'Printer Color A3';
+            } elseif (str_contains($n, 'color') || str_contains($n, 'warna') || str_contains($n, 'c650')) {
+                $senaraiKategori[] = 'Printer Color A4';
+            } elseif (str_contains($n, 'printer') || str_contains($n, 'pencetak') || str_contains($n, 'b432')) {
+                $senaraiKategori[] = 'Printer Mono A4';
+            } elseif (str_contains($n, 'projektor') || str_contains($n, 'projector') || str_contains($n, 'epson')) {
+                $senaraiKategori[] = 'Projektor';
+            } else {
+                $senaraiKategori[] = $alat;
+            }
+        }
+
+        // Gabungkan semula semua kategori yang dikesan (cth: "PC Highend, Printer Mono A4")
+        $kategoriPaparan = !empty($senaraiKategori) ? implode(', ', $senaraiKategori) : '-';
+    }
+@endphp
                             <tr>
                                 <td class="center" style="color: #64748b; font-weight: 600;">{{ $index + 1 }}</td>
                                 <td class="center">
@@ -579,7 +614,7 @@
                                 </td>
                                 <td style="font-weight: 700; color: #0f172a;">{{ $item->user?->name ?? $item->nama_pemohon ?? '-' }}</td>
                                 <td>
-                                    <span style="font-weight: 600; color: #334155;">{{ $item->nama_peralatan ?? $item->nama_item ?? '-' }}</span>
+                                    <span style="font-weight: 600; color: #334155;">{{ $namaAlat }}</span>
                                     @if(!empty($item->no_siri) && $item->no_siri !== '-')
                                         <span style="display: block; font-size: 11px; color: #64748b; font-family: monospace; margin-top: 2px;">
                                             S/N: {{ $item->no_siri }}
@@ -611,8 +646,9 @@
                                         data-id="{{ $item->id }}"
                                         data-id-permohonan="{{ $idPaparan }}"
                                         data-pemohon="{{ $item->user?->name ?? $item->nama_pemohon ?? '-' }}"
-                                        data-jenama="{{ $item->nama_peralatan ?? $item->nama_item ?? '-' }}"
-                                        data-kategori="{{ $item->kategori ?? 'Laptop' }}"
+                                        data-penerima="{{ $item->nama_penerima ?? $item->user?->name ?? '-' }}"
+                                        data-jenama="{{ $namaAlat }}"
+                                        data-kategori="{{ $kategoriPaparan }}"
                                         data-nosiri="{{ $item->no_siri ?? '-' }}"
                                         data-lokasi="{{ $item->lokasi ?? '-' }}"
                                         data-agihan="{{ $item->created_at ? \Carbon\Carbon::parse($item->created_at)->format('d/m/Y') : '-' }}"
@@ -639,68 +675,100 @@
 
     <!-- popup details and kemaskini -->
     <div class="modal" id="modalButiranPenempatan">
-        <div style="background: white; border-radius: 18px; width: 92%; max-width: 600px; padding: 30px; position: relative; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.15);">
+        <div style="background: white; border-radius: 20px; width: 94%; max-width: 850px; padding: 30px 32px; position: relative; max-height: 92vh; overflow-y: auto; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.15);">
 
-            <span id="closePenempatanBtn" style="position: absolute; right: 25px; top: 20px; cursor: pointer; font-size: 22px; color: #94a3b8;">
+            <span id="closePenempatanBtn" style="position: absolute; right: 26px; top: 22px; cursor: pointer; font-size: 22px; color: #94a3b8;">
                 <i class="fa-solid fa-xmark"></i>
             </span>
 
-            <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 20px;">
-                <div style="background: #1e0b75; color: white; width: 42px; height: 42px; border-radius: 11px; display: flex; align-items: center; justify-content: center; font-size: 18px;">
-                    <i class="fa-solid fa-circle-info"></i>
+            <h2 style="font-size: 20px; font-weight: 800; color: #0f172a; margin: 0 0 20px 0;">
+                Butiran Penempatan Peralatan
+            </h2>
+
+            <!-- 2 KOTAK KAD BERSEBELAHAN -->
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-bottom: 18px;">
+
+                <!-- Kad Kiri: Maklumat Pemohon -->
+                <div style="background: #eff2fe; border-radius: 14px; padding: 20px 22px;">
+                    <h3 style="font-size: 14px; font-weight: 800; color: #1e0b75; margin: 0 0 14px 0;">
+                        Maklumat Pemohon
+                    </h3>
+                    <table style="width: 100%; border-collapse: collapse; font-size: 13px;">
+                        <tr>
+                            <td style="padding: 4px 0; color: #64748b; width: 120px;">Nama Pemohon</td>
+                            <td style="padding: 4px 6px; color: #0f172a; font-weight: 700; width: 10px;">:</td>
+                            <td style="padding: 4px 0; color: #0f172a; font-weight: 700;" id="detNama">-</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 4px 0; color: #64748b;">Kategori</td>
+                            <td style="padding: 4px 6px; color: #0f172a; font-weight: 700;">:</td>
+                            <td style="padding: 4px 0; color: #0f172a; font-weight: 700;" id="detKategori">-</td>
+                        </tr>
+                    </table>
                 </div>
-                <div>
-                    <h2 style="font-size: 18px; font-weight: bold; color: #0f172a; margin: 0;">Butiran Penempatan Peralatan</h2>
-                    <p style="font-size: 12px; color: #64748b; margin: 2px 0 0 0;">Maklumat penuh & kemaskini status penempatan aset</p>
+
+                <!-- Kad Kanan: Maklumat Permohonan -->
+                <div style="background: #eff2fe; border-radius: 14px; padding: 20px 22px;">
+                    <h3 style="font-size: 14px; font-weight: 800; color: #1e0b75; margin: 0 0 14px 0;">
+                        Maklumat Permohonan
+                    </h3>
+                    <table style="width: 100%; border-collapse: collapse; font-size: 13px;">
+                        <tr>
+                            <td style="padding: 4px 0; color: #64748b; width: 125px;">ID Permohonan</td>
+                            <td style="padding: 4px 6px; color: #0f172a; font-weight: 700; width: 10px;">:</td>
+                            <td style="padding: 4px 0; color: #0f172a; font-weight: 700; font-family: monospace;" id="detIDPermohonan">-</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 4px 0; color: #64748b;">Tarikh Mohon</td>
+                            <td style="padding: 4px 6px; color: #0f172a; font-weight: 700;">:</td>
+                            <td style="padding: 4px 0; color: #0f172a; font-weight: 700;" id="detTarikhAgihan">-</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 4px 0; color: #64748b; vertical-align: top;">Lokasi Utama</td>
+                            <td style="padding: 4px 6px; color: #0f172a; font-weight: 700; vertical-align: top;">:</td>
+                            <td style="padding: 4px 0; color: #0f172a; font-weight: 700;" id="detLokasi">-</td>
+                        </tr>
+                    </table>
+                </div>
+
+            </div>
+
+            <!-- JADUAL SENARAI PENERIMA & NO. SIRI -->
+            <div style="background: #eff2fe; border-radius: 14px; padding: 18px 20px; margin-bottom: 18px;">
+                <h3 style="font-size: 14px; font-weight: 800; color: #1e0b75; margin: 0 0 12px 0;">
+                    Senarai Penerima & No. Siri Peralatan
+                </h3>
+                <div style="max-height: 210px; overflow-y: auto; border-radius: 10px; background: white; overflow-x: auto;">
+                    <table style="width: 100%; border-collapse: collapse; font-size: 13px; text-align: left;">
+                        <thead style="position: sticky; top: 0; z-index: 10;">
+                            <tr style="background: #dfe4fb; color: #29158f;">
+                                <th style="padding: 10px 14px; width: 105px;">Penerima</th>
+                                <th style="padding: 10px 14px;">Nama Penerima</th>
+                                <th style="padding: 10px 14px;">Alat Dimohon</th>
+                                <th style="padding: 10px 14px;">No. Siri (S/N)</th>
+                                <th style="padding: 10px 14px;">Lokasi</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tblPenempatanPenerima">
+                        </tbody>
+                    </table>
                 </div>
             </div>
 
-            
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; background: #eef2ff; padding: 20px; border-radius: 14px; font-size: 13px; margin-bottom: 20px;">
-                <div>
-                    <span style="color: #64748b; font-weight: 600; display: block; font-size: 11px; text-transform: uppercase;">ID Permohonan</span>
-                    <strong id="detIDPermohonan" style="color: #0f172a; font-size: 14px; font-family: monospace;">-</strong>
-                </div>
-                <div>
-                    <span style="color: #64748b; font-weight: 600; display: block; font-size: 11px; text-transform: uppercase;">Nama Pemohon</span>
-                    <strong id="detNama" style="color: #0f172a; font-size: 14px;">-</strong>
-                </div>
-                <div>
-                    <span style="color: #64748b; font-weight: 600; display: block; font-size: 11px; text-transform: uppercase;">Jenama / Peralatan</span>
-                    <strong id="detJenama" style="color: #0f172a; font-size: 14px;">-</strong>
-                </div>
-                <div>
-                    <span style="color: #64748b; font-weight: 600; display: block; font-size: 11px; text-transform: uppercase;">Kategori</span>
-                    <strong id="detKategori" style="color: #0f172a; font-size: 14px;">-</strong>
-                </div>
-                <div>
-                    <span style="color: #64748b; font-weight: 600; display: block; font-size: 11px; text-transform: uppercase;">No. Siri</span>
-                    <span id="detNoSiri" style="background: white; border: 1px solid #cbd5e1; padding: 3px 9px; border-radius: 6px; font-family: monospace; font-weight: 700; font-size: 12px; color: #0f172a; display: inline-block; margin-top: 2px;">-</span>
-                </div>
-                <div>
-                    <span style="color: #64748b; font-weight: 600; display: block; font-size: 11px; text-transform: uppercase;">Lokasi Penempatan</span>
-                    <strong id="detLokasi" style="color: #0f172a;">-</strong>
-                </div>
-                <div>
-                    <span style="color: #64748b; font-weight: 600; display: block; font-size: 11px; text-transform: uppercase;">Tarikh Mohon</span>
-                    <strong id="detTarikhAgihan" style="color: #334155;">-</strong>
-                </div>
-            </div>
-
-           
-            <form id="formUpdatePenempatanStatus" action="" method="POST" style="background: #f8fafc; padding: 16px; border-radius: 12px; border: 1px solid #e2e8f0;">
+            <!-- BAHAGIAN KEMASKINI STATUS PENEMPATAN -->
+            <form id="formUpdatePenempatanStatus" action="" method="POST" style="background: #f8fafc; padding: 16px 20px; border-radius: 14px; border: 1px solid #cbd5e1;">
                 @csrf
                 @method('PUT')
-                <label style="display: block; font-size: 13px; font-weight: 700; color: #334155; margin-bottom: 8px;">
-                    <i class="fa-solid fa-route" style="color: #29158f;"></i> Kemaskini Status Penempatan:
+                <label style="display: block; font-size: 13px; font-weight: 800; color: #1e0b75; margin-bottom: 8px;">
+                    <i class="fa-solid fa-route" style="margin-right: 6px;"></i> Kemaskini Status Penempatan
                 </label>
-                <div style="display: flex; gap: 10px;">
-                    <select name="status_penempatan" id="selectPenempatanStatus" style="flex: 1; padding: 10px 12px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 13px; outline: none; background: white;" required>
+                <div style="display: flex; gap: 12px; align-items: center;">
+                    <select name="status_penempatan" id="selectPenempatanStatus" style="flex: 1; padding: 10px 14px; border: 1px solid #cbd5e1; border-radius: 10px; font-size: 13px; font-weight: 600; color: #0f172a; outline: none; background: white;" required>
                         <option value="Diagih">Diagih</option>
                         <option value="Dihantar">Dihantar</option>
                         <option value="Diterima">Diterima</option>
                     </select>
-                    <button type="submit" style="background: #1e0b75; color: white; border: none; padding: 10px 20px; border-radius: 8px; font-weight: 600; cursor: pointer; font-size: 13px;">
+                    <button type="submit" style="background: #1e0b75; color: white; border: none; padding: 10px 26px; border-radius: 10px; font-weight: 700; cursor: pointer; font-size: 13px;">
                         Simpan
                     </button>
                 </div>
@@ -708,10 +776,10 @@
 
         </div>
     </div>
+
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-        
-       
+
         const sidebar = document.querySelector('.sidebar');
         const toggleBtn = document.getElementById('toggleSidebar');
 
@@ -726,7 +794,6 @@
             });
         }
 
-        
         const searchInput = document.querySelector('.search-box input');
         const tableRows = document.querySelectorAll('.custom-table tbody tr');
 
@@ -745,7 +812,6 @@
             });
         }
 
-        
         const modal = document.getElementById('modalButiranPenempatan');
         const closeBtn = document.getElementById('closePenempatanBtn');
         const btnsView = document.querySelectorAll('.btn-view-penempatan');
@@ -754,22 +820,71 @@
         btnsView.forEach(btn => {
             btn.addEventListener('click', function () {
                 const itemId = this.getAttribute('data-id');
+                const strJenama = this.getAttribute('data-jenama') || '-';
+                const strPenerima = this.getAttribute('data-penerima') || '-';
+                const strNoSiri = this.getAttribute('data-nosiri') || '-';
+                const strLokasi = this.getAttribute('data-lokasi') || '-';
 
                 document.getElementById('detIDPermohonan').innerText = this.getAttribute('data-id-permohonan') || '-';
                 document.getElementById('detNama').innerText = this.getAttribute('data-pemohon') || '-';
-                document.getElementById('detJenama').innerText = this.getAttribute('data-jenama') || '-';
                 document.getElementById('detKategori').innerText = this.getAttribute('data-kategori') || '-';
-                document.getElementById('detNoSiri').innerText = this.getAttribute('data-nosiri') || '-';
-                document.getElementById('detLokasi').innerText = this.getAttribute('data-lokasi') || '-';
+                document.getElementById('detLokasi').innerText = strLokasi;
                 document.getElementById('detTarikhAgihan').innerText = this.getAttribute('data-agihan') || '-';
 
-                const statusPenempatan = this.getAttribute('data-status-penempatan') || 'Diagih';
+                const listPenerima = strPenerima !== '-' ? strPenerima.split(',').map(s => s.trim()).filter(Boolean) : [];
+                const listAlat = strJenama !== '-' ? strJenama.split(',').map(s => s.trim()).filter(Boolean) : [];
+                const listSiri = (strNoSiri && strNoSiri !== '-')
+                    ? strNoSiri.split(/[\s,]+/).map(s => s.trim()).filter(Boolean)
+                    : [];
+
+                let listLokasi = [];
+                if (strLokasi.includes('|')) {
+                    listLokasi = strLokasi.split('|').map(s => s.trim());
+                } else if (strLokasi.includes(';')) {
+                    listLokasi = strLokasi.split(';').map(s => s.trim());
+                } else if (strLokasi.includes(',')) {
+                    const rawParts = strLokasi.split(',').map(s => s.trim());
+                    for (let i = 0; i < rawParts.length; i += 2) {
+                        listLokasi.push(rawParts[i + 1] ? `${rawParts[i]}, ${rawParts[i + 1]}` : rawParts[i]);
+                    }
+                } else {
+                    listLokasi = [strLokasi.trim()];
+                }
+
+                const tbody = document.getElementById('tblPenempatanPenerima');
+                if (tbody) {
+                    tbody.innerHTML = '';
+                    const jumlahBaris = Math.max(listPenerima.length, listSiri.length, 1);
+
+                    for (let i = 0; i < jumlahBaris; i++) {
+                        const namaPen = listPenerima[i] || listPenerima[0] || '-';
+                        const alatNama = listAlat[i] || listAlat[0] || '-';
+                        const siriUnit = listSiri[i] || '-';
+                        const lokUnit = listLokasi[i] || listLokasi[0] || '-';
+
+                        const row = `
+                            <tr style="border-bottom: 1px solid #f1f5f9;">
+                                <td style="padding: 10px 14px; font-weight: 700; color: #0f172a;">Penerima ${i + 1}</td>
+                                <td style="padding: 10px 14px; font-weight: 600; color: #0f172a;">${namaPen}</td>
+                                <td style="padding: 10px 14px; color: #334155;">${alatNama}</td>
+                                <td style="padding: 10px 14px;">
+                                    <span style="background: #f1f5f9; border: 1px solid #cbd5e1; padding: 2px 8px; border-radius: 6px; font-family: monospace; font-weight: 700; font-size: 12px; color: #1e0b75;">
+                                        ${siriUnit}
+                                    </span>
+                                </td>
+                                <td style="padding: 10px 14px; color: #64748b;">${lokUnit}</td>
+                            </tr>
+                        `;
+                        tbody.insertAdjacentHTML('beforeend', row);
+                    }
+                }
+
+                const statusPenempatan = this.getAttribute('data-status') || 'Diagih';
                 const selectStatus = document.getElementById('selectPenempatanStatus');
                 if (selectStatus) {
                     selectStatus.value = statusPenempatan;
                 }
 
-                
                 if (formUpdate && itemId) {
                     let actionUrl = "{{ route('admin.peminjaman.updateStatus', ':id') }}";
                     formUpdate.action = actionUrl.replace(':id', itemId);
