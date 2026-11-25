@@ -828,7 +828,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
    if (textareaSN) {
         textareaSN.addEventListener('input', function () {
-            // Pecahkan mengikut baris baharu (Enter), ruang kosong (Space), tab, atau koma
+            
             const lines = this.value.trim()
                 ? this.value.trim().split(/[\s,]+/).filter(Boolean)
                 : [];

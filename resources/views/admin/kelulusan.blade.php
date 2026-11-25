@@ -1085,7 +1085,7 @@
                             </tr>
                         </thead>
                         <tbody id="tblBodyPenerima">
-                            <!-- Diisi oleh JavaScript -->
+                            <!--js -->
                         </tbody>
                     </table>
                 </div>

@@ -685,10 +685,9 @@
                 Butiran Penempatan Peralatan
             </h2>
 
-            <!-- 2 KOTAK KAD BERSEBELAHAN -->
+        
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-bottom: 18px;">
 
-                <!-- Kad Kiri: Maklumat Pemohon -->
                 <div style="background: #eff2fe; border-radius: 14px; padding: 20px 22px;">
                     <h3 style="font-size: 14px; font-weight: 800; color: #1e0b75; margin: 0 0 14px 0;">
                         Maklumat Pemohon
@@ -707,7 +706,7 @@
                     </table>
                 </div>
 
-                <!-- Kad Kanan: Maklumat Permohonan -->
+               
                 <div style="background: #eff2fe; border-radius: 14px; padding: 20px 22px;">
                     <h3 style="font-size: 14px; font-weight: 800; color: #1e0b75; margin: 0 0 14px 0;">
                         Maklumat Permohonan
@@ -733,12 +732,11 @@
 
             </div>
 
-            <!-- BORANG KEMASKINI NO. SIRI & STATUS PENEMPATAN -->
             <form id="formUpdatePenempatanStatus" action="" method="POST">
                 @csrf
                 @method('PUT')
 
-                <!-- JADUAL SENARAI PENERIMA & DROPDOWN PILIH NO. SIRI -->
+                
                 <div style="background: #eff2fe; border-radius: 14px; padding: 18px 20px; margin-bottom: 18px;">
                     <h3 style="font-size: 14px; font-weight: 800; color: #1e0b75; margin: 0 0 12px 0;">
                         Senarai Penerima & Pilihan No. Siri Peralatan
@@ -760,7 +758,7 @@
                     </div>
                 </div>
 
-                <!-- BAHAGIAN KEMASKINI STATUS PENEMPATAN -->
+               
                 <div style="background: #f8fafc; padding: 16px 20px; border-radius: 14px; border: 1px solid #cbd5e1;">
                     <label style="display: block; font-size: 13px; font-weight: 800; color: #1e0b75; margin-bottom: 8px;">
                         <i class="fa-solid fa-route" style="margin-right: 6px;"></i> Kemaskini Status Penempatan
@@ -816,10 +814,9 @@
             });
         }
 
-        // Ambil senarai inventori & no. siri dari AdminController
         const senaraiInventori = @json($senaraiInventori ?? []);
 
-        // Fungsi untuk samakan kategori alat dimohon dengan rekod inventori
+        // fungsi untuk samakan kategori alat dimohon dengan rekod inventori
         function kesanKategoriAlat(teks) {
             const t = (teks || '').toLowerCase().trim();
             if (t.includes('notebook') || t.includes('laptop') || t.includes('latitude') || t.includes('5490')) {
@@ -895,7 +892,7 @@
 
                         const katDimohon = kesanKategoriAlat(alatNama);
 
-                        // Tapis HANYA no. siri dari inventori yang sepadan dengan alat penerima ini
+                        // s/n for each item
                         let pilihanSiri = [];
                         senaraiInventori.forEach(inv => {
                             const katInv = kesanKategoriAlat(inv.kategori || inv.nama_peralatan);
@@ -911,7 +908,7 @@
                             }
                         });
 
-                        // Buang pendua berdasarkan nombor siri
+                        // remove s/n yg diguna
                         const unikSiri = [];
                         const dilihat = new Set();
                         pilihanSiri.forEach(item => {
@@ -921,7 +918,7 @@
                             }
                         });
 
-                        // Bina dropdown <select> khusus untuk alat penerima ini sahaja
+                        // dropdown s/n
                         let optionsHtml = '';
                         if (unikSiri.length === 0) {
                             optionsHtml = `<option value="">-- Tiada stok S/N bagi ${alatNama} --</option>`;
@@ -933,7 +930,7 @@
                             });
                         }
 
-                        // Kekalkan S/N sedia ada jika sudah tersimpan sebelum ini
+                        // kekalkan s/n sedia ada jika sudah tersimpan sebelum ini
                         if (siriSemasa && !dilihat.has(siriSemasa)) {
                             optionsHtml += `<option value="${siriSemasa}" selected>${siriSemasa}</option>`;
                         }
