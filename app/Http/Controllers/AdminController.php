@@ -453,7 +453,7 @@ public function importExcel(Request $request)
             });
         }
 
-        // filter mengikut status_penempatan (Permohonan / Diagih / Dihantar / Selesai)
+        // filter mengikut status_penempatan (Permohonan / Diagih / Dihantar / Diterima / Selesai)
         if ($request->filled('status')) {
             $query->where(function ($q) use ($request) {
                 if ($request->status == 'Permohonan') {
@@ -466,18 +466,29 @@ public function importExcel(Request $request)
 
         $peminjaman = $query->latest()->get();
 
-        return view('admin.peminjaman', compact('peminjaman'));
+        // Ambil senarai inventori & semua nombor siri untuk dropdown pilihan setiap penerima
+        $senaraiInventori = Peralatan::all()->map(function ($item) {
+            $siri = preg_split('/[\s,]+/', trim($item->no_siri ?? ''), -1, PREG_SPLIT_NO_EMPTY);
+            return [
+                'nama_peralatan' => $item->nama_peralatan,
+                'kategori'       => $item->kategori,
+                'no_siri'        => array_values(array_unique($siri)),
+            ];
+        });
+
+        return view('admin.peminjaman', compact('peminjaman', 'senaraiInventori'));
     }
 
-    
     public function updateStatusPenempatan(Request $request, $id)
     {
         $statusInput = $request->input('status_penempatan') ?? $request->input('status');
 
         $request->validate([
-            'status_penempatan' => 'nullable|string',
-            'no_siri'           => 'nullable|string',
-            'status'            => 'nullable|string',
+            'status_penempatan'  => 'nullable|string',
+            'no_siri'            => 'nullable|string',
+            'no_siri_penerima'   => 'nullable|array',
+            'no_siri_penerima.*' => 'nullable|string',
+            'status'             => 'nullable|string',
         ]);
 
         $permohonan = Permohonan::findOrFail($id);
@@ -486,15 +497,20 @@ public function importExcel(Request $request)
             $permohonan->status_penempatan = $statusInput;
         }
 
-        if ($request->filled('no_siri')) {
+        // Simpan gabungan nombor siri yang dipilih daripada dropdown setiap penerima
+        if ($request->has('no_siri_penerima') && is_array($request->no_siri_penerima)) {
+            $siriDipilih = array_filter($request->no_siri_penerima, fn($val) => !empty($val) && $val !== '-');
+            if (!empty($siriDipilih)) {
+                $permohonan->no_siri = implode(', ', $siriDipilih);
+            }
+        } elseif ($request->filled('no_siri')) {
             $permohonan->no_siri = $request->no_siri;
         }
 
         $permohonan->save();
 
-        return redirect()->back()->with('success', 'Status tracking penempatan berjaya dikemaskini!');
+        return redirect()->back()->with('success', 'Status tracking penempatan dan nombor siri berjaya dikemaskini!');
     }
-
     public function sahkanPemulangan($id)
     {
         $rekod = Peminjaman::findOrFail($id);

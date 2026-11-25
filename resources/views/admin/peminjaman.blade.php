@@ -673,9 +673,9 @@
         </main>
     </div>
 
-    <!-- popup details and kemaskini -->
+   <!-- popup details and kemaskini -->
     <div class="modal" id="modalButiranPenempatan">
-        <div style="background: white; border-radius: 20px; width: 94%; max-width: 850px; padding: 30px 32px; position: relative; max-height: 92vh; overflow-y: auto; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.15);">
+        <div style="background: white; border-radius: 20px; width: 94%; max-width: 880px; padding: 30px 32px; position: relative; max-height: 92vh; overflow-y: auto; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.15);">
 
             <span id="closePenempatanBtn" style="position: absolute; right: 26px; top: 22px; cursor: pointer; font-size: 22px; color: #94a3b8;">
                 <i class="fa-solid fa-xmark"></i>
@@ -733,44 +733,48 @@
 
             </div>
 
-            <!-- JADUAL SENARAI PENERIMA & NO. SIRI -->
-            <div style="background: #eff2fe; border-radius: 14px; padding: 18px 20px; margin-bottom: 18px;">
-                <h3 style="font-size: 14px; font-weight: 800; color: #1e0b75; margin: 0 0 12px 0;">
-                    Senarai Penerima & No. Siri Peralatan
-                </h3>
-                <div style="max-height: 210px; overflow-y: auto; border-radius: 10px; background: white; overflow-x: auto;">
-                    <table style="width: 100%; border-collapse: collapse; font-size: 13px; text-align: left;">
-                        <thead style="position: sticky; top: 0; z-index: 10;">
-                            <tr style="background: #dfe4fb; color: #29158f;">
-                                <th style="padding: 10px 14px; width: 105px;">Penerima</th>
-                                <th style="padding: 10px 14px;">Nama Penerima</th>
-                                <th style="padding: 10px 14px;">Alat Dimohon</th>
-                                <th style="padding: 10px 14px;">No. Siri (S/N)</th>
-                                <th style="padding: 10px 14px;">Lokasi</th>
-                            </tr>
-                        </thead>
-                        <tbody id="tblPenempatanPenerima">
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-
-            <!-- BAHAGIAN KEMASKINI STATUS PENEMPATAN -->
-            <form id="formUpdatePenempatanStatus" action="" method="POST" style="background: #f8fafc; padding: 16px 20px; border-radius: 14px; border: 1px solid #cbd5e1;">
+            <!-- BORANG KEMASKINI NO. SIRI & STATUS PENEMPATAN -->
+            <form id="formUpdatePenempatanStatus" action="" method="POST">
                 @csrf
                 @method('PUT')
-                <label style="display: block; font-size: 13px; font-weight: 800; color: #1e0b75; margin-bottom: 8px;">
-                    <i class="fa-solid fa-route" style="margin-right: 6px;"></i> Kemaskini Status Penempatan
-                </label>
-                <div style="display: flex; gap: 12px; align-items: center;">
-                    <select name="status_penempatan" id="selectPenempatanStatus" style="flex: 1; padding: 10px 14px; border: 1px solid #cbd5e1; border-radius: 10px; font-size: 13px; font-weight: 600; color: #0f172a; outline: none; background: white;" required>
-                        <option value="Diagih">Diagih</option>
-                        <option value="Dihantar">Dihantar</option>
-                        <option value="Diterima">Diterima</option>
-                    </select>
-                    <button type="submit" style="background: #1e0b75; color: white; border: none; padding: 10px 26px; border-radius: 10px; font-weight: 700; cursor: pointer; font-size: 13px;">
-                        Simpan
-                    </button>
+
+                <!-- JADUAL SENARAI PENERIMA & DROPDOWN PILIH NO. SIRI -->
+                <div style="background: #eff2fe; border-radius: 14px; padding: 18px 20px; margin-bottom: 18px;">
+                    <h3 style="font-size: 14px; font-weight: 800; color: #1e0b75; margin: 0 0 12px 0;">
+                        Senarai Penerima & Pilihan No. Siri Peralatan
+                    </h3>
+                    <div style="max-height: 230px; overflow-y: auto; border-radius: 10px; background: white; overflow-x: auto;">
+                        <table style="width: 100%; border-collapse: collapse; font-size: 13px; text-align: left;">
+                            <thead style="position: sticky; top: 0; z-index: 10;">
+                                <tr style="background: #dfe4fb; color: #29158f;">
+                                    <th style="padding: 10px 14px; width: 100px;">Penerima</th>
+                                    <th style="padding: 10px 14px;">Nama Penerima</th>
+                                    <th style="padding: 10px 14px;">Alat Dimohon</th>
+                                    <th style="padding: 10px 14px; min-width: 185px;">Pilih No. Siri (S/N)</th>
+                                    <th style="padding: 10px 14px;">Lokasi</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tblPenempatanPenerima">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- BAHAGIAN KEMASKINI STATUS PENEMPATAN -->
+                <div style="background: #f8fafc; padding: 16px 20px; border-radius: 14px; border: 1px solid #cbd5e1;">
+                    <label style="display: block; font-size: 13px; font-weight: 800; color: #1e0b75; margin-bottom: 8px;">
+                        <i class="fa-solid fa-route" style="margin-right: 6px;"></i> Kemaskini Status Penempatan
+                    </label>
+                    <div style="display: flex; gap: 12px; align-items: center;">
+                        <select name="status_penempatan" id="selectPenempatanStatus" style="flex: 1; padding: 10px 14px; border: 1px solid #cbd5e1; border-radius: 10px; font-size: 13px; font-weight: 600; color: #0f172a; outline: none; background: white;" required>
+                            <option value="Diagih">Diagih</option>
+                            <option value="Dihantar">Dihantar</option>
+                            <option value="Diterima">Diterima</option>
+                        </select>
+                        <button type="submit" style="background: #1e0b75; color: white; border: none; padding: 10px 26px; border-radius: 10px; font-weight: 700; cursor: pointer; font-size: 13px;">
+                            Simpan
+                        </button>
+                    </div>
                 </div>
             </form>
 
@@ -810,6 +814,33 @@
                     row.style.display = textContent.includes(query) ? '' : 'none';
                 });
             });
+        }
+
+        // Ambil senarai inventori & no. siri dari AdminController
+        const senaraiInventori = @json($senaraiInventori ?? []);
+
+        // Fungsi untuk samakan kategori alat dimohon dengan rekod inventori
+        function kesanKategoriAlat(teks) {
+            const t = (teks || '').toLowerCase().trim();
+            if (t.includes('notebook') || t.includes('laptop') || t.includes('latitude') || t.includes('5490')) {
+                return (t.includes('highend') || t.includes('high end') || t.includes('5490')) ? 'notebook highend' : 'notebook';
+            }
+            if (t.includes('pc') || t.includes('desktop') || t.includes('optiplex') || t.includes('3680')) {
+                return (t.includes('highend') || t.includes('high end') || t.includes('3680')) ? 'pc highend' : 'pc';
+            }
+            if (t.includes('a3')) {
+                return 'printer color a3';
+            }
+            if (t.includes('color') || t.includes('warna') || t.includes('c650')) {
+                return 'printer color a4';
+            }
+            if (t.includes('printer') || t.includes('pencetak') || t.includes('mono') || t.includes('b432')) {
+                return 'printer mono a4';
+            }
+            if (t.includes('projektor') || t.includes('projector') || t.includes('epson')) {
+                return 'projektor';
+            }
+            return t;
         }
 
         const modal = document.getElementById('modalButiranPenempatan');
@@ -859,8 +890,53 @@
                     for (let i = 0; i < jumlahBaris; i++) {
                         const namaPen = listPenerima[i] || listPenerima[0] || '-';
                         const alatNama = listAlat[i] || listAlat[0] || '-';
-                        const siriUnit = listSiri[i] || '-';
+                        const siriSemasa = listSiri[i] || '';
                         const lokUnit = listLokasi[i] || listLokasi[0] || '-';
+
+                        const katDimohon = kesanKategoriAlat(alatNama);
+
+                        // Tapis HANYA no. siri dari inventori yang sepadan dengan alat penerima ini
+                        let pilihanSiri = [];
+                        senaraiInventori.forEach(inv => {
+                            const katInv = kesanKategoriAlat(inv.kategori || inv.nama_peralatan);
+                            const modInv = (inv.nama_peralatan || '').toLowerCase();
+
+                            if (katInv === katDimohon || modInv.includes(alatNama.toLowerCase())) {
+                                (inv.no_siri || []).forEach(sn => {
+                                    pilihanSiri.push({
+                                        sn: sn,
+                                        label: `${sn} — ${inv.nama_peralatan}`
+                                    });
+                                });
+                            }
+                        });
+
+                        // Buang pendua berdasarkan nombor siri
+                        const unikSiri = [];
+                        const dilihat = new Set();
+                        pilihanSiri.forEach(item => {
+                            if (!dilihat.has(item.sn)) {
+                                dilihat.add(item.sn);
+                                unikSiri.push(item);
+                            }
+                        });
+
+                        // Bina dropdown <select> khusus untuk alat penerima ini sahaja
+                        let optionsHtml = '';
+                        if (unikSiri.length === 0) {
+                            optionsHtml = `<option value="">-- Tiada stok S/N bagi ${alatNama} --</option>`;
+                        } else {
+                            optionsHtml = `<option value="">-- Pilih S/N (${alatNama}) --</option>`;
+                            unikSiri.forEach(obj => {
+                                const isSelected = (obj.sn === siriSemasa) ? 'selected' : '';
+                                optionsHtml += `<option value="${obj.sn}" ${isSelected}>${obj.label}</option>`;
+                            });
+                        }
+
+                        // Kekalkan S/N sedia ada jika sudah tersimpan sebelum ini
+                        if (siriSemasa && !dilihat.has(siriSemasa)) {
+                            optionsHtml += `<option value="${siriSemasa}" selected>${siriSemasa}</option>`;
+                        }
 
                         const row = `
                             <tr style="border-bottom: 1px solid #f1f5f9;">
@@ -868,9 +944,9 @@
                                 <td style="padding: 10px 14px; font-weight: 600; color: #0f172a;">${namaPen}</td>
                                 <td style="padding: 10px 14px; color: #334155;">${alatNama}</td>
                                 <td style="padding: 10px 14px;">
-                                    <span style="background: #f1f5f9; border: 1px solid #cbd5e1; padding: 2px 8px; border-radius: 6px; font-family: monospace; font-weight: 700; font-size: 12px; color: #1e0b75;">
-                                        ${siriUnit}
-                                    </span>
+                                    <select name="no_siri_penerima[]" style="width: 100%; padding: 6px 10px; border: 1px solid #cbd5e1; border-radius: 8px; font-family: monospace; font-size: 12px; font-weight: 700; color: #1e0b75; background: #f8fafc; outline: none;">
+                                        ${optionsHtml}
+                                    </select>
                                 </td>
                                 <td style="padding: 10px 14px; color: #64748b;">${lokUnit}</td>
                             </tr>
